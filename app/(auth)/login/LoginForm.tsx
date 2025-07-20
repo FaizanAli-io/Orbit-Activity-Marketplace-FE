@@ -10,11 +10,11 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { LoginSchema } from './login-schema';
-import { zodResolver } from '@hookform/resolvers/zod';
-import z from 'zod';
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import Link from 'next/link';
+import z from 'zod';
 
 export function LoginForm() {
   const form = useForm<z.infer<typeof LoginSchema>>({
@@ -82,9 +82,9 @@ export function LoginForm() {
         </div>
         <div className='mt-4 text-center text-sm'>
           Don&apos;t have an account?{' '}
-          <a href='#' className='underline underline-offset-4'>
+          <Link href='/signup' className='underline underline-offset-4'>
             Sign up
-          </a>
+          </Link>
         </div>
       </form>
     </Form>
