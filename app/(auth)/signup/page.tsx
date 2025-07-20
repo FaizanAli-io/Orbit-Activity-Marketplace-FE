@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { SignupForm } from './SignupForm';
+import SignupForm from './user/SignupForm';
 
 export default function Page() {
   return (

@@ -10,15 +10,15 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { SignupSchema } from './signup-schema';
+import { UserSchema } from './user-schema';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import z from 'zod';
 
-export function SignupForm() {
-  const form = useForm<z.infer<typeof SignupSchema>>({
-    resolver: zodResolver(SignupSchema),
+export function UserForm() {
+  const form = useForm<z.infer<typeof UserSchema>>({
+    resolver: zodResolver(UserSchema),
     defaultValues: {
       name: '',
       email: '',
@@ -28,7 +28,7 @@ export function SignupForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof SignupSchema>) {
+  function onSubmit(values: z.infer<typeof UserSchema>) {
     console.log(values);
   }
 
