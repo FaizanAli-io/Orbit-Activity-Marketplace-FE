@@ -1,3 +1,3 @@
-# Orbit-Activity-Marketplace
+# Orbit-Activity-Marketplace-FE
 
-The fullstack repo of the orbit marketplace application
+The frontend repo of the orbit marketplace application
