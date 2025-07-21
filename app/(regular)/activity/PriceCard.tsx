@@ -2,6 +2,8 @@ import React from 'react';
 
 import { Button } from '@/components/ui/button';
 import { HeartIcon } from 'lucide-react';
+import { DrawerDialog } from '@/components/app/DrawerDialog';
+import { PaymentForm } from './payment-form';
 
 const PriceCard = () => {
   return (
@@ -13,7 +15,11 @@ const PriceCard = () => {
         </span>
       </h2>
 
-      <Button className='w-full cursor-pointer'>Book Now</Button>
+      <DrawerDialog
+        trigger={<Button className='w-full cursor-pointer'>Book Now</Button>}
+      >
+        <PaymentForm />
+      </DrawerDialog>
       <Button className='w-full cursor-pointer' variant='outline'>
         <HeartIcon /> Add to Wishlist
       </Button>

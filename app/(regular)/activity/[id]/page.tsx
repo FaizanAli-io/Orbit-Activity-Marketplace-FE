@@ -21,6 +21,7 @@ import AboutIntinery from '../AboutIntinery';
 import WhatsIncluded from '../WhatsIncluded';
 import Schedule from '../Schedule';
 import FeatureReview from '../FeatureReview';
+import { PaymentForm } from '../payment-form';
 
 interface Props {
   params: Promise<{ id: number }>;
