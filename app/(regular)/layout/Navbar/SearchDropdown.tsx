@@ -12,10 +12,7 @@ const SearchDropdown = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant='ghost' size='icon' className='rounded-full'>
-          <SearchIcon className='h-5 w-5 text-gray-500 dark:text-gray-400' />
-          <span className='sr-only'>Search</span>
-        </Button>
+        <SearchIcon className='h-5 w-5 text-gray-500 dark:text-gray-400' />
       </DropdownMenuTrigger>
       <DropdownMenuContent className='w-[300px] p-4'>
         <div className='relative'>

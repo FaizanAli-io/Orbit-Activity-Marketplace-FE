@@ -1,30 +1,39 @@
 import { Button } from '@/components/ui/button';
 import { data } from './data';
-import { MenuIcon } from './MenuIcon';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import Link from 'next/link';
 import NavLink from './NavLink';
 import React from 'react';
+import { Equal } from 'lucide-react';
 
 const NavbarSheet = () => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant='ghost' size='icon' className='rounded-full md:hidden'>
-          <MenuIcon className='h-5 w-5 text-gray-500 dark:text-gray-400' />
-          <span className='sr-only'>Toggle navigation menu</span>
-        </Button>
+        <Equal
+          size='35'
+          className='text-gray-500 dark:text-gray-400 md:hidden'
+        />
       </SheetTrigger>
       <SheetContent side='left' className='md:hidden'>
-        <div className='flex flex-col p-4'>
+        <div className='flex flex-col px-5 py-10'>
+          <p className='text-muted-foreground font-semibold  mx-3 mt-5 -mb-2'>
+            Menu
+          </p>
           {data.map((item, i) => (
-            <NavLink key={i} href={item.href}>
+            <NavLink key={i} href={item.href} className='text-3xl text-black'>
               {item.text}
             </NavLink>
           ))}
-          <Button variant='outline'>
-            <Link href='/login'>Sign in</Link>
-          </Button>
+
+          <p className='text-muted-foreground font-semibold mx-3 mt-5 -mb-2'>
+            Auth
+          </p>
+          <NavLink href='/login' className='text-3xl text-black'>
+            Sign in
+          </NavLink>
+          <NavLink href='/signup' className='text-3xl text-black'>
+            Sign up
+          </NavLink>
         </div>
       </SheetContent>
     </Sheet>
