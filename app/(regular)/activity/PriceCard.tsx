@@ -13,7 +13,7 @@ const PriceCard = () => {
         </span>
       </h2>
 
-      <Button className='w-full cursor-pointer'>Sign Up Now</Button>
+      <Button className='w-full cursor-pointer'>Book Now</Button>
       <Button className='w-full cursor-pointer' variant='outline'>
         <HeartIcon /> Add to Wishlist
       </Button>

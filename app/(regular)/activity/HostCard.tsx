@@ -1,8 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 
-import { Button } from '@/components/ui/button';
-import { Phone, StarIcon } from 'lucide-react';
+import { Lock, StarIcon } from 'lucide-react';
 
 const HostCard = () => {
   return (
@@ -31,10 +30,18 @@ const HostCard = () => {
         expedita!
       </p>
 
-      <Button className='w-full mt-5 cursor-pointer' variant='outline'>
+      <div className='text-muted-foreground flex flex-col items-center mt-5'>
+        <span>
+          <Lock />
+        </span>
+        <p className='text-muted-foreground'>
+          Contact Information available after booking
+        </p>
+      </div>
+      {/* <Button className='w-full mt-5 cursor-pointer' variant='outline'>
         <Phone />
         Contact on WhatsApp
-      </Button>
+      </Button> */}
     </div>
   );
 };
