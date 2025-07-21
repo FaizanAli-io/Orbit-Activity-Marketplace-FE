@@ -9,6 +9,7 @@ import Image from 'next/image';
 import React from 'react';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
+import Link from 'next/link';
 
 interface Props {
   image: string;
@@ -28,21 +29,29 @@ const ActivityCard = ({
   vendor,
 }: Props) => {
   return (
-    <article className='grid grid-rows-[auto_1fr] border rounded-md shadow-sm max-w-lg'>
+    <article className='grid grid-rows-[auto_1fr] rounded-md border shadow-xs  max-w-lg'>
       <figure className='relative overflow-hidden'>
         <div className='absolute flex justify-between w-full p-2'>
           <Badge>{category}</Badge>
-          <span className='bg-white/70 backdrop-blur-lg rounded-full p-1 shadow-xl'>
-            <HeartIcon size='20' className='cursor-pointer' />
-          </span>
+          {/* <span className='bg-white/70 backdrop-blur-lg rounded-full p-1'> */}
+          <HeartIcon
+            size='25'
+            className='cursor-pointer '
+            stroke='white'
+            strokeWidth={2}
+            fill='black'
+          />
+          {/* </span> */}
         </div>
-        <Image
-          width={500}
-          height={200}
-          src={image}
-          alt={title}
-          className='object-cover aspect-video w-full rounded-t-md'
-        />
+        <Link href='/activity/5'>
+          <Image
+            width={500}
+            height={200}
+            src={image}
+            alt={title}
+            className='object-cover aspect-video w-full rounded-t-md'
+          />
+        </Link>
       </figure>
 
       {/* Subgrid starts here */}
@@ -50,10 +59,12 @@ const ActivityCard = ({
         {/* Title and rating */}
         <div>
           <div className='flex justify-between items-center'>
-            <h2 className='text-xl font-medium'>{title}</h2>
+            <h2 className='text-xl font-medium'>
+              <Link href='/activity/5'>{title}</Link>
+            </h2>
             <p className='flex text-muted-foreground items-center space-x-1'>
               <StarIcon size='17' fill='#eab308' stroke='#eab308' />
-              <span>6/8</span>
+              <span>4/5</span>
             </p>
           </div>
           <p className='flex text-muted-foreground items-center space-x-1'>
@@ -85,7 +96,9 @@ const ActivityCard = ({
           <p>
             <span className='text-2xl font-bold'>${price}</span>/person
           </p>
-          <Button className='px-10 cursor-pointer'>Contact</Button>
+          <Button className='px-10 cursor-pointer'>
+            <Link href='/activity/5'>Details</Link>
+          </Button>
         </div>
       </div>
     </article>

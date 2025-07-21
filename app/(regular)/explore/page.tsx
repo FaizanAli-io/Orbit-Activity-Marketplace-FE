@@ -1,11 +1,12 @@
-import ActivityCard from '@/components/app/ActivityCard';
 import React from 'react';
+
 import { data } from './mock-data';
+import ActivityCard from '@/components/app/ActivityCard';
 import Block from '@/app/layout/Block';
 
 const Page = () => {
   return (
-    <Block className='max-w-6xl mx-auto'>
+    <Block pad>
       <h1 className='font-bold text-2xl'>Explore activities</h1>
       <p className='text-muted-foreground mb-10'>
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Adipisci
