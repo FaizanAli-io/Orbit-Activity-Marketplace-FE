@@ -1,9 +1,9 @@
-import { Button } from '@/components/ui/button';
+import React from 'react';
+
 import { data } from './data';
+import { Equal } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import NavLink from './NavLink';
-import React from 'react';
-import { Equal } from 'lucide-react';
 
 const NavbarSheet = () => {
   return (

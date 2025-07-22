@@ -1,4 +1,5 @@
-import { Button } from '@/components/ui/button';
+import React from 'react';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,7 +7,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { SearchIcon } from 'lucide-react';
-import React from 'react';
 
 const SearchDropdown = () => {
   return (
