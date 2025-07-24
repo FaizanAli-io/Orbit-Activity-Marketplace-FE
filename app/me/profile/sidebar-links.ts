@@ -1,7 +1,7 @@
 export const links = {
   navMain: [
     {
-      title: 'Getting Started',
+      title: 'Started',
       url: '#',
       items: [
         {
