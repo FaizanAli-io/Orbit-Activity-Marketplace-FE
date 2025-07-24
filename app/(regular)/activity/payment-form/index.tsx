@@ -15,8 +15,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import z from 'zod';
 import { PaymentFormSchema } from './schema';
 import { formatCardNumber, formatExpiryDate } from './formatters';
+import { ReactNode } from 'react';
 
-export function PaymentForm() {
+interface Props {
+  submitButton?: ReactNode;
+}
+
+export function PaymentForm({ submitButton }: Props) {
   const form = useForm<z.infer<typeof PaymentFormSchema>>({
     resolver: zodResolver(PaymentFormSchema),
     defaultValues: {
@@ -54,7 +59,6 @@ export function PaymentForm() {
               </FormItem>
             )}
           />
-
           <h2 className='text-lg font-semibold'>Payment Information</h2>
           <FormField
             control={form.control}
@@ -69,7 +73,6 @@ export function PaymentForm() {
               </FormItem>
             )}
           />
-
           <FormField
             control={form.control}
             name='cardNumber'
@@ -91,7 +94,6 @@ export function PaymentForm() {
               </FormItem>
             )}
           />
-
           <div className='grid grid-cols-2 space-x-2'>
             <FormField
               control={form.control}
@@ -127,7 +129,6 @@ export function PaymentForm() {
               )}
             />
           </div>
-
           <h2 className='text-lg font-semibold'>Billing Address</h2>
           <div className='grid gap-3'>
             <FormField
@@ -144,7 +145,6 @@ export function PaymentForm() {
               )}
             />
           </div>
-
           <div className='grid grid-cols-2 space-x-2'>
             <FormField
               control={form.control}
@@ -173,7 +173,6 @@ export function PaymentForm() {
               )}
             />
           </div>
-
           <div className='grid grid-cols-2 space-x-2'>
             <FormField
               control={form.control}
@@ -202,12 +201,15 @@ export function PaymentForm() {
               )}
             />
           </div>
-
-          <div className='flex flex-col gap-3'>
-            <Button type='submit' className='w-full cursor-pointer'>
-              Complete Payment
-            </Button>
-          </div>
+          {submitButton ? (
+            submitButton
+          ) : (
+            <div className='flex flex-col gap-3'>
+              <Button type='submit' className='w-full cursor-pointer'>
+                Complete Payment
+              </Button>
+            </div>
+          )}
         </div>
       </form>
     </Form>
