@@ -1,6 +1,6 @@
 import React from 'react';
-import { PaymentForm } from '../../activity/payment-form';
 import { Button } from '@/components/ui/button';
+import { PaymentForm } from '@/app/(regular)/activity/payment-form';
 
 const Page = () => {
   return (

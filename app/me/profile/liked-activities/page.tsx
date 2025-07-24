@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ActivityCard from '@/components/app/ActivityCard';
-import { data } from '../../explore/mock-data';
+import { data } from '@/app/(regular)/explore/mock-data';
 
 const Page = () => {
   return (
