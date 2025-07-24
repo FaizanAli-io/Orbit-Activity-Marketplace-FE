@@ -112,7 +112,7 @@ const Page = () => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className=' my-10 space-y-5'
+          className=' my-10 space-y-5 bg-white p-5 rounded-lg shadow-xs'
         >
           <FormField
             control={form.control}
@@ -134,7 +134,7 @@ const Page = () => {
         </form>
       </Form>
 
-      <div className='mb-15 space-y-1'>
+      <div className='mb-15 space-y-1 shadow-xs'>
         {items.map((value, i) => (
           <Item key={i} onClick={() => handleDelete(i)}>
             {value}

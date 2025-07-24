@@ -29,7 +29,7 @@ const ActivityCard = ({
   vendor,
 }: Props) => {
   return (
-    <article className='grid grid-rows-[auto_1fr] rounded-md border shadow-xs  max-w-lg hover:-translate-y-2 hover:shadow-md transition-transform duration-200'>
+    <article className='grid grid-rows-[auto_1fr] rounded-lg border shadow-xs  max-w-lg hover:-translate-y-2 hover:shadow-md transition-transform duration-200 bg-white'>
       <figure className='relative overflow-hidden'>
         <div className='absolute flex justify-between w-full p-2'>
           <Badge>{category}</Badge>

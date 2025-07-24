@@ -7,7 +7,7 @@ import { PaymentForm } from './payment-form';
 
 const PriceCard = () => {
   return (
-    <div className='border max-h-min p-5 space-y-4 shadow-xs  rounded-md py-8'>
+    <div className='borded max-h-min p-5 space-y-4 shadow-xs  rounded-lg py-8 bg-white'>
       <h2 className='text-5xl font-bold text-center'>
         $55{' '}
         <span className='text-muted-foreground text-lg font-normal'>

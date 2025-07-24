@@ -10,14 +10,14 @@ const likedActivities = 'liked-activities';
 const subscribedActivities = 'subscribed-activities';
 
 const triggerClass =
-  'data-[state=active]:shadow-none data-[state=active]:underline underline-offset-12 px-0 cursor-pointer';
+  'data-[state=active]:shadow-none data-[state=active]:underline underline-offset-13 px-0 cursor-pointer';
 
 const contentClass = '-mx-4 px-0';
 
 const UserTabs = () => {
   return (
     <Tabs defaultValue={subscribedActivities}>
-      <TabsList className='bg-white border-b w-full border-gray-300 rounded-none space-x-5 mb-5 block '>
+      <TabsList className='bg-transparent border-b w-full border-gray-300 rounded-none space-x-5 mb-5 block '>
         <TabsTrigger value={subscribedActivities} className={triggerClass}>
           Subscribed Activities
         </TabsTrigger>

@@ -28,7 +28,7 @@ const Page = async () => {
           <HostCard />
         </div>
 
-        <div className='col-span-2'>
+        <div className='col-span-2  '>
           <Overview />
           <AboutIntinery />
           <WhatsIncluded />

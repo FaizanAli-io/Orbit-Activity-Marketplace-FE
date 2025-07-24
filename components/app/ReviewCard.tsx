@@ -8,7 +8,7 @@ const ReviewCard = ({
   ...props
 }: HTMLAttributes<HTMLDivElement>) => {
   return (
-    <div {...props} className={cn('border rounded-md p-5', className)}>
+    <div {...props} className={cn('bg-white border rounded-lg p-5', className)}>
       <div className='flex items-center space-x-2'>
         <Image
           width='300'

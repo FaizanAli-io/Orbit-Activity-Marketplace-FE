@@ -5,7 +5,7 @@ import { Lock, StarIcon } from 'lucide-react';
 
 const HostCard = () => {
   return (
-    <div className='border rounded-sm shadow-sm p-5 my-5'>
+    <div className='border rounded-lg shadow-sm p-5 my-5 bg-white'>
       <h2 className='font-semibold text-lg mb-2'>Meet Your Host</h2>
       <div className='flex items-center space-x-2'>
         <Image

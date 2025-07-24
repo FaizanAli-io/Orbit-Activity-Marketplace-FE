@@ -11,7 +11,7 @@ const Item = ({ children, className, onClick, ...props }: Props) => {
     <div
       {...props}
       className={cn(
-        'px-5 py-3 border rounded-md flex justify-between items-center gap-2',
+        'px-5 py-3 border rounded-lg bg-white flex justify-between items-center gap-2',
         className
       )}
     >

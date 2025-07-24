@@ -98,76 +98,27 @@ const Page = () => {
     <div>
       <h1 className='font-bold text-3xl'>Location & Schedule</h1>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className=' my-10 space-y-5'
-        >
-          <FormField
-            control={form.control}
-            name='location'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Location</FormLabel>
-                <FormControl>
-                  <Input {...field} placeholder='London' autoFocus />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name='members'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Members Capacity</FormLabel>
-                <FormControl>
-                  <Input {...field} type='number' />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <div className='flex space-x-2'>
+        <form onSubmit={form.handleSubmit(onSubmit)} className=' my-10'>
+          <div className='p-5 rounded-lg shadow-xs bg-white space-y-5'>
             <FormField
               control={form.control}
-              name='date'
+              name='location'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Date</FormLabel>
+                  <FormLabel>Location</FormLabel>
                   <FormControl>
-                    <DatePicker
-                      onChange={field.onChange}
-                      value={new Date(field.value)}
-                    />
+                    <Input {...field} placeholder='London' autoFocus />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
-              name='time'
+              name='members'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Time</FormLabel>
-                  <FormControl>
-                    {/* <TimePicker onChange={field.onChange} value={field.value} /> */}
-                    <Input {...field} type='time' />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name='duration'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Duration (in minutes)</FormLabel>
+                  <FormLabel>Members Capacity</FormLabel>
                   <FormControl>
                     <Input {...field} type='number' />
                   </FormControl>
@@ -175,9 +126,57 @@ const Page = () => {
                 </FormItem>
               )}
             />
+
+            <div className='flex space-x-2'>
+              <FormField
+                control={form.control}
+                name='date'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Date</FormLabel>
+                    <FormControl>
+                      <DatePicker
+                        onChange={field.onChange}
+                        value={new Date(field.value)}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name='time'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Time</FormLabel>
+                    <FormControl>
+                      {/* <TimePicker onChange={field.onChange} value={field.value} /> */}
+                      <Input {...field} type='time' />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name='duration'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Duration (in minutes)</FormLabel>
+                    <FormControl>
+                      <Input {...field} type='number' />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
           </div>
 
-          <div className='flex justify-between my-20'>
+          <div className='flex justify-between my-10'>
             <Button
               className='cursor-pointer'
               variant='outline'

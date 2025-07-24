@@ -5,7 +5,7 @@ const Schedule = () => {
   return (
     <div className='my-10'>
       <h2 className='text-2xl font-semibold'>Schedule</h2>
-      <div className='divide-y divide-gray-300'>
+      <div className='divide-y divide-gray-300 bg-white shadow-xs rounded-lg'>
         {new Array(3).fill(null).map((_, i) => (
           <ScheduleCard key={i} />
         ))}
