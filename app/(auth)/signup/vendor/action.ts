@@ -1,24 +1,24 @@
 'use server';
 
-import { UserSchema } from './user-schema';
 import { apiFetch } from '@/lib/api';
 import { HTTP_VERB } from '@/lib/enums/http-verbs';
 import { withServerError } from '@/lib/utils/with-server-error';
 import type { z } from 'zod';
+import { VendorSchema } from './vendor-schema';
 
-type User = z.infer<typeof UserSchema>;
+type Vendor = z.infer<typeof VendorSchema>;
 
-interface SignupRequest extends Omit<User, 'confirmPassword'> {
+interface SignupRequest extends Omit<Vendor, 'confirmPassword'> {
   type: 'VENDOR' | 'USER';
 }
 
-export const signupUser = async (user: User) => {
-  const result = UserSchema.safeParse(user);
+export const signupVendor = async (vendor: Vendor) => {
+  const result = VendorSchema.safeParse(vendor);
 
   if (!result.success) {
     return {
       success: false,
-      error: result.error.message, // more structured than .message
+      error: result.error.message,
     };
   }
 
@@ -26,7 +26,7 @@ export const signupUser = async (user: User) => {
 
   const payload: SignupRequest = {
     ...cleanedUser,
-    type: 'USER',
+    type: 'VENDOR',
   };
 
   return withServerError(async () => {

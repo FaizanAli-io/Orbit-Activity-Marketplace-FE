@@ -11,27 +11,40 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
+import { VendorSchema } from './vendor-schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
-import { categories, VendorSchema } from './vendor-schema';
 import z from 'zod';
-import { Combobox } from '@/components/ui/Combobox';
+import { useState } from 'react';
+import { signupVendor } from './action';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 export function VendorForm() {
+  const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof VendorSchema>>({
     resolver: zodResolver(VendorSchema),
     defaultValues: {
       name: '',
       email: '',
-      phone: '',
-      category: '',
       password: '',
       confirmPassword: '',
     },
   });
 
-  function onSubmit(values: z.infer<typeof VendorSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof VendorSchema>) {
+    setLoading(true);
+
+    const { success, error } = await signupVendor(values);
+
+    if (!success) {
+      toast.success('Verification email sent.');
+      form.reset();
+    } else toast.error(error);
+
+    setLoading(false);
   }
 
   return (
@@ -73,42 +86,6 @@ export function VendorForm() {
           <div className='grid gap-3'>
             <FormField
               control={form.control}
-              name='phone'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Business Phone</FormLabel>
-                  <FormControl>
-                    <Input {...field} placeholder='+1234567890' />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-
-          <div className='grid gap-3'>
-            <FormField
-              control={form.control}
-              name='category'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Business Category</FormLabel>
-                  <FormControl>
-                    <Combobox
-                      options={categories}
-                      value={field.value}
-                      onChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-
-          <div className='grid gap-3'>
-            <FormField
-              control={form.control}
               name='password'
               render={({ field }) => (
                 <FormItem>
@@ -138,7 +115,11 @@ export function VendorForm() {
             />
           </div>
 
-          <Button type='submit' className='w-full cursor-pointer'>
+          <Button
+            type='submit'
+            className='w-full cursor-pointer'
+            disabled={loading}
+          >
             Signup
           </Button>
         </div>
