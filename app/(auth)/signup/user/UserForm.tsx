@@ -15,21 +15,35 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import z from 'zod';
+import { signupUser } from './form-action';
+import { useState } from 'react';
+import { toast } from 'sonner';
 
 export function UserForm() {
+  const [loading, setLoading] = useState<boolean>(false);
+
   const form = useForm<z.infer<typeof UserSchema>>({
     resolver: zodResolver(UserSchema),
     defaultValues: {
       name: '',
       email: '',
-      phone: '',
+      // phone: '',
       password: '',
       confirmPassword: '',
     },
   });
 
-  function onSubmit(values: z.infer<typeof UserSchema>) {
+  async function onSubmit(values: z.infer<typeof UserSchema>) {
+    setLoading(true);
     console.log(values);
+    const { success, error, data } = await signupUser(values);
+    if (!success) toast.error(error || 'Something went wrong');
+    else {
+      toast.success('Verification email sent');
+      console.log(data);
+    }
+
+    setLoading(false);
   }
 
   return (
@@ -68,7 +82,7 @@ export function UserForm() {
             />
           </div>
 
-          <div className='grid gap-3'>
+          {/* <div className='grid gap-3'>
             <FormField
               control={form.control}
               name='phone'
@@ -82,7 +96,7 @@ export function UserForm() {
                 </FormItem>
               )}
             />
-          </div>
+          </div> */}
 
           <div className='grid gap-3'>
             <FormField
@@ -116,7 +130,11 @@ export function UserForm() {
             />
           </div>
 
-          <Button type='submit' className='w-full cursor-pointer'>
+          <Button
+            type='submit'
+            className='w-full cursor-pointer'
+            disabled={loading}
+          >
             Signup
           </Button>
         </div>
