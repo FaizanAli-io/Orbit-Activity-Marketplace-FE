@@ -27,7 +27,6 @@ export function UserForm() {
     defaultValues: {
       name: '',
       email: '',
-      // phone: '',
       password: '',
       confirmPassword: '',
     },
@@ -35,13 +34,12 @@ export function UserForm() {
 
   async function onSubmit(values: z.infer<typeof UserSchema>) {
     setLoading(true);
-    console.log(values);
-    const { success, error, data } = await signupUser(values);
+
+    const { success, error } = await signupUser(values);
     if (!success) toast.error(error || 'Something went wrong');
-    else {
-      toast.success('Verification email sent');
-      console.log(data);
-    }
+    else toast.success('Verification email sent');
+
+    form.reset();
 
     setLoading(false);
   }
@@ -81,22 +79,6 @@ export function UserForm() {
               )}
             />
           </div>
-
-          {/* <div className='grid gap-3'>
-            <FormField
-              control={form.control}
-              name='phone'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Phone</FormLabel>
-                  <FormControl>
-                    <Input {...field} placeholder='+1234567890' />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div> */}
 
           <div className='grid gap-3'>
             <FormField
