@@ -22,8 +22,6 @@ export async function resetPassword(data: Request) {
       data,
     });
 
-    console.log(res);
-
     return {
       success: true,
       data: null,

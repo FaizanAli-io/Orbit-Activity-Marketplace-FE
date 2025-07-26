@@ -10,13 +10,21 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { login } from './form-action';
 import { LoginSchema } from './login-schema';
+import { toast } from 'sonner';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import z from 'zod';
 
 export function LoginForm() {
+  const [loading, setloading] = useState<boolean>(false);
+
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -25,8 +33,15 @@ export function LoginForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof LoginSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof LoginSchema>) {
+    setloading(true);
+
+    const { success, data, error } = await login(values);
+    if (success) {
+      router.replace('/me/profile');
+    } else toast.error(error);
+
+    setloading(false);
   }
 
   return (
@@ -72,7 +87,11 @@ export function LoginForm() {
             />
           </div>
           <div className='flex flex-col gap-3'>
-            <Button type='submit' className='w-full cursor-pointer'>
+            <Button
+              type='submit'
+              className='w-full cursor-pointer'
+              disabled={loading}
+            >
               Login
             </Button>
             <Button variant='outline' className='w-full cursor-pointer'>
