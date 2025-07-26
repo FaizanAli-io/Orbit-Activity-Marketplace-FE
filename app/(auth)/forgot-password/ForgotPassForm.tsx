@@ -32,11 +32,11 @@ export function ForgotPassForm() {
   async function onSubmit(values: z.infer<typeof schema>) {
     setLoading(true);
 
-    const { success } = await requestToken(values);
+    const { success, error } = await requestToken(values);
     if (success) {
       form.reset();
       toast.success('We have sent you an email');
-    } else toast.error('Something went wrong. Please try again later');
+    } else toast.error(error || 'Something went wrong');
 
     setLoading(false);
   }

@@ -49,7 +49,7 @@ export function ResetPassForm({ token }: { token: string }) {
     if (success) {
       toast.success('Password updated');
       router.replace('/login');
-    } else toast.error(error);
+    } else toast.error(error || 'something went wrong');
 
     setLoading(false);
   }
