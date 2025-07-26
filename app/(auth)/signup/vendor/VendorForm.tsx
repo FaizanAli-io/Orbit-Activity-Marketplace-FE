@@ -17,12 +17,10 @@ import Link from 'next/link';
 import z from 'zod';
 import { useState } from 'react';
 import { signupVendor } from './action';
-import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
 export function VendorForm() {
   const [loading, setLoading] = useState<boolean>(false);
-  const router = useRouter();
 
   const form = useForm<z.infer<typeof VendorSchema>>({
     resolver: zodResolver(VendorSchema),

@@ -45,7 +45,11 @@ function getText(verified: boolean) {
   return (
     <>
       Your token has been verified successfully, and your email is now
-      confirmed. Please <Link href='/login'>log in</Link> to continue.
+      confirmed. Please{' '}
+      <Link href='/login' className='underline'>
+        log in
+      </Link>{' '}
+      to continue.
     </>
   );
 }

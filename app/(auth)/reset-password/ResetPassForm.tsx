@@ -21,7 +21,7 @@ import { useRouter } from 'next/navigation';
 const schema = z.object({
   password: z
     .string()
-    .min(5, 'must be atleast 5 character long')
+    .min(8, 'must be atleast 5 character long')
     .max(50, 'cannot exceed 50 chars')
     .regex(/[A-Z]/, 'must contain atleast one uppercase character')
     .regex(/[a-z]/, 'must contain atleast one lowercase character'),
@@ -42,14 +42,14 @@ export function ResetPassForm({ token }: { token: string }) {
   async function onSubmit(values: z.infer<typeof schema>) {
     setLoading(true);
 
-    const { success } = await resetPassword({
+    const { success, error } = await resetPassword({
       newPassword: values.password,
       token,
     });
     if (success) {
       toast.success('Password updated');
       router.replace('/login');
-    } else toast.error('Error: password was not updated');
+    } else toast.error(error);
 
     setLoading(false);
   }
