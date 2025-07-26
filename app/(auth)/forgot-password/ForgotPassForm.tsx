@@ -13,10 +13,15 @@ import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import z from 'zod';
+import { requestToken } from './form-action';
+import { useState } from 'react';
+import { toast } from 'sonner';
 
 const schema = z.object({ email: z.email() });
 
 export function ForgotPassForm() {
+  const [loading, setLoading] = useState<boolean>(false);
+
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -24,8 +29,16 @@ export function ForgotPassForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof schema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof schema>) {
+    setLoading(true);
+
+    const { success } = await requestToken(values);
+    if (success) {
+      form.reset();
+      toast.success('We have sent you an email');
+    } else toast.error('Something went wrong. Please try again later');
+
+    setLoading(false);
   }
 
   return (
@@ -48,7 +61,11 @@ export function ForgotPassForm() {
             />
           </div>
           <div className='flex flex-col gap-3'>
-            <Button type='submit' className='w-full cursor-pointer'>
+            <Button
+              type='submit'
+              className='w-full cursor-pointer'
+              disabled={loading}
+            >
               Send Link
             </Button>
           </div>

@@ -13,6 +13,10 @@ import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import z from 'zod';
+import { useState } from 'react';
+import { resetPassword } from './[token]/form-action';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 const schema = z.object({
   password: z
@@ -23,7 +27,11 @@ const schema = z.object({
     .regex(/[a-z]/, 'must contain atleast one lowercase character'),
 });
 
-export function ResetPassForm() {
+export function ResetPassForm({ token }: { token: string }) {
+  const [loading, setLoaing] = useState<boolean>(false);
+
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -31,8 +39,19 @@ export function ResetPassForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof schema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof schema>) {
+    setLoaing(true);
+
+    const { success } = await resetPassword({
+      newPassword: values.password,
+      token,
+    });
+    if (success) {
+      toast.success('Password updated');
+      router.replace('/login');
+    } else toast.error('Error: password was not updated');
+
+    setLoaing(false);
   }
 
   return (
@@ -55,7 +74,11 @@ export function ResetPassForm() {
             />
           </div>
           <div className='flex flex-col gap-3'>
-            <Button type='submit' className='w-full cursor-pointer'>
+            <Button
+              type='submit'
+              className='w-full cursor-pointer'
+              disabled={loading}
+            >
               Reset Password
             </Button>
           </div>

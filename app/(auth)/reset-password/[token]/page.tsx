@@ -6,9 +6,15 @@ import {
   CardDescription,
   CardContent,
 } from '@/components/ui/card';
-import { ResetPassForm } from './ResetPassForm';
+import { ResetPassForm } from '../ResetPassForm';
 
-const Page = () => {
+interface Props {
+  params: Promise<{ token: string }>;
+}
+
+const Page = async ({ params }: Props) => {
+  const { token } = await params;
+
   return (
     <div className='flex min-h-svh w-full items-center justify-center p-6 md:p-10'>
       <div className='w-full max-w-sm'>
@@ -19,7 +25,7 @@ const Page = () => {
               <CardDescription>Enter your new password below.</CardDescription>
             </CardHeader>
             <CardContent>
-              <ResetPassForm />
+              <ResetPassForm token={token} />
             </CardContent>
           </Card>
         </div>
