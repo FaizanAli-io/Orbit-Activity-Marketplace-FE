@@ -36,7 +36,7 @@ export function LoginForm() {
   async function onSubmit(values: z.infer<typeof LoginSchema>) {
     setloading(true);
 
-    const { success, data, error } = await login(values);
+    const { success, error } = await login(values);
     if (success) {
       router.replace('/me/profile');
     } else toast.error(error);

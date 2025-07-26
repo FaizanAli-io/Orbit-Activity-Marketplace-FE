@@ -2,6 +2,7 @@
 
 import { apiFetch } from '@/lib/api';
 import { HTTP_VERB } from '@/lib/enums/http-verbs';
+import { withServerError } from '@/lib/utils/with-server-error';
 import { z } from 'zod';
 
 const schema = z.object({
@@ -12,22 +13,16 @@ const schema = z.object({
 type Request = z.infer<typeof schema>;
 
 export async function resetPassword(data: Request) {
-  try {
-    const { success, error } = schema.safeParse(data);
+  const { success, error } = schema.safeParse(data);
 
-    if (!success) return { success, error: error.message };
+  if (!success) return { success, error: error.message };
 
-    const res = await apiFetch<Request>('/auth/request-reset', {
+  return withServerError(async () => {
+    await apiFetch<Request>('/auth/reset-password', {
       method: HTTP_VERB.POST,
       data,
     });
 
-    return {
-      success: true,
-      data: null,
-    };
-  } catch (err: any) {
-    console.log(err);
-    return { success: false, error: err.message };
-  }
+    return null;
+  });
 }

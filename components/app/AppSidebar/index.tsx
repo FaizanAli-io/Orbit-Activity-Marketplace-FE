@@ -10,11 +10,11 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
-  SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
+import Link from 'next/link';
+import MenuLink from './MenuLink';
 
-// This is sample data.
 const data = {
   navMain: [
     {
@@ -22,25 +22,24 @@ const data = {
       url: '#',
       items: [
         {
-          isActive: true,
-          title: 'User Info',
-          url: '#',
+          title: 'Profile',
+          url: '/me/profile',
         },
         {
           title: 'Subscribed Activities',
-          url: '#',
+          url: '/me/profile/subscribed-activities',
         },
         {
           title: 'Liked Activities',
-          url: '#',
+          url: '/me/profile/liked-activities',
         },
         {
           title: 'Friends',
-          url: '#',
+          url: '/me/profile/friends',
         },
         {
           title: 'Billing',
-          url: '#',
+          url: '/me/profile/billing',
         },
         {
           title: 'Logout',
@@ -51,21 +50,23 @@ const data = {
   ],
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export async function AppSidebar({
+  ...props
+}: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar variant='inset' {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size='lg' asChild>
-              <a href='#'>
+              <Link href='#'>
                 <div className='bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg'>
                   <GalleryVerticalEnd className='size-4' />
                 </div>
                 <div className='flex flex-col gap-0.5 leading-none'>
                   <span className='font-medium'>Profile</span>
                 </div>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -76,17 +77,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             {data.navMain.map(item => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton asChild>
-                  <a href={item.url} className='font-medium'>
+                  <Link href={item.url} className='font-medium'>
                     {item.title}
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
                 {item.items?.length ? (
                   <SidebarMenuSub className='ml-0 border-l-0 px-1.5'>
                     {item.items.map(item => (
                       <SidebarMenuSubItem key={item.title}>
-                        <SidebarMenuSubButton asChild isActive={item.isActive}>
-                          <a href={item.url}>{item.title}</a>
-                        </SidebarMenuSubButton>
+                        <MenuLink title={item.title} url={item.url} />
                       </SidebarMenuSubItem>
                     ))}
                   </SidebarMenuSub>

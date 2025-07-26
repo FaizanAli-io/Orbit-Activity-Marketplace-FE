@@ -5,6 +5,7 @@ import { LoginSchema } from './login-schema';
 import { apiFetch } from '@/lib/api';
 import { HTTP_VERB } from '@/lib/enums/http-verbs';
 import { setAccessToken } from '@/lib/cookies';
+import { withServerError } from '@/lib/utils/with-server-error';
 
 interface Res {
   accessToken: string;
@@ -18,7 +19,7 @@ export async function login(data: ReqData) {
   const { success, error } = LoginSchema.safeParse(data);
   if (!success) return { success, error: error.message };
 
-  try {
+  return withServerError(async () => {
     const result = await apiFetch<ReqData, Res>('/auth/login', {
       method: HTTP_VERB.POST,
       data,
@@ -26,8 +27,6 @@ export async function login(data: ReqData) {
 
     await setAccessToken(result.accessToken);
 
-    return { success, data: result };
-  } catch (err: any) {
-    return { success: false, error: err.message };
-  }
+    return null;
+  });
 }

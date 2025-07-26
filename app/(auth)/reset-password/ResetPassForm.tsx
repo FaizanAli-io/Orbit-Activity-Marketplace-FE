@@ -28,7 +28,7 @@ const schema = z.object({
 });
 
 export function ResetPassForm({ token }: { token: string }) {
-  const [loading, setLoaing] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const router = useRouter();
 
@@ -40,7 +40,7 @@ export function ResetPassForm({ token }: { token: string }) {
   });
 
   async function onSubmit(values: z.infer<typeof schema>) {
-    setLoaing(true);
+    setLoading(true);
 
     const { success } = await resetPassword({
       newPassword: values.password,
@@ -51,7 +51,7 @@ export function ResetPassForm({ token }: { token: string }) {
       router.replace('/login');
     } else toast.error('Error: password was not updated');
 
-    setLoaing(false);
+    setLoading(false);
   }
 
   return (

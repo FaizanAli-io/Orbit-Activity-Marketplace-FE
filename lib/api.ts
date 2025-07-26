@@ -4,7 +4,7 @@ type ApiFetchOptions<TBody> = Omit<RequestInit, 'body'> & {
   data?: TBody;
 };
 
-export async function apiFetch<TBody = any, TResponse = unknown>(
+export async function apiFetch<TBody, TResponse = unknown>(
   path: string,
   options: ApiFetchOptions<TBody> = {}
 ): Promise<TResponse> {
