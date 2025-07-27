@@ -35,6 +35,6 @@ export const config = {
       - static files like .png, .jpg, .js, etc.
       - API routes (optional)
     */
-    '/((?!_next/|api/|.*\\.(?:png|jpg|jpeg|svg|js|css|ico|woff2?|ttf)).*)',
+    '/((?!_next/|.*\\.(?:png|jpg|jpeg|svg|js|css|ico|woff2?|ttf)).*)',
   ],
 };
