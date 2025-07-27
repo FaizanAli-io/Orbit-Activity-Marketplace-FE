@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { GalleryVerticalEnd } from 'lucide-react';
-
 import {
   Sidebar,
   SidebarContent,
@@ -9,48 +8,13 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
 import Link from 'next/link';
 import MenuLink from './MenuLink';
+import { data } from './sidebar-links';
+import LogoutButton from './LogoutButton';
 
-const data = {
-  navMain: [
-    {
-      title: 'Getting Started',
-      url: '#',
-      items: [
-        {
-          title: 'Profile',
-          url: '/me/profile',
-        },
-        {
-          title: 'Subscribed Activities',
-          url: '/me/profile/subscribed-activities',
-        },
-        {
-          title: 'Liked Activities',
-          url: '/me/profile/liked-activities',
-        },
-        {
-          title: 'Friends',
-          url: '/me/profile/friends',
-        },
-        {
-          title: 'Billing',
-          url: '/me/profile/billing',
-        },
-        {
-          title: 'Logout',
-          url: '#',
-        },
-      ],
-    },
-  ],
-};
-
-export async function AppSidebar({
+export async function ProfileSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -74,24 +38,17 @@ export async function AppSidebar({
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu className='gap-2'>
-            {data.navMain.map(item => (
+            {data.items.map(item => (
               <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild>
-                  <Link href={item.url} className='font-medium'>
-                    {item.title}
-                  </Link>
+                <SidebarMenuButton>
+                  <MenuLink title={item.title} url={item.url} />
                 </SidebarMenuButton>
-                {item.items?.length ? (
-                  <SidebarMenuSub className='ml-0 border-l-0 px-1.5'>
-                    {item.items.map(item => (
-                      <SidebarMenuSubItem key={item.title}>
-                        <MenuLink title={item.title} url={item.url} />
-                      </SidebarMenuSubItem>
-                    ))}
-                  </SidebarMenuSub>
-                ) : null}
               </SidebarMenuItem>
             ))}
+
+            <SidebarMenuItem className='ml-2 cursor-pointer'>
+              <LogoutButton />
+            </SidebarMenuItem>
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
