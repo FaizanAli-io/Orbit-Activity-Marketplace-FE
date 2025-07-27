@@ -1,20 +1,28 @@
-import { getAccessToken } from '@/lib/cookies';
+import { getAccessToken } from '@/lib/utils/cookies/auth-cookies';
 import { NextRequest, NextResponse } from 'next/server';
 
-const publicRoutes = ['/login', '/signup'];
-const protectedRoutes = ['/me/profile', '/me/profile/friends'];
+// Define route patterns as regular expressions
+const publicRoutes = [/^\/login$/, /^\/signup$/];
+const protectedRoutes = [/^\/me\/profile(\/.*)?$/]; // matches /me/profile and anything nested
+
+function matchAny(path: string, patterns: RegExp[]) {
+  return patterns.some(regex => regex.test(path));
+}
 
 export default async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname;
-  const isPublicRoute = publicRoutes.includes(path);
-  const isProtectedRoute = protectedRoutes.includes(path);
+  const isPublicRoute = matchAny(path, publicRoutes);
+  const isProtectedRoute = matchAny(path, protectedRoutes);
 
   const token = await getAccessToken();
-  if (isProtectedRoute && !token)
-    return NextResponse.redirect(new URL('/login', req.nextUrl));
 
-  if (isPublicRoute && token)
+  if (isProtectedRoute && !token) {
+    return NextResponse.redirect(new URL('/login', req.nextUrl));
+  }
+
+  if (isPublicRoute && token) {
     return NextResponse.redirect(new URL('/me/profile', req.nextUrl));
+  }
 
   return NextResponse.next();
 }
