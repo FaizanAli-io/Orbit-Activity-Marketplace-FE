@@ -25,10 +25,6 @@ export async function POST(request: Request) {
       );
 
     const { contentType, fileName, size } = data;
-    console.log(
-      fileName,
-      'filename ***************************************************************************'
-    );
     const uniqueKey = `${uuid()}-${fileName}`;
 
     const command = new PutObjectCommand({

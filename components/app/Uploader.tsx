@@ -1,7 +1,7 @@
 'use client';
 import React, { useCallback, useState } from 'react';
 
-import { FileRejection, useDropzone } from 'react-dropzone';
+import { Accept, FileRejection, useDropzone } from 'react-dropzone';
 import { Card, CardContent } from '../ui/card';
 import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
@@ -10,6 +10,14 @@ import { v4 as uuid } from 'uuid';
 import { HTTP_VERB } from '@/lib/enums/http-verbs';
 import { Loader2, Trash2 } from 'lucide-react';
 import { configs } from '@/lib/config';
+
+interface Props {
+  maxFiles?: number;
+  maxSizeInMbs?: number;
+  allowImageUpload?: boolean;
+  allowVideoUpload?: boolean;
+  setUrls?: React.Dispatch<React.SetStateAction<string[]>>;
+}
 
 type FileType = Array<{
   id: string;
@@ -22,7 +30,13 @@ type FileType = Array<{
   objectUrl?: string; // local url (to render file while being uploaded)
 }>;
 
-const Uploader = () => {
+const Uploader = ({
+  maxFiles,
+  maxSizeInMbs,
+  setUrls,
+  allowImageUpload = true,
+  allowVideoUpload = false,
+}: Props) => {
   const [files, setFiles] = useState<FileType>([]);
 
   const removeFile = async (fileId: string) => {
@@ -59,6 +73,10 @@ const Uploader = () => {
 
         return;
       }
+
+      const target = files.find(f => f.id === fileId);
+      if (setUrls && target && target.objectUrl)
+        setUrls(prev => prev.filter(url => url !== target.objectUrl));
 
       setFiles(prev => prev.filter(f => f.id !== fileId));
 
@@ -130,24 +148,26 @@ const Uploader = () => {
             setFiles(prev =>
               prev.map(f => {
                 if (f.file === file) {
-                  console.log(
-                    `https://${configs.S3BucketName}.s3.${
-                      configs.S3Region
-                    }.amazonaws.com/${f.key!}`
-                  );
+                  const objectUrl = f.key ? getS3Url(f.key) : f.objectUrl!;
+                  if (setUrls)
+                    setUrls(prev => {
+                      if (prev.includes(objectUrl)) return [...prev];
+
+                      return [...prev, objectUrl];
+                    });
+
                   return {
                     ...f,
                     progress: 100,
                     uploading: false,
                     error: false,
+                    objectUrl,
                   };
                 }
 
                 return { ...f };
               })
             );
-
-            console.log(files.find(f => f.file === file)?.objectUrl);
 
             resolve();
           } else {
@@ -168,23 +188,26 @@ const Uploader = () => {
     }
   };
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    if (!acceptedFiles.length) return;
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      if (!acceptedFiles.length) return;
 
-    const newFiles: FileType = acceptedFiles.map(file => ({
-      id: uuid(),
-      file,
-      uploading: false,
-      progress: 0,
-      isDeleting: false,
-      error: false,
-      objectUrl: URL.createObjectURL(file),
-    }));
+      const newFiles: FileType = acceptedFiles.map(file => ({
+        id: uuid(),
+        file,
+        uploading: false,
+        progress: 0,
+        isDeleting: false,
+        error: false,
+        objectUrl: URL.createObjectURL(file),
+      }));
 
-    setFiles(prev => [...prev, ...newFiles]);
+      setFiles(prev => [...prev, ...newFiles]);
 
-    acceptedFiles.forEach(uploadFile);
-  }, []);
+      acceptedFiles.forEach(uploadFile);
+    },
+    [uploadFile]
+  );
 
   const onDropRejected = useCallback((rejectedFiles: FileRejection[]) => {
     if (!rejectedFiles.length) return;
@@ -215,15 +238,16 @@ const Uploader = () => {
       return toast.error('File is too large', { richColors: true });
   }, []);
 
+  const accept: Accept = {};
+  if (allowImageUpload) accept['image/*'] = [];
+  if (allowVideoUpload) accept['video/mp4'] = [];
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     onDropRejected,
-    maxFiles: 5,
-    maxSize: 1024 * 1024 * 50, // 5 MBs,
-    accept: {
-      'image/*': [],
-      'video/mp4': [],
-    },
+    maxFiles: maxFiles || 5,
+    maxSize: 1024 * 1024 * (maxSizeInMbs || 50), // 50 MBs,
+    accept,
   });
 
   return (
@@ -244,22 +268,33 @@ const Uploader = () => {
             <p>Drop files here ...</p>
           ) : (
             <div className='flex flex-col items-center justify-center h-full w-full gap-y-3'>
-              <p>Drag 'n' Drop some files here, or click to select files</p>
+              <p className='text-center'>
+                Drag &apos;n&apos; Drop some files here, or click to select
+                files
+              </p>
               <Button className='cursor-pointer'>Select Files</Button>
             </div>
           )}
         </CardContent>
       </Card>
 
-      <div className='grid grid-cols-2 mt-6 gap-6 mb-24'>
+      <div className='grid grid-cols-2 md:grid-cols-4 mt-6 gap-4 mb-24'>
         {files.map(file => (
           <div key={file.id} className='flex flex-col gap-1'>
             <div className='relative aspect-square rounded-lg overflow-hidden'>
-              <img
-                src={file.objectUrl}
-                alt={file.file.name}
-                className='w-full h-full object-cover'
-              />
+              {file.file.type.startsWith('image/') && (
+                <img
+                  src={file.objectUrl!}
+                  alt={file.file.name}
+                  className='w-full h-full object-cover'
+                />
+              )}
+
+              {file.file.type.startsWith('video/') && (
+                <video controls className='w-full h-full object-cover'>
+                  <source src={file.objectUrl} />
+                </video>
+              )}
 
               <Button
                 variant='destructive'
@@ -300,3 +335,7 @@ const Uploader = () => {
 };
 
 export default Uploader;
+
+function getS3Url(key: string) {
+  return `https://${configs.S3BucketName}.s3.${configs.S3Region}.amazonaws.com/${key}`;
+}
