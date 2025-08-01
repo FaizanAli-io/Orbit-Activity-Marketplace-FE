@@ -50,7 +50,11 @@ const Page = () => {
     const data = categories.map(c => ({ value: String(c.id), label: c.name }));
 
     setSupCategories(data);
+<<<<<<< HEAD
   }, [categories, supCategories.length]);
+=======
+  }, [categories]);
+>>>>>>> 8487054194f5ec70b0e77ce50ae5f5aa13d143e7
 
   useEffect(() => {
     const unsub = useActivityFormStore.persist.onFinishHydration(() => {

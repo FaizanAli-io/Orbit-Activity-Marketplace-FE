@@ -135,6 +135,7 @@ const Uploader = ({
             if (e.lengthComputable) {
               const progress = (e.loaded / e.total) * 100;
 
+<<<<<<< HEAD
               setFiles(prev => {
                 return prev.map(f => {
                   if (f.file === file) {
@@ -162,6 +163,34 @@ const Uploader = ({
                     if (objectUrl && setUrl) setUrl(objectUrl);
                     if (setUrls && objectUrl)
                       setUrls([...imageUrls, objectUrl]);
+=======
+            setFiles(prev => {
+              return prev.map(f => {
+                if (f.file === file) {
+                  return {
+                    ...f,
+                    progress: Math.round(progress),
+                    key,
+                    uploading: true,
+                  };
+                }
+
+                return { ...f };
+              });
+            });
+          }
+        };
+
+        // In the uploadFile function, modify the success case:
+        xhr.onload = () => {
+          if (xhr.status === 200 || xhr.status === 204) {
+            setFiles(prev =>
+              prev.map(f => {
+                if (f.file === file) {
+                  const objectUrl = f.key ? getS3Url(f.key) : f.objectUrl!;
+                  if (objectUrl && setUrl) setUrl(objectUrl);
+                  if (setUrls && objectUrl) setUrls([...imageUrls, objectUrl]);
+>>>>>>> 8487054194f5ec70b0e77ce50ae5f5aa13d143e7
 
                     return {
                       ...f,
@@ -182,8 +211,17 @@ const Uploader = ({
             }
           };
 
+<<<<<<< HEAD
           // Remove this line from onDrop:
           // if (setUrls) setUrls([...imageUrls, ...newFiles.map(f => f.objectUrl!)]);
+=======
+        // Remove this line from onDrop:
+        // if (setUrls) setUrls([...imageUrls, ...newFiles.map(f => f.objectUrl!)]);
+
+        xhr.upload.onerror = () => {
+          reject(new Error('Upload failed'));
+        };
+>>>>>>> 8487054194f5ec70b0e77ce50ae5f5aa13d143e7
 
           xhr.upload.onerror = () => {
             reject(new Error('Upload failed'));
@@ -231,6 +269,7 @@ const Uploader = ({
     (rejectedFiles: FileRejection[]) => {
       if (!rejectedFiles.length) return;
 
+<<<<<<< HEAD
       const invalidFileType = rejectedFiles.find(
         fileRejection => fileRejection.errors[0].code === 'file-invalid-type'
       );
@@ -238,6 +277,11 @@ const Uploader = ({
       const tooManyFiles = rejectedFiles.find(
         fileRejection => fileRejection.errors[0].code === 'too-many-files'
       );
+=======
+    const invalidFileType = rejectedFiles.find(
+      fileRejection => fileRejection.errors[0].code === 'file-invalid-type'
+    );
+>>>>>>> 8487054194f5ec70b0e77ce50ae5f5aa13d143e7
 
       const tooLargeFile = rejectedFiles.find(
         fileRejection => fileRejection.errors[0].code === 'file-too-large'
@@ -251,11 +295,22 @@ const Uploader = ({
           richColors: true,
         });
 
+<<<<<<< HEAD
       if (tooLargeFile)
         return toast.error('File is too large', { richColors: true });
     },
     [maxFiles]
   );
+=======
+    if (tooManyFiles)
+      return toast.error(`You can only upload ${maxFiles} files.`, {
+        richColors: true,
+      });
+
+    if (tooLargeFile)
+      return toast.error('File is too large', { richColors: true });
+  }, []);
+>>>>>>> 8487054194f5ec70b0e77ce50ae5f5aa13d143e7
 
   const accept: Accept = {};
   if (allowImageUpload) accept['image/*'] = [];

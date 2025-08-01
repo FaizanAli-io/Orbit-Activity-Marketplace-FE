@@ -66,7 +66,11 @@ const Page = () => {
       capacity: useActivityFormStore.getState().capacity,
       quota: useActivityFormStore.getState().quota,
     });
+<<<<<<< HEAD
   }, [setStep, router, isPrevFormValid, form]);
+=======
+  }, [setStep, router, isPrevFormValid]);
+>>>>>>> 8487054194f5ec70b0e77ce50ae5f5aa13d143e7
 
   const onSubmit = (data: Data) => {
     setForm(data);

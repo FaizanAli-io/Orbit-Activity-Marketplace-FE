@@ -76,6 +76,7 @@ const Page = () => {
     if (!isForm5Valid()) return router.replace('/activity-form/media');
 
     setStep(6);
+<<<<<<< HEAD
   }, [
     setStep,
     router,
@@ -85,6 +86,9 @@ const Page = () => {
     isForm4Valid,
     isForm5Valid,
   ]);
+=======
+  }, [setStep, router, isForm1Valid, isForm2Valid]);
+>>>>>>> 8487054194f5ec70b0e77ce50ae5f5aa13d143e7
 
   const handlePrev = () => {
     setStep(4);
