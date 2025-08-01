@@ -5,6 +5,8 @@ import { ActivityFormSchema as Data } from './../schema';
 import { HTTP_VERB } from '@/lib/enums/http-verbs';
 import { getAccessToken } from '@/lib/utils/cookies/auth-cookies';
 import { withServerError } from '@/lib/utils/with-server-error';
+import { revalidatePath } from 'next/cache';
+import { getUser } from '@/lib/utils/cookies/user-cookies';
 
 export type Body = {
   name: string;
@@ -71,10 +73,12 @@ export type Body = {
 
 export async function postActivity(data: Body) {
   const authToken = await getAccessToken();
+  const user = await getUser();
 
-  if (!authToken) return { success: false, error: 'Unauthorized', data: null };
+  if (!authToken || !user || user.type !== 'VENDOR')
+    return { success: false, error: 'Unauthorized', data: null };
 
-  return await withServerError(() =>
+  const res = await withServerError(() =>
     apiFetch<Body, Data & { id: number }>('/activities', {
       method: HTTP_VERB.POST,
       data,
@@ -83,4 +87,10 @@ export async function postActivity(data: Body) {
       },
     })
   );
+
+  if (res.success) {
+    revalidatePath('/explore');
+  }
+
+  return res;
 }
