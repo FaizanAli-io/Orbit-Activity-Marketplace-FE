@@ -1,57 +1,161 @@
 import z from 'zod';
 
-export const schema = z.object({
-  title: z
+const timeSchema = z.object({
+  start: z
     .string()
-    .min(4, 'must be atleast 4 characters long')
-    .max(255, 'cannot exceed 255 characters'),
+    .regex(/^([01]\d|2[0-3]):([0-5]\d)$/, 'start time is required'),
 
-  description: z
-    .string()
-    .min(50, 'must be atleast 50 characters long')
-    .max(500, 'cannot exceed 500 characters'),
-  included: z.array(z.string()).min(1),
-
-  location: z
-    .string()
-    .min(2, 'must be atleast 2 characters long')
-    .max(255, 'cannot exceed 255 characters'),
-  price: z.number().positive('cannot be negative'),
-
-  date: z.string().min(1, 'Date is required'),
-
-  time: z.string().min(1, 'Time is required'),
-
-  duration: z
-    .string()
-    .min(1, 'Duration is required')
-    .refine(val => !isNaN(+val) && +val > 0, {
-      message: 'Duration must be a positive number',
-    }),
-
-  members: z
-    .string()
-    .min(1, 'Members is required')
-    .refine(val => !isNaN(+val) && +val > 0, {
-      message: 'Members must be a positive number',
-    }),
+  end: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, 'end time is required'),
 });
+
+export const datesSchema = z.array(
+  z.object({
+    date: z.date(),
+    time: timeSchema.optional(),
+  })
+);
+
+const dateRangeSchema = z.object({
+  start: z.date(),
+  end: z.date(),
+});
+
+const weeklySchema = z.object({
+  days: z.array(z.number().min(0).max(6)).nonempty('Select days'), // 0 = Sunday, 6 = Saturday
+  date: dateRangeSchema,
+  time: timeSchema,
+});
+
+const monthlySchema = z.object({
+  days: z.array(z.number().min(1).max(31)).nonempty('Select days'), // 1 to 31
+  date: dateRangeSchema,
+  time: timeSchema,
+});
+
+export const schema = z
+  .object({
+    // basic details
+    title: z.string().min(4).max(255),
+    description: z.string().min(50).max(500),
+    categoryId: z.string().refine(val => +val > 0, 'Category is required.'),
+    // pricing & capacity
+    price: z
+      .string()
+      .min(1)
+      .refine(val => !isNaN(+val) && +val > 0, {
+        message: 'Members must be a positive number',
+      }),
+
+    discount: z
+      .string()
+      .min(1)
+      .refine(val => !isNaN(+val) && +val > 0 && +val <= 100, {
+        message: 'Members must be between 0 and 100',
+      }),
+
+    quota: z
+      .string()
+      .min(1)
+      .refine(val => !isNaN(+val) && +val > 0, {
+        message: 'Members must be a positive number',
+      }),
+
+    capacity: z
+      .string()
+      .min(1)
+      .refine(val => !isNaN(+val) && +val > 0, {
+        message: 'Members must be a positive number',
+      }),
+
+    // location & duration
+    location: z.string().min(2).max(255),
+    duration: z
+      .string()
+      .min(1)
+      .refine(val => !isNaN(+val) && +val > 0, {
+        message: 'Duration must be a positive number',
+      }),
+
+    // availability
+    type: z.enum(['dates', 'range', 'weekly', 'monthly']),
+    dates: datesSchema.optional(),
+    range: z
+      .object({
+        date: dateRangeSchema,
+        time: timeSchema,
+      })
+      .optional(),
+    weekly: weeklySchema.optional(),
+    monthly: monthlySchema.optional(),
+    exclusions: z.array(z.date()).optional(),
+
+    images: z.object({
+      video: z.string().optional(),
+      thumbnail: z.string().min(1, 'Thumbnail is required'),
+      images: z.array(z.string()).nonempty('Images are required'),
+    }),
+  })
+  .superRefine((data, ctx) => {
+    const { type } = data;
+
+    if (type === 'dates' && !data.dates) {
+      ctx.addIssue({
+        path: ['dates'],
+        message: 'Dates are required',
+      });
+    }
+
+    if (type === 'range' && !data.range) {
+      ctx.addIssue({
+        path: ['range'],
+        message: 'Range is required',
+      });
+    }
+
+    if (type === 'weekly' && !data.weekly) {
+      ctx.addIssue({
+        path: ['weekly'],
+        message: 'Weekly schedule is required',
+      });
+    }
+
+    if (type === 'monthly' && !data.monthly) {
+      ctx.addIssue({
+        path: ['monthly'],
+        message: 'Monthly schedule is required',
+      });
+    }
+  });
 
 export type ActivityFormSchema = z.infer<typeof schema>;
 
-export const basicDetailsSchema = schema.pick({
+export const BasicDetailsSchema = schema.pick({
   title: true,
   description: true,
+  categoryId: true,
 });
 
-export const whatsIncludedSchema = schema.pick({
-  included: true,
+export const PricingNCapacitySchema = schema.pick({
+  price: true,
+  discount: true,
+  capacity: true,
+  quota: true,
 });
 
-export const locationSchema = schema.pick({
+export const LocationNDurationSchema = schema.pick({
   location: true,
-  date: true,
-  time: true,
   duration: true,
-  members: true,
+});
+
+export const ScheduleSchema = schema.pick({
+  type: true,
+  dates: true,
+  range: true,
+  weekly: true,
+  monthly: true,
+  exclusions: true,
+});
+
+export const MediaSchema = schema.pick({
+  images: true,
 });

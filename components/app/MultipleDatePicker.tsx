@@ -9,24 +9,22 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
-import { format } from 'date-fns';
 import { useState } from 'react';
 
-type DatePickerProps = {
-  value?: Date;
-  onChange?: (date?: Date) => void;
+type Props = {
+  values: Date[];
+  onChange: (date?: Date[]) => void;
   className?: string;
   buttonClass?: string;
 };
 
-export function DatePicker({
-  value,
+export function MultipleDatePicker({
+  values,
   onChange,
   className,
   buttonClass,
-}: DatePickerProps) {
+}: Props) {
   const [open, setOpen] = useState(false);
-
   return (
     <div className={cn('flex flex-col gap-3', className)}>
       <Popover open={open} onOpenChange={setOpen}>
@@ -35,20 +33,21 @@ export function DatePicker({
             variant='outline'
             className={cn('w-40 justify-between font-normal', buttonClass)}
             id='date-picker'
+            type='button'
           >
-            {value ? format(value, 'PPP') : 'Select date'}
+            {values.length
+              ? `${values.length} Dates selected`
+              : 'No date selected'}
             <ChevronDownIcon className='ml-2 h-4 w-4' />
           </Button>
         </PopoverTrigger>
         <PopoverContent className='w-auto overflow-hidden p-0' align='start'>
           <Calendar
-            mode='single'
-            selected={value}
-            onSelect={date => {
-              onChange?.(date);
-              setOpen(false);
-            }}
-            captionLayout='dropdown'
+            mode='multiple'
+            required
+            selected={values}
+            onSelect={onChange}
+            className='rounded-lg border shadow-sm'
           />
         </PopoverContent>
       </Popover>

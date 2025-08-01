@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Toaster } from '@/components/ui/sonner';
 
 import './globals.css';
+import ReactQueryProvider from '@/lib/providers/react-query-provider';
 
 export const metadata: Metadata = {
   title: 'Orbit',
@@ -16,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body>
-        {children}
+        <ReactQueryProvider>{children}</ReactQueryProvider>
         <Toaster position='top-center' />
       </body>
     </html>

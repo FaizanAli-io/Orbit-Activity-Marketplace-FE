@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { locationSchema } from '../schema';
+import { LocationNDurationSchema } from '../schema';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -17,20 +17,16 @@ import z from 'zod';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { MoveLeft, MoveRight } from 'lucide-react';
-import { DatePicker } from '@/components/app/DatePicker';
 import { useActivityFormStore } from '../store';
 import FormSkeleton from './FormSkeleton';
 
-type BasicDetails = z.infer<typeof locationSchema>;
+type Data = z.infer<typeof LocationNDurationSchema>;
 
 const Page = () => {
   const setStep = useActivityFormStore(s => s.setCurrentStep);
   const setForm = useActivityFormStore(s => s.setFormData);
 
   const location = useActivityFormStore(s => s.location);
-  const time = useActivityFormStore(s => s.time);
-  const date = useActivityFormStore(s => s.date);
-  const members = useActivityFormStore(s => s.members);
   const duration = useActivityFormStore(s => s.duration);
 
   const isForm1Valid = useActivityFormStore(s => s.isForm1Valid);
@@ -40,25 +36,20 @@ const Page = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const unsub = useActivityFormStore.persist.onFinishHydration(() => {
-      setHydrated(true);
-    });
+    const unsub = useActivityFormStore.persist.onFinishHydration(() =>
+      setHydrated(true)
+    );
 
     // fallback for rare edge cases
-    if (useActivityFormStore.persist.hasHydrated()) {
-      setHydrated(true);
-    }
+    if (useActivityFormStore.persist.hasHydrated()) setHydrated(true);
 
     return unsub;
   }, []);
 
-  const form = useForm<BasicDetails>({
-    resolver: zodResolver(locationSchema),
+  const form = useForm<Data>({
+    resolver: zodResolver(LocationNDurationSchema),
     defaultValues: {
       location,
-      date: date || new Date().toString(),
-      time,
-      members,
       duration,
     },
   });
@@ -67,36 +58,34 @@ const Page = () => {
     if (!useActivityFormStore.persist.hasHydrated()) return;
 
     if (!isForm1Valid()) return router.replace('/activity-form/basic-details');
-    if (!isForm2Valid()) return router.replace('/activity-form/whats-included');
+    if (!isForm2Valid())
+      return router.replace('/activity-form/pricing-and-capacity');
 
     setStep(3);
 
     form.reset({
       location: useActivityFormStore.getState().location,
-      date: useActivityFormStore.getState().date,
-      time: useActivityFormStore.getState().time,
-      members: useActivityFormStore.getState().members,
       duration: useActivityFormStore.getState().duration,
     });
   }, [setStep, router, form, isForm1Valid, isForm2Valid]);
 
-  const onSubmit = (data: BasicDetails) => {
-    setForm(data);
-    setStep(4);
-    router.push('/activity-form/review');
-  };
-
   const handlePrev = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     setStep(3);
-    router.push('/activity-form/whats-included');
+    router.push('/activity-form/pricing-and-capacity');
+  };
+
+  const onSubmit = (data: Data) => {
+    setForm(data);
+    setStep(4);
+    router.push('/activity-form/schedule');
   };
 
   if (!hydrated || !isForm1Valid() || !isForm2Valid()) return <FormSkeleton />;
 
   return (
     <div>
-      <h1 className='font-bold text-3xl'>Location & Schedule</h1>
+      <h1 className='font-bold text-3xl'>Location & Duration</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className=' my-10'>
           <div className='p-5 rounded-lg shadow-xs bg-white space-y-5'>
@@ -113,12 +102,13 @@ const Page = () => {
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
-              name='members'
+              name='duration'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Members Capacity</FormLabel>
+                  <FormLabel>Duration </FormLabel>
                   <FormControl>
                     <Input {...field} type='number' />
                   </FormControl>
@@ -126,54 +116,6 @@ const Page = () => {
                 </FormItem>
               )}
             />
-
-            <div className='flex space-x-2'>
-              <FormField
-                control={form.control}
-                name='date'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Date</FormLabel>
-                    <FormControl>
-                      <DatePicker
-                        onChange={field.onChange}
-                        value={new Date(field.value)}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name='time'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Time</FormLabel>
-                    <FormControl>
-                      {/* <TimePicker onChange={field.onChange} value={field.value} /> */}
-                      <Input {...field} type='time' />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name='duration'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Duration (in minutes)</FormLabel>
-                    <FormControl>
-                      <Input {...field} type='number' />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
           </div>
 
           <div className='flex justify-between my-10'>
@@ -182,11 +124,12 @@ const Page = () => {
               variant='outline'
               onClick={handlePrev}
             >
-              <MoveLeft /> Whats Included
+              <MoveLeft />
+              Pricing & Capacity
             </Button>
 
             <Button className='cursor-pointer' type='submit'>
-              Review
+              Schedule
               <MoveRight />
             </Button>
           </div>

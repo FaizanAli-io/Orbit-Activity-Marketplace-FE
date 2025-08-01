@@ -16,7 +16,12 @@ interface Props {
   maxSizeInMbs?: number;
   allowImageUpload?: boolean;
   allowVideoUpload?: boolean;
-  setUrls?: React.Dispatch<React.SetStateAction<string[]>>;
+  setUrls?: (url: string[]) => void;
+  setUrl?: (url: string) => void;
+  imageUrls?: string[];
+  imageUrl?: string;
+  videoUrl?: string;
+  removeUrl?: (url: string) => void;
 }
 
 type FileType = Array<{
@@ -31,11 +36,16 @@ type FileType = Array<{
 }>;
 
 const Uploader = ({
-  maxFiles,
-  maxSizeInMbs,
-  setUrls,
+  maxFiles = 100,
+  maxSizeInMbs = 100,
   allowImageUpload = true,
   allowVideoUpload = false,
+  setUrls,
+  setUrl,
+  removeUrl,
+  imageUrls = [],
+  imageUrl = '',
+  videoUrl = '',
 }: Props) => {
   const [files, setFiles] = useState<FileType>([]);
 
@@ -73,10 +83,6 @@ const Uploader = ({
 
         return;
       }
-
-      const target = files.find(f => f.id === fileId);
-      if (setUrls && target && target.objectUrl)
-        setUrls(prev => prev.filter(url => url !== target.objectUrl));
 
       setFiles(prev => prev.filter(f => f.id !== fileId));
 
@@ -128,33 +134,32 @@ const Uploader = ({
           if (e.lengthComputable) {
             const progress = (e.loaded / e.total) * 100;
 
-            setFiles(prev =>
-              prev.map(f =>
-                f.file === file
-                  ? {
-                      ...f,
-                      progress: Math.round(progress),
-                      key,
-                      uploading: true,
-                    }
-                  : { ...f }
-              )
-            );
+            setFiles(prev => {
+              return prev.map(f => {
+                if (f.file === file) {
+                  return {
+                    ...f,
+                    progress: Math.round(progress),
+                    key,
+                    uploading: true,
+                  };
+                }
+
+                return { ...f };
+              });
+            });
           }
         };
 
+        // In the uploadFile function, modify the success case:
         xhr.onload = () => {
           if (xhr.status === 200 || xhr.status === 204) {
             setFiles(prev =>
               prev.map(f => {
                 if (f.file === file) {
                   const objectUrl = f.key ? getS3Url(f.key) : f.objectUrl!;
-                  if (setUrls)
-                    setUrls(prev => {
-                      if (prev.includes(objectUrl)) return [...prev];
-
-                      return [...prev, objectUrl];
-                    });
+                  if (objectUrl && setUrl) setUrl(objectUrl);
+                  if (setUrls && objectUrl) setUrls([...imageUrls, objectUrl]);
 
                   return {
                     ...f,
@@ -175,6 +180,9 @@ const Uploader = ({
           }
         };
 
+        // Remove this line from onDrop:
+        // if (setUrls) setUrls([...imageUrls, ...newFiles.map(f => f.objectUrl!)]);
+
         xhr.upload.onerror = () => {
           reject(new Error('Upload failed'));
         };
@@ -191,6 +199,12 @@ const Uploader = ({
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
       if (!acceptedFiles.length) return;
+
+      // if (files.length + imageUrls.length + videoUrls.length >= maxFiles)
+      if (files.length >= maxFiles)
+        return toast.error(`You cannot upload more than ${maxFiles} file(s)`, {
+          richColors: true,
+        });
 
       const newFiles: FileType = acceptedFiles.map(file => ({
         id: uuid(),
@@ -212,8 +226,6 @@ const Uploader = ({
   const onDropRejected = useCallback((rejectedFiles: FileRejection[]) => {
     if (!rejectedFiles.length) return;
 
-    console.log(rejectedFiles);
-
     const invalidFileType = rejectedFiles.find(
       fileRejection => fileRejection.errors[0].code === 'file-invalid-type'
     );
@@ -230,7 +242,7 @@ const Uploader = ({
       return toast.error('File type not supported', { richColors: true });
 
     if (tooManyFiles)
-      return toast.error('You can only upload 5 files at a time', {
+      return toast.error(`You can only upload ${maxFiles} files.`, {
         richColors: true,
       });
 
@@ -279,6 +291,61 @@ const Uploader = ({
       </Card>
 
       <div className='grid grid-cols-2 md:grid-cols-4 mt-6 gap-4 mb-24'>
+        {imageUrl && !files.length && (
+          <div className='relative aspect-square rounded-lg overflow-hidden'>
+            <img src={imageUrl} className='w-full h-full object-cover' />
+
+            <Button
+              variant='destructive'
+              size='icon'
+              className='cursor-pointer absolute top-2 right-2'
+              onClick={() => {
+                if (setUrl) setUrl('');
+              }}
+            >
+              <Trash2 className='size-4' />
+            </Button>
+          </div>
+        )}
+
+        {imageUrls
+          .filter(url => url && !files.some(f => f.objectUrl === url))
+          .map((url, i) => (
+            <div
+              className='relative aspect-square rounded-lg overflow-hidden'
+              key={i}
+            >
+              <img src={url} className='w-full h-full object-cover' />
+
+              <Button
+                variant='destructive'
+                size='icon'
+                className='cursor-pointer absolute top-2 right-2'
+                onClick={() => {
+                  if (removeUrl && url) removeUrl(url);
+                }}
+              >
+                <Trash2 className='size-4' />
+              </Button>
+            </div>
+          ))}
+
+        {videoUrl && !files.length && (
+          <div className='relative aspect-square rounded-lg overflow-hidden'>
+            <video controls className='w-full h-full object-cover'>
+              <source src={videoUrl} />
+            </video>
+
+            <Button
+              variant='destructive'
+              size='icon'
+              className='cursor-pointer absolute top-2 right-2'
+            >
+              <Trash2 className='size-4' />
+            </Button>
+          </div>
+        )}
+
         {files.map(file => (
           <div key={file.id} className='flex flex-col gap-1'>
             <div className='relative aspect-square rounded-lg overflow-hidden'>
@@ -300,7 +367,12 @@ const Uploader = ({
                 variant='destructive'
                 size='icon'
                 className='cursor-pointer absolute top-2 right-2'
-                onClick={() => removeFile(file.id)}
+                onClick={e => {
+                  e.preventDefault();
+                  removeFile(file.id);
+                  if (setUrl) setUrl('');
+                  if (removeUrl && file.objectUrl) removeUrl(file.objectUrl);
+                }}
                 disabled={file.uploading || file.isDeleting}
               >
                 {file.isDeleting ? (

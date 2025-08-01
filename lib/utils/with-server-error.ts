@@ -3,6 +3,7 @@ export async function withServerError<T>(fn: () => Promise<T>) {
     const data = await fn();
     return { success: true, data } as const;
   } catch (err: unknown) {
+    console.log(err);
     const message =
       err instanceof Error
         ? err.message
