@@ -24,9 +24,10 @@ interface Props {
   options: Option[];
   value: string;
   onChange: (value: string) => void;
+  width?: string;
 }
 
-export function Combobox({ options, value, onChange }: Props) {
+export function Combobox({ options, value, onChange, width = '200px' }: Props) {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -36,7 +37,7 @@ export function Combobox({ options, value, onChange }: Props) {
           variant='outline'
           role='combobox'
           aria-expanded={open}
-          className='w-[200px] justify-between'
+          className={`w-[${width}] justify-between`}
         >
           {value
             ? options.find(option => option.value === value)?.label
@@ -44,7 +45,7 @@ export function Combobox({ options, value, onChange }: Props) {
           <ChevronsUpDown className='opacity-50' />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='w-[200px] p-0'>
+      <PopoverContent className={`w-[${width}] p-0`}>
         <Command>
           <CommandInput placeholder='Search option...' className='h-9' />
           <CommandList>

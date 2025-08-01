@@ -1,9 +1,11 @@
 import { Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
 export interface Step {
   title: string;
   description: string;
+  href?: string;
 }
 
 interface StepperProps {
@@ -59,7 +61,13 @@ export default function Stepper({
                     'text-gray-400': upcoming,
                   })}
                 >
-                  {step.title}
+                  {step.href ? (
+                    <Link href={step.href} className='underline'>
+                      {step.title}
+                    </Link>
+                  ) : (
+                    step.title
+                  )}
                 </h3>
                 <p
                   className={cn('mt-1 text-sm', {

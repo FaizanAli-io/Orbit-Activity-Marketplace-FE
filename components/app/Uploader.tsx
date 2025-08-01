@@ -16,7 +16,12 @@ interface Props {
   maxSizeInMbs?: number;
   allowImageUpload?: boolean;
   allowVideoUpload?: boolean;
-  setUrls?: React.Dispatch<React.SetStateAction<string[]>>;
+  setUrls?: (url: string[]) => void;
+  setUrl?: (url: string) => void;
+  imageUrls?: string[];
+  imageUrl?: string;
+  videoUrl?: string;
+  removeUrl?: (url: string) => void;
 }
 
 type FileType = Array<{
@@ -31,11 +36,16 @@ type FileType = Array<{
 }>;
 
 const Uploader = ({
-  maxFiles,
-  maxSizeInMbs,
-  setUrls,
+  maxFiles = 100,
+  maxSizeInMbs = 100,
   allowImageUpload = true,
   allowVideoUpload = false,
+  setUrls,
+  setUrl,
+  removeUrl,
+  imageUrls = [],
+  imageUrl = '',
+  videoUrl = '',
 }: Props) => {
   const [files, setFiles] = useState<FileType>([]);
 
@@ -74,10 +84,6 @@ const Uploader = ({
         return;
       }
 
-      const target = files.find(f => f.id === fileId);
-      if (setUrls && target && target.objectUrl)
-        setUrls(prev => prev.filter(url => url !== target.objectUrl));
-
       setFiles(prev => prev.filter(f => f.id !== fileId));
 
       toast.success('File deleted');
@@ -91,106 +97,118 @@ const Uploader = ({
     }
   };
 
-  const uploadFile = async (file: File) => {
-    setFiles(prev =>
-      prev.map(f => (f.file === file ? { ...f, uploading: true } : { ...f }))
-    );
+  const uploadFile = useCallback(
+    () => async (file: File) => {
+      setFiles(prev =>
+        prev.map(f => (f.file === file ? { ...f, uploading: true } : { ...f }))
+      );
 
-    try {
-      const presignedUrlRes = await fetch('/api/s3/upload', {
-        method: HTTP_VERB.POST,
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          fileName: file.name.replace(/\s+/g, '-'),
-          contentType: file.type,
-          size: file.size,
-        }),
-      });
+      try {
+        const presignedUrlRes = await fetch('/api/s3/upload', {
+          method: HTTP_VERB.POST,
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            fileName: file.name.replace(/\s+/g, '-'),
+            contentType: file.type,
+            size: file.size,
+          }),
+        });
 
-      if (!presignedUrlRes.ok) {
-        toast.error('Failed to get presigned URL', { richColors: true });
+        if (!presignedUrlRes.ok) {
+          toast.error('Failed to get presigned URL', { richColors: true });
 
-        setFiles(prev =>
-          prev.map(f =>
-            f.file === file
-              ? { ...f, uploading: false, progress: 0, error: true }
-              : { ...f }
-          )
-        );
-        return;
-      }
+          setFiles(prev =>
+            prev.map(f =>
+              f.file === file
+                ? { ...f, uploading: false, progress: 0, error: true }
+                : { ...f }
+            )
+          );
+          return;
+        }
 
-      const { presignedUrl, key } = await presignedUrlRes.json();
-      await new Promise<void>((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
+        const { presignedUrl, key } = await presignedUrlRes.json();
+        await new Promise<void>((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
 
-        xhr.upload.onprogress = e => {
-          if (e.lengthComputable) {
-            const progress = (e.loaded / e.total) * 100;
+          xhr.upload.onprogress = e => {
+            if (e.lengthComputable) {
+              const progress = (e.loaded / e.total) * 100;
 
-            setFiles(prev =>
-              prev.map(f =>
-                f.file === file
-                  ? {
+              setFiles(prev => {
+                return prev.map(f => {
+                  if (f.file === file) {
+                    return {
                       ...f,
                       progress: Math.round(progress),
                       key,
                       uploading: true,
-                    }
-                  : { ...f }
-              )
-            );
-          }
-        };
+                    };
+                  }
 
-        xhr.onload = () => {
-          if (xhr.status === 200 || xhr.status === 204) {
-            setFiles(prev =>
-              prev.map(f => {
-                if (f.file === file) {
-                  const objectUrl = f.key ? getS3Url(f.key) : f.objectUrl!;
-                  if (setUrls)
-                    setUrls(prev => {
-                      if (prev.includes(objectUrl)) return [...prev];
+                  return { ...f };
+                });
+              });
+            }
+          };
 
-                      return [...prev, objectUrl];
-                    });
+          // In the uploadFile function, modify the success case:
+          xhr.onload = () => {
+            if (xhr.status === 200 || xhr.status === 204) {
+              setFiles(prev =>
+                prev.map(f => {
+                  if (f.file === file) {
+                    const objectUrl = f.key ? getS3Url(f.key) : f.objectUrl!;
+                    if (objectUrl && setUrl) setUrl(objectUrl);
+                    if (setUrls && objectUrl)
+                      setUrls([...imageUrls, objectUrl]);
 
-                  return {
-                    ...f,
-                    progress: 100,
-                    uploading: false,
-                    error: false,
-                    objectUrl,
-                  };
-                }
+                    return {
+                      ...f,
+                      progress: 100,
+                      uploading: false,
+                      error: false,
+                      objectUrl,
+                    };
+                  }
 
-                return { ...f };
-              })
-            );
+                  return { ...f };
+                })
+              );
 
-            resolve();
-          } else {
-            reject(new Error(`Upload failed with a status of ${xhr.status}`));
-          }
-        };
+              resolve();
+            } else {
+              reject(new Error(`Upload failed with a status of ${xhr.status}`));
+            }
+          };
 
-        xhr.upload.onerror = () => {
-          reject(new Error('Upload failed'));
-        };
+          // Remove this line from onDrop:
+          // if (setUrls) setUrls([...imageUrls, ...newFiles.map(f => f.objectUrl!)]);
 
-        xhr.open(HTTP_VERB.PUT, presignedUrl);
-        xhr.setRequestHeader('Content-Type', file.type);
-        xhr.send(file);
-      });
-    } catch {
-      toast.error('Upload failed', { richColors: true });
-    }
-  };
+          xhr.upload.onerror = () => {
+            reject(new Error('Upload failed'));
+          };
+
+          xhr.open(HTTP_VERB.PUT, presignedUrl);
+          xhr.setRequestHeader('Content-Type', file.type);
+          xhr.send(file);
+        });
+      } catch {
+        toast.error('Upload failed', { richColors: true });
+      }
+    },
+    [imageUrls, setUrl, setUrls]
+  );
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
       if (!acceptedFiles.length) return;
+
+      // if (files.length + imageUrls.length + videoUrls.length >= maxFiles)
+      if (files.length >= maxFiles)
+        return toast.error(`You cannot upload more than ${maxFiles} file(s)`, {
+          richColors: true,
+        });
 
       const newFiles: FileType = acceptedFiles.map(file => ({
         id: uuid(),
@@ -206,37 +224,38 @@ const Uploader = ({
 
       acceptedFiles.forEach(uploadFile);
     },
-    [uploadFile]
+    [uploadFile, files.length, maxFiles]
   );
 
-  const onDropRejected = useCallback((rejectedFiles: FileRejection[]) => {
-    if (!rejectedFiles.length) return;
+  const onDropRejected = useCallback(
+    (rejectedFiles: FileRejection[]) => {
+      if (!rejectedFiles.length) return;
 
-    console.log(rejectedFiles);
+      const invalidFileType = rejectedFiles.find(
+        fileRejection => fileRejection.errors[0].code === 'file-invalid-type'
+      );
 
-    const invalidFileType = rejectedFiles.find(
-      fileRejection => fileRejection.errors[0].code === 'file-invalid-type'
-    );
+      const tooManyFiles = rejectedFiles.find(
+        fileRejection => fileRejection.errors[0].code === 'too-many-files'
+      );
 
-    const tooManyFiles = rejectedFiles.find(
-      fileRejection => fileRejection.errors[0].code === 'too-many-files'
-    );
+      const tooLargeFile = rejectedFiles.find(
+        fileRejection => fileRejection.errors[0].code === 'file-too-large'
+      );
 
-    const tooLargeFile = rejectedFiles.find(
-      fileRejection => fileRejection.errors[0].code === 'file-too-large'
-    );
+      if (invalidFileType)
+        return toast.error('File type not supported', { richColors: true });
 
-    if (invalidFileType)
-      return toast.error('File type not supported', { richColors: true });
+      if (tooManyFiles)
+        return toast.error(`You can only upload ${maxFiles} files.`, {
+          richColors: true,
+        });
 
-    if (tooManyFiles)
-      return toast.error('You can only upload 5 files at a time', {
-        richColors: true,
-      });
-
-    if (tooLargeFile)
-      return toast.error('File is too large', { richColors: true });
-  }, []);
+      if (tooLargeFile)
+        return toast.error('File is too large', { richColors: true });
+    },
+    [maxFiles]
+  );
 
   const accept: Accept = {};
   if (allowImageUpload) accept['image/*'] = [];
@@ -279,6 +298,61 @@ const Uploader = ({
       </Card>
 
       <div className='grid grid-cols-2 md:grid-cols-4 mt-6 gap-4 mb-24'>
+        {imageUrl && !files.length && (
+          <div className='relative aspect-square rounded-lg overflow-hidden'>
+            <img src={imageUrl} className='w-full h-full object-cover' />
+
+            <Button
+              variant='destructive'
+              size='icon'
+              className='cursor-pointer absolute top-2 right-2'
+              onClick={() => {
+                if (setUrl) setUrl('');
+              }}
+            >
+              <Trash2 className='size-4' />
+            </Button>
+          </div>
+        )}
+
+        {imageUrls
+          .filter(url => url && !files.some(f => f.objectUrl === url))
+          .map((url, i) => (
+            <div
+              className='relative aspect-square rounded-lg overflow-hidden'
+              key={i}
+            >
+              <img src={url} className='w-full h-full object-cover' />
+
+              <Button
+                variant='destructive'
+                size='icon'
+                className='cursor-pointer absolute top-2 right-2'
+                onClick={() => {
+                  if (removeUrl && url) removeUrl(url);
+                }}
+              >
+                <Trash2 className='size-4' />
+              </Button>
+            </div>
+          ))}
+
+        {videoUrl && !files.length && (
+          <div className='relative aspect-square rounded-lg overflow-hidden'>
+            <video controls className='w-full h-full object-cover'>
+              <source src={videoUrl} />
+            </video>
+
+            <Button
+              variant='destructive'
+              size='icon'
+              className='cursor-pointer absolute top-2 right-2'
+            >
+              <Trash2 className='size-4' />
+            </Button>
+          </div>
+        )}
+
         {files.map(file => (
           <div key={file.id} className='flex flex-col gap-1'>
             <div className='relative aspect-square rounded-lg overflow-hidden'>
@@ -300,7 +374,12 @@ const Uploader = ({
                 variant='destructive'
                 size='icon'
                 className='cursor-pointer absolute top-2 right-2'
-                onClick={() => removeFile(file.id)}
+                onClick={e => {
+                  e.preventDefault();
+                  removeFile(file.id);
+                  if (setUrl) setUrl('');
+                  if (removeUrl && file.objectUrl) removeUrl(file.objectUrl);
+                }}
                 disabled={file.uploading || file.isDeleting}
               >
                 {file.isDeleting ? (

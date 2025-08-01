@@ -7,6 +7,11 @@ const FormSkeleton = () => {
       <Skeleton className='w-56 h-10' />
       <div className='space-y-2 mb-5 mt-10'>
         <Skeleton className='w-15 h-5' />
+        <Skeleton className='w-72 h-10' />
+        <Skeleton className='w-72 h-10 mt-1 ml-20' />
+      </div>
+      <div className='space-y-2 mb-5 mt-10'>
+        <Skeleton className='w-15 h-5' />
         <Skeleton className='w-full h-10' />
       </div>
       <div className='space-y-2'>
