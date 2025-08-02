@@ -10,3 +10,11 @@ export async function getActivities() {
     })
   );
 }
+
+export async function getActivity(id: number) {
+  return await withServerError(() =>
+    apiFetch<unknown, Activity>(`/activities/${id}`, {
+      method: HTTP_VERB.GET,
+    })
+  );
+}

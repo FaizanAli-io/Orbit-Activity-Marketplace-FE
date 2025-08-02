@@ -97,73 +97,43 @@ const Uploader = ({
     }
   };
 
-  const uploadFile = useCallback(
-    () => async (file: File) => {
-      setFiles(prev =>
-        prev.map(f => (f.file === file ? { ...f, uploading: true } : { ...f }))
-      );
+  const uploadFile = async (file: File) => {
+    setFiles(prev =>
+      prev.map(f => (f.file === file ? { ...f, uploading: true } : { ...f }))
+    );
 
-      try {
-        const presignedUrlRes = await fetch('/api/s3/upload', {
-          method: HTTP_VERB.POST,
-          headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({
-            fileName: file.name.replace(/\s+/g, '-'),
-            contentType: file.type,
-            size: file.size,
-          }),
-        });
+    try {
+      const presignedUrlRes = await fetch('/api/s3/upload', {
+        method: HTTP_VERB.POST,
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          fileName: file.name.replace(/\s+/g, '-'),
+          contentType: file.type,
+          size: file.size,
+        }),
+      });
 
-        if (!presignedUrlRes.ok) {
-          toast.error('Failed to get presigned URL', { richColors: true });
+      if (!presignedUrlRes.ok) {
+        toast.error('Failed to get presigned URL', { richColors: true });
 
-          setFiles(prev =>
-            prev.map(f =>
-              f.file === file
-                ? { ...f, uploading: false, progress: 0, error: true }
-                : { ...f }
-            )
-          );
-          return;
-        }
+        setFiles(prev =>
+          prev.map(f =>
+            f.file === file
+              ? { ...f, uploading: false, progress: 0, error: true }
+              : { ...f }
+          )
+        );
+        return;
+      }
 
-        const { presignedUrl, key } = await presignedUrlRes.json();
-        await new Promise<void>((resolve, reject) => {
-          const xhr = new XMLHttpRequest();
+      const { presignedUrl, key } = await presignedUrlRes.json();
+      await new Promise<void>((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
 
-          xhr.upload.onprogress = e => {
-            if (e.lengthComputable) {
-              const progress = (e.loaded / e.total) * 100;
+        xhr.upload.onprogress = e => {
+          if (e.lengthComputable) {
+            const progress = (e.loaded / e.total) * 100;
 
-<<<<<<< HEAD
-              setFiles(prev => {
-                return prev.map(f => {
-                  if (f.file === file) {
-                    return {
-                      ...f,
-                      progress: Math.round(progress),
-                      key,
-                      uploading: true,
-                    };
-                  }
-
-                  return { ...f };
-                });
-              });
-            }
-          };
-
-          // In the uploadFile function, modify the success case:
-          xhr.onload = () => {
-            if (xhr.status === 200 || xhr.status === 204) {
-              setFiles(prev =>
-                prev.map(f => {
-                  if (f.file === file) {
-                    const objectUrl = f.key ? getS3Url(f.key) : f.objectUrl!;
-                    if (objectUrl && setUrl) setUrl(objectUrl);
-                    if (setUrls && objectUrl)
-                      setUrls([...imageUrls, objectUrl]);
-=======
             setFiles(prev => {
               return prev.map(f => {
                 if (f.file === file) {
@@ -190,53 +160,41 @@ const Uploader = ({
                   const objectUrl = f.key ? getS3Url(f.key) : f.objectUrl!;
                   if (objectUrl && setUrl) setUrl(objectUrl);
                   if (setUrls && objectUrl) setUrls([...imageUrls, objectUrl]);
->>>>>>> 8487054194f5ec70b0e77ce50ae5f5aa13d143e7
 
-                    return {
-                      ...f,
-                      progress: 100,
-                      uploading: false,
-                      error: false,
-                      objectUrl,
-                    };
-                  }
+                  return {
+                    ...f,
+                    progress: 100,
+                    uploading: false,
+                    error: false,
+                    objectUrl,
+                  };
+                }
 
-                  return { ...f };
-                })
-              );
+                return { ...f };
+              })
+            );
 
-              resolve();
-            } else {
-              reject(new Error(`Upload failed with a status of ${xhr.status}`));
-            }
-          };
+            resolve();
+          } else {
+            reject(new Error(`Upload failed with a status of ${xhr.status}`));
+          }
+        };
 
-<<<<<<< HEAD
-          // Remove this line from onDrop:
-          // if (setUrls) setUrls([...imageUrls, ...newFiles.map(f => f.objectUrl!)]);
-=======
         // Remove this line from onDrop:
         // if (setUrls) setUrls([...imageUrls, ...newFiles.map(f => f.objectUrl!)]);
 
         xhr.upload.onerror = () => {
           reject(new Error('Upload failed'));
         };
->>>>>>> 8487054194f5ec70b0e77ce50ae5f5aa13d143e7
 
-          xhr.upload.onerror = () => {
-            reject(new Error('Upload failed'));
-          };
-
-          xhr.open(HTTP_VERB.PUT, presignedUrl);
-          xhr.setRequestHeader('Content-Type', file.type);
-          xhr.send(file);
-        });
-      } catch {
-        toast.error('Upload failed', { richColors: true });
-      }
-    },
-    [imageUrls, setUrl, setUrls]
-  );
+        xhr.open(HTTP_VERB.PUT, presignedUrl);
+        xhr.setRequestHeader('Content-Type', file.type);
+        xhr.send(file);
+      });
+    } catch {
+      toast.error('Upload failed', { richColors: true });
+    }
+  };
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -262,46 +220,27 @@ const Uploader = ({
 
       acceptedFiles.forEach(uploadFile);
     },
-    [uploadFile, files.length, maxFiles]
+    [uploadFile]
   );
 
-  const onDropRejected = useCallback(
-    (rejectedFiles: FileRejection[]) => {
-      if (!rejectedFiles.length) return;
+  const onDropRejected = useCallback((rejectedFiles: FileRejection[]) => {
+    if (!rejectedFiles.length) return;
 
-<<<<<<< HEAD
-      const invalidFileType = rejectedFiles.find(
-        fileRejection => fileRejection.errors[0].code === 'file-invalid-type'
-      );
-
-      const tooManyFiles = rejectedFiles.find(
-        fileRejection => fileRejection.errors[0].code === 'too-many-files'
-      );
-=======
     const invalidFileType = rejectedFiles.find(
       fileRejection => fileRejection.errors[0].code === 'file-invalid-type'
     );
->>>>>>> 8487054194f5ec70b0e77ce50ae5f5aa13d143e7
 
-      const tooLargeFile = rejectedFiles.find(
-        fileRejection => fileRejection.errors[0].code === 'file-too-large'
-      );
+    const tooManyFiles = rejectedFiles.find(
+      fileRejection => fileRejection.errors[0].code === 'too-many-files'
+    );
 
-      if (invalidFileType)
-        return toast.error('File type not supported', { richColors: true });
+    const tooLargeFile = rejectedFiles.find(
+      fileRejection => fileRejection.errors[0].code === 'file-too-large'
+    );
 
-      if (tooManyFiles)
-        return toast.error(`You can only upload ${maxFiles} files.`, {
-          richColors: true,
-        });
+    if (invalidFileType)
+      return toast.error('File type not supported', { richColors: true });
 
-<<<<<<< HEAD
-      if (tooLargeFile)
-        return toast.error('File is too large', { richColors: true });
-    },
-    [maxFiles]
-  );
-=======
     if (tooManyFiles)
       return toast.error(`You can only upload ${maxFiles} files.`, {
         richColors: true,
@@ -310,7 +249,6 @@ const Uploader = ({
     if (tooLargeFile)
       return toast.error('File is too large', { richColors: true });
   }, []);
->>>>>>> 8487054194f5ec70b0e77ce50ae5f5aa13d143e7
 
   const accept: Accept = {};
   if (allowImageUpload) accept['image/*'] = [];

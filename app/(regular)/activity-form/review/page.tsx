@@ -13,10 +13,11 @@ import {
 import { useActivityFormStore } from '../store';
 import ReviewSkeleton from './ReviewSkeleton';
 import { useCategories } from '@/lib/data/categories/use-categories';
-import ScheduleCard from './ScheduleCard';
 import { MasonryGallery, MediaItem } from '@/components/app/MasonaryGallery';
 import { postActivity } from './action';
 import { toast } from 'sonner';
+import ScheduleCard from './ScheduleCard';
+import { formatCurrency } from '@/lib/utils';
 
 const Page = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -76,7 +77,6 @@ const Page = () => {
     if (!isForm5Valid()) return router.replace('/activity-form/media');
 
     setStep(6);
-<<<<<<< HEAD
   }, [
     setStep,
     router,
@@ -86,9 +86,6 @@ const Page = () => {
     isForm4Valid,
     isForm5Valid,
   ]);
-=======
-  }, [setStep, router, isForm1Valid, isForm2Valid]);
->>>>>>> 8487054194f5ec70b0e77ce50ae5f5aa13d143e7
 
   const handlePrev = () => {
     setStep(4);
@@ -157,11 +154,6 @@ const Page = () => {
   const subCategories = categories?.map(c => c.subcategories).flat();
   const category = subCategories?.find(c => c.id === +categoryId);
 
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  });
-
   if (
     !hydrated ||
     !isForm1Valid() ||
@@ -177,7 +169,7 @@ const Page = () => {
       <div className='flex justify-between items-center'>
         <h1 className='font-bold text-4xl'>{title}</h1>
         <h1 className='font-bold text-4xl'>
-          {formatter.format(parseFloat(price))}
+          {formatCurrency(parseFloat(price))}
         </h1>
       </div>
       <div className='flex items-center space-x-7 text-muted-foreground mb-3'>

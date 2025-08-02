@@ -4,15 +4,17 @@ import { Button } from '@/components/ui/button';
 import { HeartIcon } from 'lucide-react';
 import { DrawerDialog } from '@/components/app/DrawerDialog';
 import { PaymentForm } from './payment-form';
+import { formatCurrency } from '@/lib/utils';
 
-const PriceCard = () => {
+interface Props {
+  price: number;
+}
+
+const PriceCard = ({ price }: Props) => {
   return (
     <div className='borded max-h-min p-5 space-y-4 shadow-xs  rounded-lg py-8 bg-white'>
       <h2 className='text-5xl font-bold text-center'>
-        $55{' '}
-        <span className='text-muted-foreground text-lg font-normal'>
-          / person
-        </span>
+        {formatCurrency(price)}
       </h2>
 
       <DrawerDialog

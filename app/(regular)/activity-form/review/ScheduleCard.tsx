@@ -19,16 +19,11 @@ const ScheduleCard = ({ dates, range, weekly, monthly }: Props) => {
     return (
       <div className='divide-y divide-gray-300'>
         <h2 className='font-semibold text-2xl pb-5'>Schedule</h2>
-<<<<<<< HEAD
         {dates.map(({ date, time }, i) => (
           <div
             className='p-5 flex justify-between items-center text-muted-foreground'
             key={i}
           >
-=======
-        {dates.map(({ date, time }) => (
-          <div className='p-5 flex justify-between items-center text-muted-foreground'>
->>>>>>> 8487054194f5ec70b0e77ce50ae5f5aa13d143e7
             <div>
               <p>{formatDate(new Date(date))}</p>
               <p>

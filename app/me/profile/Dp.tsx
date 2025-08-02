@@ -3,7 +3,11 @@ import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 
-const Dp = () => {
+interface Props {
+  src?: string;
+}
+
+const Dp = ({ src }: Props) => {
   return (
     <div className='flex items-center space-x-5'>
       <div className='-translate-y-2.5'>
@@ -11,7 +15,10 @@ const Dp = () => {
           Profile Picture
         </p>
         <Avatar className='h-24 w-25'>
-          <AvatarImage className='object-cover' src='/images/dp.jpg' />
+          <AvatarImage
+            className='object-cover'
+            src={src ? src : '/images/dp.jpg'}
+          />
           <AvatarFallback>DP</AvatarFallback>
         </Avatar>
       </div>

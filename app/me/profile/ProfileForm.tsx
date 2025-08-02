@@ -15,17 +15,26 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
+import PreferencesBadges from '@/app/(regular)/getting-started/PreferencesBadges';
 
+interface Props {
+  data: {
+    name?: string;
+    phone?: string;
+    preferences?: number[];
+    email: string;
+  };
+}
 type Data = z.infer<typeof profileSchema>;
 
-const ProfileForm = () => {
+const ProfileForm = ({ data: { name, phone, preferences, email } }: Props) => {
   const form = useForm<Data>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      name: 'Keivn Heart',
-      email: 'kevin.heart@orbit.com',
-      phone: '+92317823875',
-      bio: '',
+      name: name || '',
+      email: email || '',
+      phone: phone || '',
+      preferences: preferences || [],
     },
   });
 
@@ -74,19 +83,21 @@ const ProfileForm = () => {
         />
         <FormField
           control={form.control}
-          name='bio'
+          name='preferences'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>About me</FormLabel>
+              <FormLabel>Preferences</FormLabel>
               <FormControl>
-                <Textarea {...field} />
+                <PreferencesBadges
+                  selected={field.value}
+                  onChange={field.onChange}
+                />
               </FormControl>
             </FormItem>
           )}
         />
-        <div className='flex justify-end mt-15'>
-          <Button>Save changes</Button>
-        </div>
+
+        <Button type='submit'>Save changes</Button>
       </form>
     </Form>
   );

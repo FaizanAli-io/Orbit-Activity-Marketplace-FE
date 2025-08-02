@@ -13,5 +13,8 @@ export const profileSchema = z.object({
     .trim()
     .regex(/^\+?[0-9]{10,15}$/, 'Invalid phone number format'),
 
-  bio: z.string().optional(),
+  preferences: z
+    .array(z.number())
+    .min(3, 'select 3 preferences')
+    .max(3, 'cannot select more than 3 preferences'),
 });

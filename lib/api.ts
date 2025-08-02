@@ -20,7 +20,7 @@ export async function apiFetch<TBody, TResponse = unknown>(
   });
 
   if (!res.ok) {
-    console.log(res);
+    // console.log(res);
     const err = await res.json();
     throw new Error(err.message);
   }

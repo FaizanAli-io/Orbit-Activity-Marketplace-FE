@@ -1,18 +1,12 @@
-import {
-  Clock3Icon,
-  HeartIcon,
-  MapPin,
-  StarIcon,
-  Users2Icon,
-} from 'lucide-react';
-import Image from 'next/image';
-import React from 'react';
-import { Button } from '../../ui/button';
-import { Badge } from '../../ui/badge';
-import Link from 'next/link';
+import { Clock3Icon, HeartIcon, MapPin, Users2Icon } from 'lucide-react';
+
 import { Activity } from '@/lib/data/activities/types';
+import { Button } from '../../ui/button';
 import { getFirstWords } from '@/lib/utils';
 import ActivityBadge from './ActivityBadge';
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
 
 const ActivityCard = ({
   id,
