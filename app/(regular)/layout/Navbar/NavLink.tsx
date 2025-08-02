@@ -10,10 +10,7 @@ const NavLink = ({ href = '#', className, children, ...props }: Props) => {
   return (
     <Link
       href={href}
-      className={cn(
-        'text-gray-500 hover:bg-gray-100 p-2 rounded-md  dark:text-gray-400 dark:hover:text-gray-50',
-        className
-      )}
+      className={cn(' p-2 rounded-md tracking-wider font-semibold', className)}
       prefetch={false}
       {...props}
     >
