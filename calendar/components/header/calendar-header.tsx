@@ -1,4 +1,4 @@
-import { CalendarRange, Columns, Grid2x2, Grid3x3, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 
@@ -24,7 +24,7 @@ export function CalendarHeader({ view, events }: IProps) {
 
       <div className='flex flex-col items-center gap-1.5 sm:flex-row sm:justify-between '>
         <div className='flex w-full items-center gap-1.5'>
-          <div className='inline-flex first:rounded-r-none last:rounded-l-none [&:not(:first-child):not(:last-child)]:rounded-none space-x-1'>
+          {/* <div className='inline-flex first:rounded-r-none last:rounded-l-none [&:not(:first-child):not(:last-child)]:rounded-none space-x-1'>
             <Button
               asChild
               aria-label='View by week'
@@ -65,7 +65,7 @@ export function CalendarHeader({ view, events }: IProps) {
             >
               <CalendarRange strokeWidth={1.5} />
             </Button>
-          </div>
+          </div> */}
 
           {/* <UserSelect /> */}
         </div>

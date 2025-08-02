@@ -11,12 +11,14 @@ import {
 } from '@/components/ui/sidebar';
 import Link from 'next/link';
 import MenuLink from './MenuLink';
-import { data } from './sidebar-links';
 import LogoutButton from './LogoutButton';
+import { getLinks } from './sidebar-links';
 
 export async function ProfileSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
+  const data = await getLinks();
+
   return (
     <Sidebar variant='inset' {...props}>
       <SidebarHeader>
@@ -38,13 +40,14 @@ export async function ProfileSidebar({
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu className='gap-2'>
-            {data.items.map(item => (
-              <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton>
-                  <MenuLink title={item.title} url={item.url} />
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
+            {data &&
+              data.items.map(item => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton>
+                    <MenuLink title={item.title} url={item.url} />
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
 
             <SidebarMenuItem className='ml-2 cursor-pointer'>
               <LogoutButton />

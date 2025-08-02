@@ -36,16 +36,6 @@ export const VendorSchema = z
 
     email: z.email(),
 
-    // phone: z
-    //   .string()
-    //   .trim()
-    //   .regex(/^\+?[0-9]{10,15}$/, 'invalid phone number format'),
-
-    // category: z.enum(
-    //   categories.map(c => c.value),
-    //   'must select an option'
-    // ),
-
     password: z
       .string()
       .min(8, 'must be atleast 5 character long')

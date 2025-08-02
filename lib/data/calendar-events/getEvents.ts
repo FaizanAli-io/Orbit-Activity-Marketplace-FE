@@ -33,6 +33,7 @@ export async function getEvents() {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      cache: 'no-cache',
     })
   );
 }

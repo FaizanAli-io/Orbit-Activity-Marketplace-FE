@@ -3,7 +3,7 @@ import { ClientContainer } from '@/calendar/components/client-container';
 
 export default function Page() {
   return (
-    <Block>
+    <Block space={false}>
       <ClientContainer view='month' />
     </Block>
   );

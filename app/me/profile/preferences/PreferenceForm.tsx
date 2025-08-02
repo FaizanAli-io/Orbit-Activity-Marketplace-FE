@@ -14,24 +14,37 @@ import { schema } from './schema';
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import Uploader from '@/components/app/Uploader';
 import PreferencesBadges from './PreferencesBadges';
 import { updateUser } from './action';
 import { toast } from 'sonner';
+import LoadingButton from '@/components/app/LoadingButton';
+
+interface Props {
+  data: {
+    name?: string;
+    phone?: string;
+    preferences?: number[];
+    avatar?: string;
+    // email: string;
+  };
+}
 
 type Data = z.infer<typeof schema>;
 
-const PreferenceForm = () => {
+const PreferenceForm = ({
+  data: { name, phone, preferences, avatar },
+}: Props) => {
   const [loading, setLoading] = useState<boolean>();
 
   const form = useForm<Data>({
     resolver: zodResolver(schema),
     defaultValues: {
-      name: '',
-      phone: '',
-      avatar: '',
-      preferences: [],
+      name: name || '',
+      // email: email || '',
+      phone: phone || '',
+      preferences: preferences || [],
+      avatar: avatar || '',
     },
   });
 
@@ -40,13 +53,8 @@ const PreferenceForm = () => {
 
     const { success, error, data: res } = await updateUser(data);
 
-    console.log(data);
-
-    if (success) {
-      toast.success('Record updated.');
-      console.log(res);
-      form.reset();
-    } else toast.error(error, { richColors: true });
+    if (success) toast.success('Record updated.');
+    else toast.error(error, { richColors: true });
 
     setLoading(false);
   };
@@ -110,6 +118,7 @@ const PreferenceForm = () => {
                   maxFiles={1}
                   maxSizeInMbs={5}
                   setUrl={field.onChange}
+                  imageUrl={field.value}
                 />
               </FormControl>
               <FormMessage />
@@ -118,12 +127,9 @@ const PreferenceForm = () => {
         />
 
         <div className='flex justify-end space-x-2 mt-10'>
-          <Button type='button' variant='outline' disabled={loading}>
-            Skip
-          </Button>
-          <Button type='submit' disabled={loading}>
+          <LoadingButton type='submit' disabled={loading} loading={loading}>
             Save
-          </Button>
+          </LoadingButton>
         </div>
       </form>
     </Form>

@@ -21,13 +21,7 @@ import { ScheduleSchema } from '../schema';
 import { Combobox } from '@/components/ui/Combobox';
 import { DatePicker } from '@/components/app/DatePicker';
 import TimePicker from '@/components/app/TimePicker';
-<<<<<<< HEAD
 import { MultipleDatePicker } from '@/components/app/MultipleDatePicker';
-=======
-import { RangeDatePicker } from '@/components/app/RangeDatePicker';
-import { MultipleDatePicker } from '@/components/app/MultipleDatePicker';
-import { MonthlyDatePicker } from './MonthDaysPicker';
->>>>>>> 8487054194f5ec70b0e77ce50ae5f5aa13d143e7
 import { Calendar } from '@/components/ui/calendar';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { DayNumberSelector } from './DayNumberSelector';
@@ -43,9 +37,6 @@ const Page = () => {
   const setStep = useActivityFormStore(s => s.setCurrentStep);
   const setForm = useActivityFormStore(s => s.setFormData);
 
-  // const location = useActivityFormStore(s => s.location);
-  // const duration = useActivityFormStore(s => s.duration);
-
   const isForm1Valid = useActivityFormStore(s => s.isForm1Valid);
   const isForm2Valid = useActivityFormStore(s => s.isForm2Valid);
   const isForm3Valid = useActivityFormStore(s => s.isForm3Valid);
@@ -59,7 +50,6 @@ const Page = () => {
       setHydrated(true)
     );
 
-    // fallback for rare edge cases
     if (useActivityFormStore.persist.hasHydrated()) setHydrated(true);
 
     return unsub;

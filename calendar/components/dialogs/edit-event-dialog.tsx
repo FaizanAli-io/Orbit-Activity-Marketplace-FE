@@ -1,28 +1,50 @@
-"use client";
+'use client';
 
-import { parseISO } from "date-fns";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { parseISO } from 'date-fns';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-import { useDisclosure } from "@/hooks/use-disclosure";
-import { useCalendar } from "@/calendar/contexts/calendar-context";
-import { useUpdateEvent } from "@/calendar/hooks/use-update-event";
+import { useDisclosure } from '@/hooks/use-disclosure';
+import { useCalendar } from '@/calendar/contexts/calendar-context';
+import { useUpdateEvent } from '@/calendar/hooks/use-update-event';
 
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { TimeInput } from "@/components/ui/time-input";
-import { SingleDayPicker } from "@/components/ui/single-day-picker";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Form, FormField, FormLabel, FormItem, FormControl, FormMessage } from "@/components/ui/form";
-import { Select, SelectItem, SelectContent, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Dialog, DialogHeader, DialogClose, DialogContent, DialogTrigger, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { TimeInput } from '@/components/ui/time-input';
+import { SingleDayPicker } from '@/components/ui/single-day-picker';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import {
+  Form,
+  FormField,
+  FormLabel,
+  FormItem,
+  FormControl,
+  FormMessage,
+} from '@/components/ui/form';
+import {
+  Select,
+  SelectItem,
+  SelectContent,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  Dialog,
+  DialogHeader,
+  DialogClose,
+  DialogContent,
+  DialogTrigger,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from '@/components/ui/dialog';
 
-import { eventSchema } from "@/calendar/schemas";
+import { eventSchema } from '@/calendar/schemas';
 
-import type { IEvent } from "@/calendar/interfaces";
-import type { TimeValue } from "react-aria-components";
-import type { TEventFormData } from "@/calendar/schemas";
+import type { IEvent } from '@/calendar/interfaces';
+import type { TimeValue } from 'react-aria-components';
+import type { TEventFormData } from '@/calendar/schemas';
 
 interface IProps {
   children: React.ReactNode;
@@ -36,43 +58,43 @@ export function EditEventDialog({ children, event }: IProps) {
 
   const { updateEvent } = useUpdateEvent();
 
-  const form = useForm<TEventFormData>({
-    resolver: zodResolver(eventSchema),
-    defaultValues: {
-      user: event.user.id,
-      title: event.title,
-      description: event.description,
-      startDate: parseISO(event.startDate),
-      startTime: { hour: parseISO(event.startDate).getHours(), minute: parseISO(event.startDate).getMinutes() },
-      endDate: parseISO(event.endDate),
-      endTime: { hour: parseISO(event.endDate).getHours(), minute: parseISO(event.endDate).getMinutes() },
-      color: event.color,
-    },
-  });
+  // const form = useForm<TEventFormData>({
+  //   resolver: zodResolver(eventSchema),
+  //   defaultValues: {
+  //     user: event.user.id,
+  //     title: event.title,
+  //     description: event.description,
+  //     startDate: parseISO(event.startDate),
+  //     startTime: { hour: parseISO(event.startDate).getHours(), minute: parseISO(event.startDate).getMinutes() },
+  //     endDate: parseISO(event.endDate),
+  //     endTime: { hour: parseISO(event.endDate).getHours(), minute: parseISO(event.endDate).getMinutes() },
+  //     color: event.color,
+  //   },
+  // });
 
-  const onSubmit = (values: TEventFormData) => {
-    const user = users.find(user => user.id === values.user);
+  // const onSubmit = (values: TEventFormData) => {
+  //   const user = users.find(user => user.id === values.user);
 
-    if (!user) throw new Error("User not found");
+  //   if (!user) throw new Error("User not found");
 
-    const startDateTime = new Date(values.startDate);
-    startDateTime.setHours(values.startTime.hour, values.startTime.minute);
+  //   const startDateTime = new Date(values.startDate);
+  //   startDateTime.setHours(values.startTime.hour, values.startTime.minute);
 
-    const endDateTime = new Date(values.endDate);
-    endDateTime.setHours(values.endTime.hour, values.endTime.minute);
+  //   const endDateTime = new Date(values.endDate);
+  //   endDateTime.setHours(values.endTime.hour, values.endTime.minute);
 
-    updateEvent({
-      ...event,
-      user,
-      title: values.title,
-      color: values.color,
-      description: values.description,
-      startDate: startDateTime.toISOString(),
-      endDate: endDateTime.toISOString(),
-    });
+  //   updateEvent({
+  //     ...event,
+  //     user,
+  //     title: values.title,
+  //     color: values.color,
+  //     description: values.description,
+  //     startDate: startDateTime.toISOString(),
+  //     endDate: endDateTime.toISOString(),
+  //   });
 
-    onClose();
-  };
+  //   onClose();
+  // };
 
   return (
     <Dialog open={isOpen} onOpenChange={onToggle}>
@@ -82,11 +104,12 @@ export function EditEventDialog({ children, event }: IProps) {
         <DialogHeader>
           <DialogTitle>Edit Event</DialogTitle>
           <DialogDescription>
-            This is just and example of how to use the form. In a real application, you would call the API to update the event
+            This is just and example of how to use the form. In a real
+            application, you would call the API to update the event
           </DialogDescription>
         </DialogHeader>
 
-        <Form {...form}>
+        {/* <Form {...form}>
           <form id="event-form" onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 py-4">
             <FormField
               control={form.control}
@@ -297,16 +320,16 @@ export function EditEventDialog({ children, event }: IProps) {
               )}
             />
           </form>
-        </Form>
+        </Form> */}
 
         <DialogFooter>
           <DialogClose asChild>
-            <Button type="button" variant="outline">
+            <Button type='button' variant='outline'>
               Cancel
             </Button>
           </DialogClose>
 
-          <Button form="event-form" type="submit">
+          <Button form='event-form' type='submit'>
             Save changes
           </Button>
         </DialogFooter>

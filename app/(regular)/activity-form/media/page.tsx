@@ -10,10 +10,6 @@ import { useActivityFormStore } from '../store';
 import { useRouter } from 'next/navigation';
 import FormSkeleton from './FormSkeleton';
 import Uploader from '@/components/app/Uploader';
-<<<<<<< HEAD
-=======
-import z from 'zod';
->>>>>>> 8487054194f5ec70b0e77ce50ae5f5aa13d143e7
 
 const Page = () => {
   const setStep = useActivityFormStore(s => s.setCurrentStep);
@@ -28,10 +24,6 @@ const Page = () => {
 
   const video = useActivityFormStore(s => s.images.video);
   const setVideo = useActivityFormStore(s => s.setVideo);
-
-  // const [images, setImages] = useState<string[]>([]);
-  // const [video, setVideo] = useState<string[]>([]);
-  // const [thumbnail, setThumbnail] = useState<string[]>([]);
 
   const isForm1Valid = useActivityFormStore(s => s.isForm1Valid);
   const isForm2Valid = useActivityFormStore(s => s.isForm2Valid);
@@ -96,11 +88,6 @@ const Page = () => {
     router.push('/activity-form/review');
   };
 
-<<<<<<< HEAD
-=======
-  const img = useActivityFormStore.getState().images;
-
->>>>>>> 8487054194f5ec70b0e77ce50ae5f5aa13d143e7
   if (
     !hydrated ||
     !isForm1Valid() ||

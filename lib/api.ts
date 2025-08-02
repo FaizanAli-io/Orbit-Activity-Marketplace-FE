@@ -8,10 +8,11 @@ export async function apiFetch<TBody, TResponse = unknown>(
   path: string,
   options: ApiFetchOptions<TBody> = {}
 ): Promise<TResponse> {
-  const { data, headers, ...rest } = options;
+  const { data, headers, cache, ...rest } = options;
 
   const res = await fetch(`${configs.backendBaseUrl}${path}`, {
     ...rest,
+    cache: cache ?? 'default',
     headers: {
       'Content-Type': 'application/json',
       ...headers,
@@ -20,7 +21,6 @@ export async function apiFetch<TBody, TResponse = unknown>(
   });
 
   if (!res.ok) {
-    // console.log(res);
     const err = await res.json();
     throw new Error(err.message);
   }

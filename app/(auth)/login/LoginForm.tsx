@@ -1,6 +1,5 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -18,10 +17,15 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
+import { signInWithPopup } from 'firebase/auth';
+import { firebaseAuth, googleProvider } from '@/lib/data/firebase';
 import z from 'zod';
+import LoadingButton from '@/components/app/LoadingButton';
+import { authWithFirebase } from './firebase-action';
 
 export function LoginForm() {
   const [loading, setloading] = useState<boolean>(false);
+  const [googleLoading, setGoogleLoading] = useState<boolean>(false);
 
   const router = useRouter();
 
@@ -39,9 +43,34 @@ export function LoginForm() {
     const { success, error } = await login(values);
     if (success) {
       router.replace('/me/profile');
-    } else toast.error(error);
+    } else {
+      toast.error(error);
+      setloading(false);
+    }
+  }
 
-    setloading(false);
+  async function handleGoogleLogin() {
+    setGoogleLoading(true);
+    try {
+      const { user } = await signInWithPopup(firebaseAuth, googleProvider);
+
+      const { success, error } = await authWithFirebase({
+        name: user.displayName!,
+        email: user.email!,
+        firebaseId: user.uid,
+        type: 'USER',
+      });
+
+      if (success) {
+        toast.success('Login successful');
+        router.replace('/me/profile');
+      } else {
+        toast.error(error, { richColors: true });
+        setGoogleLoading(false);
+      }
+    } catch {
+      toast.error('Something went wrong', { richColors: true });
+    }
   }
 
   return (
@@ -87,16 +116,24 @@ export function LoginForm() {
             />
           </div>
           <div className='flex flex-col gap-3'>
-            <Button
+            <LoadingButton
               type='submit'
               className='w-full cursor-pointer'
-              disabled={loading}
+              disabled={loading || googleLoading}
+              loading={loading}
             >
               Login
-            </Button>
-            <Button variant='outline' className='w-full cursor-pointer'>
-              Login with Google
-            </Button>
+            </LoadingButton>
+            <LoadingButton
+              type='button'
+              variant='outline'
+              className='w-full cursor-pointer'
+              onClick={handleGoogleLogin}
+              disabled={loading || googleLoading}
+              loading={googleLoading}
+            >
+              Continue with Google
+            </LoadingButton>
           </div>
         </div>
         <div className='mt-4 text-center text-sm'>

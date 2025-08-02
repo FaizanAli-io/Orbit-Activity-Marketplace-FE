@@ -9,11 +9,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
-<<<<<<< HEAD
 import { useState } from 'react';
-=======
-import { useEffect, useState } from 'react';
->>>>>>> 8487054194f5ec70b0e77ce50ae5f5aa13d143e7
 
 type Props = {
   range: { from: Date; to: Date };
@@ -24,10 +20,6 @@ type Props = {
 };
 
 export function MonthlyDatePicker({
-<<<<<<< HEAD
-=======
-  days,
->>>>>>> 8487054194f5ec70b0e77ce50ae5f5aa13d143e7
   onDaysChange,
   className,
   range,

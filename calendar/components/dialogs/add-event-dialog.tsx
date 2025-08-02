@@ -38,6 +38,7 @@ import TimePicker from '@/components/app/TimePicker';
 import { postEvent } from './action';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
+import LoadingButton from '@/components/app/LoadingButton';
 
 interface IProps {
   children: React.ReactNode;
@@ -72,19 +73,18 @@ export function AddEventDialog({ children, startDate, startTime }: IProps) {
   });
 
   const onSubmit = async (_values: TEventFormData) => {
-    // setLoading(true);
+    setLoading(true);
 
     const startDate = mergeDateAndTime(_values.startDate, _values.startTime);
     const endDate = mergeDateAndTime(_values.endDate, _values.endTime);
 
-    const { success, error } = await postEvent({
+    const data = {
       activityId: _values.activityId,
-      // startTime: format(startDate, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx"),
-      // endTime: format(endDate, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx"),
+      startTime: `${format(startDate, "yyyy-MM-dd'T'HH:mm:00")}.000Z`,
+      endTime: `${format(endDate, "yyyy-MM-dd'T'HH:mm:00")}.000Z`,
+    };
 
-      startTime: format(startDate, "yyyy-MM-dd'T'HH:mm:ss"),
-      endTime: format(endDate, "yyyy-MM-dd'T'HH:mm:ss"),
-    });
+    const { success, error } = await postEvent({ ...data });
 
     if (!success) toast.error(error, { richColors: true });
     else {
@@ -300,9 +300,14 @@ export function AddEventDialog({ children, startDate, startTime }: IProps) {
             </Button>
           </DialogClose>
 
-          <Button form='event-form' type='submit' disabled={loading}>
+          <LoadingButton
+            form='event-form'
+            type='submit'
+            disabled={loading}
+            loading={loading}
+          >
             Create Event
-          </Button>
+          </LoadingButton>
         </DialogFooter>
       </DialogContent>
     </Dialog>

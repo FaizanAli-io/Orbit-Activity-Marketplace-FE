@@ -22,8 +22,6 @@ export async function postEvent(data: Req) {
   const token = await getAccessToken();
   if (!token) return { success: false, error: 'Unauthorized', data: null };
 
-  console.log(data);
-
   const result = await withServerError(() =>
     apiFetch<Req, unknown>('/calendar-events', {
       method: HTTP_VERB.POST,

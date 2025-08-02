@@ -15,7 +15,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import PreferencesBadges from '@/app/(regular)/getting-started/PreferencesBadges';
+import PreferencesBadges from '@/app/me/profile/preferences/PreferencesBadges';
 
 interface Props {
   data: {

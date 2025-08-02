@@ -7,24 +7,11 @@ interface Props {
   children: ReactNode;
 }
 
-// const events: IEvent[] = [
-//   {
-//     id: 1,
-//     title: 'Mountains Hiking',
-//     description: 'Lorem ipsum dolor',
-//     startDate: new Date().toISOString(), // ISO string
-//     endDate: new Date().toISOString(), // ISO string
-//     color: 'green',
-//     user: {
-//       id: '1',
-//       name: 'Ali',
-//       picturePath: '',
-//     },
-//   },
-// ];
-
 export default async function Layout({ children }: Props) {
   const { success, data } = await getEvents();
+
+  console.log('re rendering: ', new Date().toLocaleTimeString());
+  console.log('data', data);
 
   if (!success)
     return (
@@ -56,7 +43,7 @@ export default async function Layout({ children }: Props) {
   }
 
   return (
-    <CalendarProvider users={[]} events={events}>
+    <CalendarProvider key={new Date().toISOString()} users={[]} events={events}>
       {children}
     </CalendarProvider>
   );
