@@ -7,22 +7,24 @@ import { withServerError } from '@/lib/utils/with-server-error';
 import z from 'zod';
 
 const schema = z.object({
+  name: z.string(),
   email: z.email(),
   firebaseId: z.string(),
+  type: z.enum(['USER', 'VENDOR']),
 });
 
 interface Res {
   accessToken: string;
-  type: 'VENDOR' | 'USER';
+  type: 'USER' | 'VENDOR';
   userId?: string;
   vendorId?: string;
 }
 
 type Data = z.infer<typeof schema>;
 
-export async function loginWithFirebase(data: Data) {
+export async function signupWithFirebase(data: Data) {
   const res = await withServerError(() =>
-    apiFetch<Data, Res>('/auth/login', {
+    apiFetch<Data, Res>('/auth/signup', {
       method: HTTP_VERB.POST,
       data,
     })

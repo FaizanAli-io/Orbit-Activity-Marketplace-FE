@@ -21,7 +21,7 @@ import { signInWithPopup } from 'firebase/auth';
 import { firebaseAuth, googleProvider } from '@/lib/data/firebase';
 import z from 'zod';
 import LoadingButton from '@/components/app/LoadingButton';
-import { authWithFirebase } from './firebase-action';
+import { loginWithFirebase } from './firebase-action';
 
 export function LoginForm() {
   const [loading, setloading] = useState<boolean>(false);
@@ -54,11 +54,9 @@ export function LoginForm() {
     try {
       const { user } = await signInWithPopup(firebaseAuth, googleProvider);
 
-      const { success, error } = await authWithFirebase({
-        name: user.displayName!,
+      const { success, error } = await loginWithFirebase({
         email: user.email!,
         firebaseId: user.uid,
-        type: 'USER',
       });
 
       if (success) {

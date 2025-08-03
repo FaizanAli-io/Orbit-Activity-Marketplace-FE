@@ -18,9 +18,17 @@ import z from 'zod';
 import { useState } from 'react';
 import { signupVendor } from './action';
 import { toast } from 'sonner';
+import { signInWithPopup } from 'firebase/auth';
+import { signupWithFirebase } from '../firebase-action';
+import { firebaseAuth, googleProvider } from '@/lib/data/firebase';
+import { useRouter } from 'next/navigation';
+import LoadingButton from '@/components/app/LoadingButton';
 
 export function VendorForm() {
   const [loading, setLoading] = useState<boolean>(false);
+  const [googleLoading, setGoogleLoading] = useState<boolean>(false);
+
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof VendorSchema>>({
     resolver: zodResolver(VendorSchema),
@@ -43,6 +51,30 @@ export function VendorForm() {
     } else toast.error(error);
 
     setLoading(false);
+  }
+
+  async function handleGoogleSignup() {
+    setGoogleLoading(true);
+    try {
+      const { user } = await signInWithPopup(firebaseAuth, googleProvider);
+
+      const { success, error } = await signupWithFirebase({
+        email: user.email!,
+        name: user.displayName!,
+        firebaseId: user.uid,
+        type: 'USER',
+      });
+
+      if (success) {
+        toast.success('Login successful');
+        router.replace('/me/profile');
+      } else {
+        toast.error(error, { richColors: true });
+        setGoogleLoading(false);
+      }
+    } catch {
+      toast.error('Something went wrong', { richColors: true });
+    }
   }
 
   return (
@@ -113,13 +145,25 @@ export function VendorForm() {
             />
           </div>
 
-          <Button
-            type='submit'
-            className='w-full cursor-pointer'
-            disabled={loading}
-          >
-            Signup
-          </Button>
+          <div className='space-y-2'>
+            <Button
+              type='submit'
+              className='w-full cursor-pointer'
+              disabled={loading || googleLoading}
+            >
+              Signup
+            </Button>
+            <LoadingButton
+              type='button'
+              variant='outline'
+              className='w-full cursor-pointer'
+              onClick={handleGoogleSignup}
+              disabled={loading || googleLoading}
+              loading={googleLoading}
+            >
+              Continue with Google
+            </LoadingButton>
+          </div>
         </div>
         <div className='mt-4 text-center text-sm'>
           Already have an account?{' '}
