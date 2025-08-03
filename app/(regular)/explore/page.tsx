@@ -8,7 +8,9 @@ import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer';
 import { Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-type Props = { searchParams: { [key: string]: string | string[] | undefined } };
+type Props = {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
 
 const Page = async ({ searchParams }: Props) => {
   const { data, error } = await getActivities();
