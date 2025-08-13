@@ -1,8 +1,19 @@
 import type { Metadata } from 'next';
 import { Toaster } from '@/components/ui/sonner';
+import { Outfit, Work_Sans } from 'next/font/google';
 
 import './globals.css';
 import ReactQueryProvider from '@/lib/providers/react-query-provider';
+
+const outfit = Outfit({
+  subsets: ['latin'], // required
+  variable: '--font-outfit',
+});
+
+const workSans = Work_Sans({
+  subsets: ['latin'], // required
+  variable: '--font-work',
+});
 
 export const metadata: Metadata = {
   title: 'Orbit',

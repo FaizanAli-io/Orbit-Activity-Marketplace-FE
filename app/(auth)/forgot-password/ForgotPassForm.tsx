@@ -16,6 +16,7 @@ import z from 'zod';
 import { requestToken } from './form-action';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import LoadingButton from '@/components/app/LoadingButton';
 
 const schema = z.object({ email: z.email() });
 
@@ -61,13 +62,14 @@ export function ForgotPassForm() {
             />
           </div>
           <div className='flex flex-col gap-3'>
-            <Button
+            <LoadingButton
               type='submit'
               className='w-full cursor-pointer'
               disabled={loading}
+              loading={loading}
             >
               Send Link
-            </Button>
+            </LoadingButton>
           </div>
         </div>
       </form>

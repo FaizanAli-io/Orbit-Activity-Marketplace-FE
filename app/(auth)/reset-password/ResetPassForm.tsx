@@ -17,6 +17,7 @@ import { useState } from 'react';
 import { resetPassword } from './[token]/form-action';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import LoadingButton from '@/components/app/LoadingButton';
 
 const schema = z.object({
   password: z
@@ -74,13 +75,14 @@ export function ResetPassForm({ token }: { token: string }) {
             />
           </div>
           <div className='flex flex-col gap-3'>
-            <Button
+            <LoadingButton
               type='submit'
               className='w-full cursor-pointer'
               disabled={loading}
+              loading={loading}
             >
               Reset Password
-            </Button>
+            </LoadingButton>
           </div>
         </div>
       </form>

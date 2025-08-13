@@ -3,7 +3,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getUser } from './lib/utils/cookies/user-cookies';
 
 // Define route patterns as regular expressions
-const publicRoutes = [/^\/login$/, /^\/signup$/];
+const publicRoutes = [
+  /^\/login$/,
+  /^\/signup$/,
+  /^\/reset-password(\/.*)/,
+  /^\/forgot-password(\/.*)/,
+];
 const protectedRoutes = [/^\/me\/profile(\/.*)?$/]; // matches /me/profile and anything nested
 const vendorRoutes = [/^\/activity-form(\/.*)?$/];
 

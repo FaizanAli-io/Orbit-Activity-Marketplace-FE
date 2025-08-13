@@ -42,14 +42,15 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 }
+
 :root {
-  --background: oklch(0.973 0.0133 286.1503);
-  --foreground: oklch(0.3015 0.0572 282.4176);
+  --background: oklch(0.9319 0.0193 312.7952);
+  --foreground: oklch(0.1324 0.0156 42.5154);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.3015 0.0572 282.4176);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.3015 0.0572 282.4176);
-  --primary: oklch(0.5417 0.179 288.0332);
+  --primary: oklch(0.3623 0.1828 310.5061);
   --primary-foreground: oklch(1 0 0);
   --secondary: oklch(0.9174 0.0435 292.6901);
   --secondary-foreground: oklch(0.4143 0.1039 288.1742);
@@ -75,25 +76,21 @@
   --sidebar-accent-foreground: oklch(0.3015 0.0572 282.4176);
   --sidebar-border: oklch(0.9115 0.0216 285.9625);
   --sidebar-ring: oklch(0.5417 0.179 288.0332);
-  --font-sans: Inter, sans-serif;
-  --font-serif: Georgia, serif;
+  --font-sans: Work-Sans, sans-serif;
+  --font-serif: Outfit, serif;
   --font-mono: JetBrains Mono, monospace;
   --radius: 0.5rem;
-  --shadow-2xs: 0px 4px 10px 0px hsl(240 30% 25% / 0.06);
-  --shadow-xs: 0px 4px 10px 0px hsl(240 30% 25% / 0.06);
-  --shadow-sm: 0px 4px 10px 0px hsl(240 30% 25% / 0.12),
-    0px 1px 2px -1px hsl(240 30% 25% / 0.12);
+
+  --shadow-2xs: 0px 1px 2px 0px #0000000d;
+  --shadow-xs: 0px 1px 2px 0px #0000000f, 0px 1px 3px 0px #0000001a;
+  --shadow-sm: 0px 2px 4px -2px #0000000f, 0px 4px 8px -2px #0000001a;
   --shadow: 0px 4px 10px 0px hsl(240 30% 25% / 0.12),
     0px 1px 2px -1px hsl(240 30% 25% / 0.12);
-  --shadow-md: 0px 4px 10px 0px hsl(240 30% 25% / 0.12),
-    0px 2px 4px -1px hsl(240 30% 25% / 0.12);
-  --shadow-lg: 0px 4px 10px 0px hsl(240 30% 25% / 0.12),
-    0px 4px 6px -1px hsl(240 30% 25% / 0.12);
-  --shadow-xl: 0px 4px 10px 0px hsl(240 30% 25% / 0.12),
-    0px 8px 10px -1px hsl(240 30% 25% / 0.12);
-  --shadow-2xl: 0px 4px 10px 0px hsl(240 30% 25% / 0.3);
+  --shadow-md: 0px 4px 6px -2px #00000008, 0px 12px 16px -4px #00000014;
+  --shadow-lg: 0px 8px 8px -4px #00000008, 0px 20px 24px -4px #00000014;
+  --shadow-xl: 0px 24px 48px -12px #0000002e;
+  --shadow-2xl: 0px 32px 64px -12px #00000024;
   --tracking-normal: 0em;
-  --spacing: 0.25rem;
 }
 
 .dark {
@@ -182,13 +179,26 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
+  --color-primary-50: #ede5f2;
+  --color-primary-100: #dbcce6;
+  --color-primary-300: #814ca7;
+  --color-primary-500: #4b0082;
+  --color-primary-600: #3c0068;
+  --color-primary-800: #1e0034;
+  --color-primary-900: #160027;
+
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
   --font-serif: var(--font-serif);
 
-  --radius-sm: calc(var(--radius) - 4px);
+  /* --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
+   --radius-lg: var(--radius); */
+
+  --radius-sm: 24px;
+  --radius-md: 32px;
+  --radius-lg: 40px;
+
   --radius-xl: calc(var(--radius) + 4px);
 
   --shadow-2xs: var(--shadow-2xs);
