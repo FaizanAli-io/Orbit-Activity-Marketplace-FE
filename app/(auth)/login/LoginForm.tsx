@@ -22,6 +22,7 @@ import { firebaseAuth, googleProvider } from '@/lib/data/firebase';
 import z from 'zod';
 import LoadingButton from '@/components/app/LoadingButton';
 import { loginWithFirebase } from './firebase-action';
+import LabeledSeparator from '@/components/ui/labeled-separator';
 
 export function LoginForm() {
   const [loading, setloading] = useState<boolean>(false);
@@ -116,28 +117,49 @@ export function LoginForm() {
           <div className='flex flex-col gap-3'>
             <LoadingButton
               type='submit'
-              className='w-full cursor-pointer'
+              className='w-full cursor-pointer '
               disabled={loading || googleLoading}
               loading={loading}
+              variant={'accent'}
             >
               Login
             </LoadingButton>
-            <LoadingButton
-              type='button'
-              variant='outline'
-              className='w-full cursor-pointer'
-              onClick={handleGoogleLogin}
-              disabled={loading || googleLoading}
-              loading={googleLoading}
-            >
-              Continue with Google
-            </LoadingButton>
+            <LabeledSeparator className='my-5'>
+              or Continue with
+            </LabeledSeparator>
+            <div className='flex space-x-2'>
+              <LoadingButton
+                type='button'
+                variant='outline-accent'
+                className='flex-1 cursor-pointer'
+                onClick={handleGoogleLogin}
+                disabled={loading || googleLoading}
+                loading={googleLoading}
+              >
+                <img src='/icons/google.svg' className='size-4' />
+              </LoadingButton>
+
+              <LoadingButton
+                type='button'
+                variant='outline-accent'
+                className='flex-1 cursor-pointer'
+                // onClick={handleGoogleLogin}
+                disabled={loading || googleLoading}
+                // loading={googleLoading}
+              >
+                <img src='/icons/apple.svg' className='size-4' />
+              </LoadingButton>
+            </div>
           </div>
         </div>
-        <div className='mt-4 text-center text-sm'>
-          Don&apos;t have an account?{' '}
-          <Link href='/signup' className='underline underline-offset-4'>
-            Sign up
+        <div className='mt-4 text-center text-xs text-neutral-light'>
+          By Clicking continue you agree with our{' '}
+          <Link className='underline' href='#'>
+            Terms of Service
+          </Link>{' '}
+          and{' '}
+          <Link className='underline' href='#'>
+            Privacy Policy
           </Link>
         </div>
       </form>

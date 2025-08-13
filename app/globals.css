@@ -44,7 +44,7 @@
 }
 
 :root {
-  --background: oklch(0.9319 0.0193 312.7952);
+  --background: #f5f5ff;
   --foreground: oklch(0.1324 0.0156 42.5154);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.3015 0.0572 282.4176);
@@ -186,6 +186,8 @@
   --color-primary-600: #3c0068;
   --color-primary-800: #1e0034;
   --color-primary-900: #160027;
+
+  --color-theme-accent: #2a2a4a;
 
   --color-neutral-white: oklch(100% 0 0);
   --color-neutral-lightest: oklch(95.07% 0 0);
