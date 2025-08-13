@@ -16,8 +16,8 @@ const workSans = Work_Sans({
 });
 
 export const metadata: Metadata = {
-  title: 'Orbit',
-  description: 'Orbit platform.',
+  title: 'Orbit - Activity Marketplace',
+  description: 'Orbit where you find the activity you love.',
 };
 
 export default function RootLayout({
