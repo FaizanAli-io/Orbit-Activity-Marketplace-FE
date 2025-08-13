@@ -5,14 +5,14 @@ import Image from 'next/image';
 
 export default function Page() {
   return (
-    <div className='min-h-svh w-full p-6 md:p-0 flex items-center justify-center md:grid grid-cols-2'>
+    <div className='min-h-screen w-full p-6 md:p-0 flex items-center justify-center md:grid grid-cols-2'>
       <Image
         src='/images/auth/placeholder.png'
         alt='placeholder'
         width='1024'
         height='768'
         objectFit='cover'
-        className='object-cover hidden md:block order-1'
+        className='object-cover w-full h-full hidden md:block order-1'
       />
 
       <div className='w-full max-w-sm md:max-w-md md:mx-auto'>
