@@ -1,4 +1,6 @@
 export const data = [
-  { text: 'HOME', href: '/' },
-  { text: 'EXPLORE', href: '/explore' },
+  { text: 'Events Hub', href: '/explore' },
+  { text: 'Network Growth', href: '#' },
+  { text: 'User Login', href: '#' },
+  { text: 'More Info', href: '#' },
 ];

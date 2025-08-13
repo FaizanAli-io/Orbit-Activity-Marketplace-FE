@@ -19,21 +19,25 @@ const NavbarSheet = () => {
           <p className='text-muted-foreground font-semibold  mx-3 mt-5 -mb-2'>
             Menu
           </p>
-          {data.map((item, i) => (
-            <NavLink key={i} href={item.href} className='text-3xl text-black'>
-              {item.text}
-            </NavLink>
-          ))}
+          <div className='space-y-2 my-2'>
+            {data.map((item, i) => (
+              <NavLink key={i} href={item.href} className='text-3xl text-black'>
+                {item.text}
+              </NavLink>
+            ))}
+          </div>
 
           <p className='text-muted-foreground font-semibold mx-3 mt-5 -mb-2'>
             Auth
           </p>
-          <NavLink href='/login' className='text-3xl text-black'>
-            Sign in
-          </NavLink>
-          <NavLink href='/signup' className='text-3xl text-black'>
-            Sign up
-          </NavLink>
+          <div className='space-y-2 my-2'>
+            <NavLink href='/login' className='text-3xl text-black'>
+              Sign in
+            </NavLink>
+            <NavLink href='/signup' className='text-3xl text-black'>
+              Sign up
+            </NavLink>
+          </div>
         </div>
       </SheetContent>
     </Sheet>

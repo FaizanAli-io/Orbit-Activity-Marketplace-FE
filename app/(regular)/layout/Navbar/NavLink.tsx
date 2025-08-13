@@ -1,3 +1,4 @@
+import { NavigationMenuItem } from '@/components/ui/navigation-menu';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import React, { HTMLAttributes } from 'react';
@@ -8,14 +9,16 @@ interface Props extends HTMLAttributes<HTMLAnchorElement> {
 
 const NavLink = ({ href = '#', className, children, ...props }: Props) => {
   return (
-    <Link
-      href={href}
-      className={cn(' p-2 rounded-md tracking-wider font-semibold', className)}
-      prefetch={false}
-      {...props}
-    >
-      {children}
-    </Link>
+    <NavigationMenuItem className={cn('list-none', className)}>
+      <Link
+        href={href}
+        className={cn('p-2 tracking-wider font-semibold md:font-normal')}
+        prefetch={false}
+        {...props}
+      >
+        {children}
+      </Link>
+    </NavigationMenuItem>
   );
 };
 
