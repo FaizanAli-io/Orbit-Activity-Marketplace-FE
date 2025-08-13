@@ -187,6 +187,15 @@
   --color-primary-800: #1e0034;
   --color-primary-900: #160027;
 
+  --color-neutral-white: oklch(100% 0 0);
+  --color-neutral-lightest: oklch(95.07% 0 0);
+  --color-neutral-lighter: oklch(85.82% 0 0);
+  --color-neutral-light: oklch(71.73% 0 0);
+  --color-neutral: oklch(54.28% 0 0);
+  --color-neutral-dark: oklch(36.49% 0 0);
+  --color-neutral-darker: oklch(15.51% 0 0);
+  --color-neutral-darkest: oklch(5.18% 0 0);
+
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
   --font-serif: var(--font-serif);
