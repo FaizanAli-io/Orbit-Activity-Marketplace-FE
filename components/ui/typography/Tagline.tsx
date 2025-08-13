@@ -1,7 +1,10 @@
 import React, { HTMLAttributes } from 'react';
 import { cn } from '@/lib/utils';
 
-const H5 = ({ children, className }: HTMLAttributes<HTMLHeadingElement>) => {
+const Tagline = ({
+  children,
+  className,
+}: HTMLAttributes<HTMLHeadingElement>) => {
   return (
     <span
       className={cn(
@@ -14,4 +17,4 @@ const H5 = ({ children, className }: HTMLAttributes<HTMLHeadingElement>) => {
   );
 };
 
-export default H5;
+export default Tagline;

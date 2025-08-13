@@ -1,3 +1,4 @@
+import Discover from './(regular)/home/Discover';
 import Hero from './(regular)/home/Hero';
 import Marquee from './(regular)/home/Marquee';
 import Navbar from './(regular)/layout/Navbar';
@@ -8,6 +9,7 @@ export default function Home() {
       <Navbar />
       <Hero />
       <Marquee />
+      <Discover />
     </div>
   );
 }
