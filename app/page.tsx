@@ -1,3 +1,4 @@
+import CTA from './(regular)/home/CTA';
 import Discover from './(regular)/home/Discover';
 import Hero from './(regular)/home/Hero';
 import Marquee from './(regular)/home/Marquee';
@@ -12,6 +13,7 @@ export default function Home() {
       <Marquee />
       <Discover />
       <Oppurtunities />
+      <CTA />
     </div>
   );
 }

@@ -5,6 +5,7 @@ import H3 from '@/components/ui/typography/H3';
 import Tagline from '@/components/ui/typography/Tagline';
 import { ChevronRight } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
 const Oppurtunities = () => {
@@ -40,11 +41,13 @@ const Oppurtunities = () => {
             </article>
           </div>
           <div className='flex  space-2'>
-            <Button3D variant={'outline'}>Join</Button3D>
+            <Button3D variant={'outline'}>
+              <Link href='#j'>Join</Link>
+            </Button3D>
             <Button variant={'ghost'}>
-              <span className='flex items-center'>
+              <Link href='#' className='flex items-center'>
                 Learn More <ChevronRight className='ml-2' size='20' />
-              </span>
+              </Link>
             </Button>
           </div>
         </div>

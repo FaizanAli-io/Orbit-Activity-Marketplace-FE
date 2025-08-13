@@ -7,7 +7,7 @@ import { discoverCardsData } from './discover-cards-data';
 
 const Discover = () => {
   return (
-    <section className='md:bg-[#e4dfff] md:py-1 md:my-20'>
+    <section className='md:bg-theme-secondary md:py-1 md:my-20'>
       <Block>
         <div className='mb-5 md:mb-15 md:flex'>
           <H4 className='font-semibold mb-2'>

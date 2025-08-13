@@ -188,6 +188,7 @@
   --color-primary-900: #160027;
 
   --color-theme-accent: #2a2a4a;
+  --color-theme-secondary: #e4dfff;
 
   --color-neutral-white: oklch(100% 0 0);
   --color-neutral-lightest: oklch(95.07% 0 0);
