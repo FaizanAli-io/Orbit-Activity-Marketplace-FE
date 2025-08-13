@@ -23,6 +23,7 @@ import { firebaseAuth, googleProvider } from '@/lib/data/firebase';
 import { signupWithFirebase } from '../firebase-action';
 import { useRouter } from 'next/navigation';
 import LoadingButton from '@/components/app/LoadingButton';
+import LabeledSeparator from '@/components/ui/labeled-separator';
 
 export function UserForm() {
   const [loading, setLoading] = useState<boolean>(false);
@@ -81,7 +82,7 @@ export function UserForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <div className='flex flex-col gap-6'>
+        <div className='flex flex-col gap-4 md:gap-6'>
           <div className='grid gap-3'>
             <FormField
               control={form.control}
@@ -146,23 +147,39 @@ export function UserForm() {
             />
           </div>
 
-          <div className='space-y-2'>
-            <Button
-              type='submit'
-              className='w-full cursor-pointer'
-              disabled={loading || googleLoading}
-            >
-              Signup
-            </Button>
+          <LoadingButton
+            type='submit'
+            className='w-full cursor-pointer '
+            disabled={loading || googleLoading}
+            loading={loading}
+            variant={'accent'}
+          >
+            Signup
+          </LoadingButton>
+
+          <LabeledSeparator>or Continue with</LabeledSeparator>
+
+          <div className='flex space-x-2'>
             <LoadingButton
               type='button'
-              variant='outline'
-              className='w-full cursor-pointer'
+              variant='outline-accent'
+              className='flex-1 cursor-pointer'
               onClick={handleGoogleSignup}
               disabled={loading || googleLoading}
               loading={googleLoading}
             >
-              Continue with Google
+              <img src='/icons/google.svg' className='size-4' />
+            </LoadingButton>
+
+            <LoadingButton
+              type='button'
+              variant='outline-accent'
+              className='flex-1 cursor-pointer'
+              // onClick={handleGoogleLogin}
+              disabled={loading || googleLoading}
+              // loading={googleLoading}
+            >
+              <img src='/icons/apple.svg' className='size-4' />
             </LoadingButton>
           </div>
         </div>

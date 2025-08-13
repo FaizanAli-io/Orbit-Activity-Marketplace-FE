@@ -21,7 +21,7 @@ export default function Page() {
             <H2 className='font-normal'>Welcome to Orbit</H2>
             <p className='text-sm'>
               Don't have an account?{' '}
-              <Link href='sign-up' className='font-semibold underline'>
+              <Link href='signup' className='font-semibold underline'>
                 Sign Up
               </Link>
             </p>

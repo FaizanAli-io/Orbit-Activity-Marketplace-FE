@@ -75,7 +75,7 @@ export function LoginForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <div className='flex flex-col gap-6'>
+        <div className='flex flex-col gap-4 md:gap-6'>
           <div className='grid gap-3'>
             <FormField
               control={form.control}
@@ -124,9 +124,11 @@ export function LoginForm() {
             >
               Login
             </LoadingButton>
+
             <LabeledSeparator className='my-5'>
               or Continue with
             </LabeledSeparator>
+
             <div className='flex space-x-2'>
               <LoadingButton
                 type='button'
