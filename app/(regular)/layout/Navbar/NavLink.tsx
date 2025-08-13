@@ -12,7 +12,7 @@ const NavLink = ({ href = '#', className, children, ...props }: Props) => {
     <NavigationMenuItem className={cn('list-none', className)}>
       <Link
         href={href}
-        className={cn('p-2 tracking-wider font-semibold md:font-normal')}
+        className={cn('p-2 font-medium')}
         prefetch={false}
         {...props}
       >

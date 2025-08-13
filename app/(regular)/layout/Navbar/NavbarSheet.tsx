@@ -31,11 +31,11 @@ const NavbarSheet = () => {
             Auth
           </p>
           <div className='space-y-2 my-2'>
+            <NavLink href='/signup' className='text-3xl text-black'>
+              Get Started
+            </NavLink>
             <NavLink href='/login' className='text-3xl text-black'>
               Sign in
-            </NavLink>
-            <NavLink href='/signup' className='text-3xl text-black'>
-              Sign up
             </NavLink>
           </div>
         </div>
