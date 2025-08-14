@@ -43,9 +43,7 @@ export async function ProfileSidebar({
             {data &&
               data.items.map(item => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton>
-                    <MenuLink title={item.title} url={item.url} />
-                  </SidebarMenuButton>
+                  <MenuLink title={item.title} url={item.url} />
                 </SidebarMenuItem>
               ))}
 
