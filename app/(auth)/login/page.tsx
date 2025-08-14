@@ -11,7 +11,6 @@ export default function Page() {
         alt='placeholder'
         width='1024'
         height='768'
-        objectFit='cover'
         className='object-cover w-full h-full hidden md:block order-1'
       />
 

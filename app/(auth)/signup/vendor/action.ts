@@ -29,12 +29,10 @@ export const signupVendor = async (vendor: Vendor) => {
     type: 'VENDOR',
   };
 
-  return withServerError(async () => {
-    await apiFetch<SignupRequest>('/auth/signup', {
+  return withServerError(() =>
+    apiFetch<SignupRequest>('/auth/signup', {
       method: HTTP_VERB.POST,
       data: payload,
-    });
-
-    return null;
-  });
+    })
+  );
 };

@@ -59,7 +59,9 @@ export function UserForm() {
         toast.success('Login successful');
         router.replace('/me/profile');
       } else {
-        toast.error(error, { richColors: true });
+        toast.error(error || 'Something went wrong! Please try again', {
+          richColors: true,
+        });
         setGoogleLoading(false);
       }
     } catch {

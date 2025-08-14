@@ -29,12 +29,11 @@ export const signupUser = async (user: User) => {
     type: 'USER',
   };
 
-  return withServerError(async () => {
-    await apiFetch<SignupRequest>('/auth/signup', {
-      method: HTTP_VERB.POST,
-      data: payload,
-    });
-
-    return null;
-  });
+  return withServerError(
+    async () =>
+      await apiFetch<SignupRequest>('/auth/signup', {
+        method: HTTP_VERB.POST,
+        data: payload,
+      })
+  );
 };

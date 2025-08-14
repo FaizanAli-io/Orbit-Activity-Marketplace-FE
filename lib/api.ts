@@ -22,6 +22,7 @@ export async function apiFetch<TBody, TResponse = unknown>(
 
   if (!res.ok) {
     const err = await res.json();
+    console.log(err);
     throw new Error(err.message);
   }
 

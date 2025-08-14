@@ -46,10 +46,10 @@ export function VendorForm() {
 
     const { success, error } = await signupVendor(values);
 
-    if (!success) {
+    if (success) {
       toast.success('Verification email sent.');
       form.reset();
-    } else toast.error(error);
+    } else toast.error(error || 'Something went wrong, please try again!');
 
     setLoading(false);
   }
@@ -70,7 +70,9 @@ export function VendorForm() {
         toast.success('Login successful');
         router.replace('/me/profile');
       } else {
-        toast.error(error, { richColors: true });
+        toast.error(error || 'Something went wrong, please try again', {
+          richColors: true,
+        });
         setGoogleLoading(false);
       }
     } catch {
