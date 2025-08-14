@@ -16,13 +16,15 @@ export default async function Navbar() {
 
   return (
     <div className='flex justify-between items-center w-full px-10'>
-      <Image
-        src='/images/logo.png'
-        width={'80'}
-        height={'80'}
-        alt='Orbit Logo.'
-        className='-translate-x-4.5 translate-y-2'
-      />
+      <Link href='/'>
+        <Image
+          src='/images/logo.png'
+          width={'80'}
+          height={'80'}
+          alt='Orbit Logo.'
+          className='-translate-x-4.5 translate-y-2'
+        />
+      </Link>
       <NavigationMenu className='hidden md:block'>
         <NavigationMenuList>
           {data.map((item, i) => (

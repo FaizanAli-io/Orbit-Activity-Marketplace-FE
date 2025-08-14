@@ -158,29 +158,16 @@ export function VendorForm() {
 
           <LabeledSeparator>or Continue with</LabeledSeparator>
 
-          <div className='flex space-x-2'>
-            <LoadingButton
-              type='button'
-              variant='outline-accent'
-              className='flex-1 cursor-pointer'
-              onClick={handleGoogleSignup}
-              disabled={loading || googleLoading}
-              loading={googleLoading}
-            >
-              <img src='/icons/google.svg' className='size-4' />
-            </LoadingButton>
-
-            <LoadingButton
-              type='button'
-              variant='outline-accent'
-              className='flex-1 cursor-pointer'
-              // onClick={handleGoogleLogin}
-              disabled={loading || googleLoading}
-              // loading={googleLoading}
-            >
-              <img src='/icons/apple.svg' className='size-4' />
-            </LoadingButton>
-          </div>
+          <LoadingButton
+            type='button'
+            variant='outline-accent'
+            className='flex-1 cursor-pointer'
+            onClick={handleGoogleSignup}
+            disabled={loading || googleLoading}
+            loading={googleLoading}
+          >
+            <img src='/icons/google.svg' className='size-4' />
+          </LoadingButton>
         </div>
         <div className='mt-4 text-center text-sm'>
           Already have an account?{' '}

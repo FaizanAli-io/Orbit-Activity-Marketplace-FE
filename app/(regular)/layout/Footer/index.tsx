@@ -4,7 +4,7 @@ import Tagline from '@/components/ui/typography/Tagline';
 import Link from 'next/link';
 import Block from '@/app/layout/Block';
 import Image from 'next/image';
-import Newsletter from '../../home/Newsletter';
+import Newsletter from './Newsletter';
 
 const Footer = () => {
   return (
