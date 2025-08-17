@@ -2,7 +2,6 @@ import Button3D from '@/components/app/Button3D';
 import { data } from './data';
 import NavbarSheet from './NavbarSheet';
 import NavLink from './NavLink';
-import { Button } from '@/components/ui/button';
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -10,9 +9,14 @@ import {
 } from '@/components/ui/navigation-menu';
 import Image from 'next/image';
 import Link from 'next/link';
+import { getUser } from '@/lib/utils/cookies/user-cookies';
+import UserAvatar from './UserAvatar';
+import { Suspense } from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Bell } from 'lucide-react';
 
 export default async function Navbar() {
-  // const user = await getUser();
+  const user = await getUser();
 
   return (
     <div className='flex justify-between items-center w-full px-10'>
@@ -33,16 +37,29 @@ export default async function Navbar() {
             </NavLink>
           ))}
 
-          <NavigationMenuItem className='ml-4'>
-            <Button3D variant={'outline'}>
-              <Link href='/signup'>Join</Link>
-            </Button3D>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-            <Button3D>
-              <Link href='/login'>Login</Link>
-            </Button3D>
-          </NavigationMenuItem>
+          {!user ? (
+            <>
+              <NavigationMenuItem className='ml-4'>
+                <Button3D variant={'outline'}>
+                  <Link href='/signup'>Join</Link>
+                </Button3D>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <Button3D>
+                  <Link href='/login'>Login</Link>
+                </Button3D>
+              </NavigationMenuItem>
+            </>
+          ) : (
+            <div className='flex space-x-2 items-center'>
+              {/* <Bell size={20} /> */}
+              <Suspense
+                fallback={<Skeleton className='size-10 rounded-full' />}
+              >
+                <UserAvatar />
+              </Suspense>
+            </div>
+          )}
         </NavigationMenuList>
       </NavigationMenu>
 

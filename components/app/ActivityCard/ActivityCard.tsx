@@ -10,7 +10,7 @@ import React from 'react';
 
 const ActivityCard = ({
   id,
-  images: { thumbnail },
+  images,
   name: title,
   categoryId,
   price,
@@ -34,15 +34,17 @@ const ActivityCard = ({
             />
           </span>
         </div>
-        <Link href={`/activity/${id}`}>
-          <Image
-            width={500}
-            height={200}
-            src={thumbnail}
-            alt={title}
-            className='object-cover aspect-video w-full rounded-t-md'
-          />
-        </Link>
+        {images?.thumbnail && (
+          <Link href={`/activity/${id}`}>
+            <Image
+              width={500}
+              height={200}
+              src={images.thumbnail}
+              alt={title}
+              className='object-cover aspect-video w-full rounded-t-md'
+            />
+          </Link>
+        )}
       </figure>
 
       {/* Subgrid starts here */}

@@ -22,6 +22,7 @@ function getImage(path: string) {
   return (
     <Image
       className='rounded-lg w-full h-full object-cover'
+      key={path}
       src={path}
       alt='activity'
       width='200'

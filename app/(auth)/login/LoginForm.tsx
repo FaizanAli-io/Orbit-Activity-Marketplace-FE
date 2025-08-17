@@ -43,7 +43,7 @@ export function LoginForm() {
 
     const { success, error } = await login(values);
     if (success) {
-      router.replace('/me/profile');
+      router.replace('/');
     } else {
       toast.error(error);
       setloading(false);
@@ -62,7 +62,7 @@ export function LoginForm() {
 
       if (success) {
         toast.success('Login successful');
-        router.replace('/me/profile');
+        router.replace('/');
       } else {
         toast.error(error, { richColors: true });
         setGoogleLoading(false);
