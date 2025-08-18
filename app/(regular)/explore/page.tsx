@@ -7,6 +7,7 @@ import Sidebar from './Sidebar';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer';
 import { Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import SearchInput from '@/components/app/SearchInput';
 
 type Props = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -35,6 +36,7 @@ const Page = async ({ searchParams }: Props) => {
           <Sidebar />
         </Block> */}
         <Block pad className='md:col-span-4'>
+          <SearchInput />
           <div className='flex justify-between md:block mb-2'>
             <h1 className='font-bold text-2xl'>
               {activities && activities.length
