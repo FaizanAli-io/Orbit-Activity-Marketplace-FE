@@ -16,27 +16,36 @@ import {
 } from '@/components/ui/card';
 import { format } from 'date-fns';
 
+interface Props extends Activity {
+  variant?: 'list' | 'grid';
+}
+
 const ActivityCard = ({
-  id,
   images,
   name: title,
-  categoryId,
-  price,
-  duration,
   location,
-  capacity,
   description,
   timestamp,
-}: Activity) => {
+  variant = 'list',
+}: Props) => {
   return (
-    <Card className='md:grid md:grid-cols-3 p-0 overflow-hidden'>
+    <Card
+      className={cn('p-0 overflow-hidden', {
+        'md:grid md:grid-cols-3': variant === 'list',
+      })}
+    >
       {images?.thumbnail && (
         <Image
           src={images.thumbnail}
           alt={title}
           width={300}
           height={200}
-          className='object-cover aspect-video w-full h-full rounded-t-md md:order-1'
+          className={cn(
+            'object-cover aspect-video w-full h-full rounded-t-md ',
+            {
+              'md:order-1': variant === 'list',
+            }
+          )}
         />
       )}
       <div
@@ -60,7 +69,7 @@ const ActivityCard = ({
         </CardHeader>
 
         <CardContent>
-          <p>{description}</p>
+          <p>{description.slice(0, 200)}...</p>
         </CardContent>
 
         <CardFooter className='flex space-x-2 mt-5'>

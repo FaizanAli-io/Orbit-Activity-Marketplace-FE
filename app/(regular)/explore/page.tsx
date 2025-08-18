@@ -8,6 +8,7 @@ import { Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import SearchInput from '@/components/app/SearchInput';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Tabs, TabsList, TabsContent, TabsTrigger } from '@/components/ui/tabs';
 
 type Props = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -46,13 +47,34 @@ const Page = async ({ searchParams }: Props) => {
                 Something went wrong
               </p>
             )}
-            {activities && (
-              <div className='space-y-5'>
-                {activities.map((item, i) => (
-                  <ActivityCard {...item} key={i} />
-                ))}
+
+            <Tabs defaultValue='list'>
+              <div className='w-full hidden md:flex md:justify-end'>
+                <TabsList>
+                  <TabsTrigger value='list'>List View</TabsTrigger>
+                  <TabsTrigger value='grid'>Grid View</TabsTrigger>
+                </TabsList>
               </div>
-            )}
+              <TabsContent value='list'>
+                {activities && (
+                  <div className='space-y-5'>
+                    {activities.map((item, i) => (
+                      <ActivityCard {...item} key={i} />
+                    ))}
+                  </div>
+                )}
+              </TabsContent>
+
+              <TabsContent value='grid'>
+                {activities && (
+                  <div className='space-y-5 md:grid md:grid-cols-2 md:gap-x-5'>
+                    {activities.map((item, i) => (
+                      <ActivityCard variant='grid' {...item} key={i} />
+                    ))}
+                  </div>
+                )}
+              </TabsContent>
+            </Tabs>
           </div>
         </div>
       </Block>
