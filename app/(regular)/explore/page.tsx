@@ -4,12 +4,10 @@ import ActivityCard from '@/components/app/ActivityCard/ActivityCard';
 import Block from '@/app/layout/Block';
 import { getActivities } from '@/lib/data/activities/get-activities';
 import Sidebar from './Sidebar';
-import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer';
 import { Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import SearchInput from '@/components/app/SearchInput';
-import { Sheet, SheetContent } from '@/components/ui/sheet';
-import { DialogTrigger } from '@/components/ui/dialog';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
 type Props = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -27,45 +25,37 @@ const Page = async ({ searchParams }: Props) => {
 
   return (
     <Sheet>
-      <SheetContent side='left'>
-        <Sidebar />
-      </SheetContent>
-
-      <div className='md:grid md:grid-cols-5'>
-        <Block pad={false} className='hidden md:block'>
+      <Block space={false} className='my-5'>
+        <SheetContent side='left'>
           <Sidebar />
-        </Block>
-        <Block pad className='md:col-span-4'>
-          <SearchInput />
-          <div className='flex justify-between md:block mb-2'>
-            <h1 className='font-bold text-2xl'>
-              {activities && activities.length
-                ? 'Explore activities'
-                : 'No Activities Found'}
-            </h1>
+        </SheetContent>
 
-            {/* <DialogTrigger>
-              <Button size='icon' className='md:hidden'>
+        <SearchInput />
+        <div className='md:grid md:grid-cols-8 md:gap-x-5'>
+          <div className='bg-white rounded-lg shadow-[0px_4px_4px_0px_#00000040] hidden md:block col-span-2'>
+            <Sidebar />
+          </div>
+          <div className='md:col-span-6'>
+            <SheetTrigger className='md:hidden flex justify-end w-full my-2'>
+              <Button variant={'secondary'} size='icon' className='md:hidden'>
                 <Filter />
               </Button>
-            </DialogTrigger> */}
+            </SheetTrigger>
+            {error && (
+              <p className='text-destructive text-center'>
+                Something went wrong
+              </p>
+            )}
+            {activities && (
+              <div className='space-y-5'>
+                {activities.map((item, i) => (
+                  <ActivityCard {...item} key={i} />
+                ))}
+              </div>
+            )}
           </div>
-          <p className='text-muted-foreground mb-10'>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Adipisci
-            dolores, praesentium eum ea tenetur tempora.
-          </p>
-          {error && (
-            <p className='text-destructive text-center'>Something went wrong</p>
-          )}
-          {activities && (
-            <div className='space-y-5'>
-              {activities.map((item, i) => (
-                <ActivityCard {...item} key={i} />
-              ))}
-            </div>
-          )}
-        </Block>
-      </div>
+        </div>
+      </Block>
     </Sheet>
   );
 };
