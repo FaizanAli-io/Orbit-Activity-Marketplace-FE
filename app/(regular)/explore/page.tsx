@@ -8,6 +8,8 @@ import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer';
 import { Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import SearchInput from '@/components/app/SearchInput';
+import { Sheet, SheetContent } from '@/components/ui/sheet';
+import { DialogTrigger } from '@/components/ui/dialog';
 
 type Props = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -24,17 +26,15 @@ const Page = async ({ searchParams }: Props) => {
   const activities = filtered ? filtered : data;
 
   return (
-    <Drawer>
-      <DrawerContent>
+    <Sheet>
+      <SheetContent side='left'>
         <Sidebar />
-      </DrawerContent>
+      </SheetContent>
 
-      <div
-      // className='md:grid md:grid-cols-5'
-      >
-        {/* <Block pad={false} className='hidden md:block'>
+      <div className='md:grid md:grid-cols-5'>
+        <Block pad={false} className='hidden md:block'>
           <Sidebar />
-        </Block> */}
+        </Block>
         <Block pad className='md:col-span-4'>
           <SearchInput />
           <div className='flex justify-between md:block mb-2'>
@@ -44,11 +44,11 @@ const Page = async ({ searchParams }: Props) => {
                 : 'No Activities Found'}
             </h1>
 
-            <DrawerTrigger>
+            {/* <DialogTrigger>
               <Button size='icon' className='md:hidden'>
                 <Filter />
               </Button>
-            </DrawerTrigger>
+            </DialogTrigger> */}
           </div>
           <p className='text-muted-foreground mb-10'>
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Adipisci
@@ -66,7 +66,7 @@ const Page = async ({ searchParams }: Props) => {
           )}
         </Block>
       </div>
-    </Drawer>
+    </Sheet>
   );
 };
 

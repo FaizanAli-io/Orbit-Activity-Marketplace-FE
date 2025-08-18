@@ -59,10 +59,15 @@ export function RangeDatePicker({
         <PopoverTrigger asChild>
           <Button
             variant='outline'
-            className={cn('w-full justify-between font-normal', buttonClass)}
+            className={cn(
+              'w-full justify-between font-normal px-2 py-1 bg-white h-fit shadow-[0px_3px_4px_0px_#00000040] border-none',
+              buttonClass
+            )}
             id='range-date-picker'
           >
-            <span>{formatted}</span>
+            <span className='truncate max-w-[calc(100%-1.5rem)] text-left'>
+              {formatted}
+            </span>
             <ChevronDownIcon className='ml-2 h-4 w-4' />
           </Button>
         </PopoverTrigger>
