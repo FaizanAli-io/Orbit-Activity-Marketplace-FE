@@ -1,12 +1,20 @@
-import { Clock3Icon, HeartIcon, MapPin, Users2Icon } from 'lucide-react';
+import { Clock3Icon, Heart, MapPin, Users2Icon } from 'lucide-react';
 
 import { Activity } from '@/lib/data/activities/types';
 import { Button } from '../../ui/button';
-import { getFirstWords } from '@/lib/utils';
+import { cn, getFirstWords } from '@/lib/utils';
 import ActivityBadge from './ActivityBadge';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import H4 from '@/components/ui/typography/H4';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from '@/components/ui/card';
+import { format } from 'date-fns';
 
 const ActivityCard = ({
   id,
@@ -18,78 +26,54 @@ const ActivityCard = ({
   location,
   capacity,
   description,
+  timestamp,
 }: Activity) => {
   return (
-    <article className='grid grid-rows-[auto_1fr] rounded-lg border shadow-xs  max-w-lg hover:-translate-y-2 hover:shadow-md transition-transform duration-200 bg-white'>
-      <figure className='relative overflow-hidden'>
-        <div className='absolute flex justify-between w-full p-2'>
-          <ActivityBadge categoryId={categoryId} />
-          <span className='bg-white backdrop-blur-lg rounded-full p-1.5'>
-            <HeartIcon
-              size='22'
-              className='cursor-pointer '
-              stroke='black'
-              strokeWidth={1.5}
-              // fill='black'
-            />
-          </span>
-        </div>
-        {images?.thumbnail && (
-          <Link href={`/activity/${id}`}>
-            <Image
-              width={500}
-              height={200}
-              src={images.thumbnail}
-              alt={title}
-              className='object-cover aspect-video w-full rounded-t-md'
-            />
-          </Link>
-        )}
-      </figure>
-
-      {/* Subgrid starts here */}
-      <div className='grid grid-rows-[auto_auto_auto_1fr_auto] p-4 gap-3'>
-        {/* Title and rating */}
-        <div>
-          <div className='flex justify-between items-center'>
-            <h2 className='text-xl font-medium'>
-              <Link href='/activity/5'>{title}</Link>
-            </h2>
+    <Card className='md:grid md:grid-cols-3 p-0 overflow-hidden'>
+      {images?.thumbnail && (
+        <Image
+          src={images.thumbnail}
+          alt={title}
+          width={300}
+          height={200}
+          className='object-cover aspect-video w-full h-full rounded-t-md md:order-1'
+        />
+      )}
+      <div
+        className={cn('md:col-span-2  md:py-5 ', {
+          'pb-5': images?.thumbnail,
+          'py-5': !images?.thumbnail,
+        })}
+      >
+        <CardHeader className='flex justify-between items-baseline mb-5'>
+          <div>
+            <H4 className='font-semibold md:font-medium md:text-3xl'>
+              {title}
+            </H4>
+            <div className='space-x-1 italic text-sm'>
+              <span>Date: {format(timestamp, 'MMM dd, yyyy')}</span>
+              <span>•</span>
+              <span>Location: {location}</span>
+            </div>
           </div>
-        </div>
+          <Heart className=' md:size-5 translate-y-1 md:translate-0' />
+        </CardHeader>
 
-        {/* Description */}
-        <p className='text-muted-foreground'>
-          {getFirstWords(description, 15)}...
-        </p>
+        <CardContent>
+          <p>{description}</p>
+        </CardContent>
 
-        {/* Info Icons */}
-        <div className='flex items-center space-x-8 text-muted-foreground'>
-          <p className='flex items-center space-x-1'>
-            <MapPin size='20' /> <span>{location}</span>
-          </p>
-          <p className='flex items-center space-x-1'>
-            <Clock3Icon size='17' /> <span>{duration} Hours</span>
-          </p>
-          <p className='flex items-center space-x-1'>
-            <Users2Icon size='17' /> <span>0/{capacity}</span>
-          </p>
-        </div>
-
-        {/* Spacer for flex-grow */}
-        <div />
-
-        {/* Price + Button */}
-        <div className='flex justify-between mt-2'>
-          <p>
-            <span className='text-2xl font-bold'>${price}</span>/person
-          </p>
-          <Button className='px-10 cursor-pointer'>
-            <Link href={`/activity/${id}`}>Details</Link>
+        <CardFooter className='flex space-x-2 mt-5'>
+          <Button className='flex-1' variant={'secondary'}>
+            <Link href='#'>View</Link>
           </Button>
-        </div>
+
+          <Button className='flex-1'>
+            <Link href='#'>Register</Link>
+          </Button>
+        </CardFooter>
       </div>
-    </article>
+    </Card>
   );
 };
 

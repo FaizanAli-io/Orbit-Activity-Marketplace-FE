@@ -28,10 +28,12 @@ const Page = async ({ searchParams }: Props) => {
         <Sidebar />
       </DrawerContent>
 
-      <div className='md:grid md:grid-cols-5'>
-        <Block pad={false} className='hidden md:block'>
+      <div
+      // className='md:grid md:grid-cols-5'
+      >
+        {/* <Block pad={false} className='hidden md:block'>
           <Sidebar />
-        </Block>
+        </Block> */}
         <Block pad className='md:col-span-4'>
           <div className='flex justify-between md:block mb-2'>
             <h1 className='font-bold text-2xl'>
@@ -54,7 +56,7 @@ const Page = async ({ searchParams }: Props) => {
             <p className='text-destructive text-center'>Something went wrong</p>
           )}
           {activities && (
-            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5  auto-rows-fr'>
+            <div className='space-y-5'>
               {activities.map((item, i) => (
                 <ActivityCard {...item} key={i} />
               ))}
