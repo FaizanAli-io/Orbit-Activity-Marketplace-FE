@@ -26,28 +26,25 @@ const ActivityCard = ({
   location,
   description,
   timestamp,
+  id,
   variant = 'list',
 }: Props) => {
   return (
     <Card
-      className={cn('p-0 overflow-hidden', {
+      className={cn('p-0 overflow-hidden md:gap-0', {
         'md:grid md:grid-cols-3': variant === 'list',
       })}
     >
-      {images?.thumbnail && (
-        <Image
-          src={images.thumbnail}
-          alt={title}
-          width={300}
-          height={200}
-          className={cn(
-            'object-cover aspect-video w-full h-full rounded-t-md ',
-            {
-              'md:order-1': variant === 'list',
-            }
-          )}
-        />
-      )}
+      <Image
+        src={images?.thumbnail || `https://picsum.photos/300`}
+        alt={title}
+        width={300}
+        height={200}
+        className={cn('object-cover aspect-video w-full h-full rounded-t-md ', {
+          'md:order-1': variant === 'list',
+        })}
+      />
+
       <div
         className={cn('md:col-span-2  md:py-5 ', {
           'pb-5': images?.thumbnail,
