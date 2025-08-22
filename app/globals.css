@@ -230,4 +230,8 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  .shadow-theme {
+    @apply shadow-[0px_4px_4px_0px_#00000040];
+  }
 }

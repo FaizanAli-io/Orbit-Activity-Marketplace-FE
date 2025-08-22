@@ -12,9 +12,10 @@ type Props = Readonly<{ children: React.ReactNode }>;
 export default function Layout({ children }: Props) {
   return (
     <>
-      <header className='shadow-[0px_4px_4px_0px_#00000040]'>
+      <header className='shadow-theme'>
         <Navbar />
       </header>
+      {children}
       {/* <SidebarProvider
         style={
           {
