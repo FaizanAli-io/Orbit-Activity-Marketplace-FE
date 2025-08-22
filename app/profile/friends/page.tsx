@@ -1,34 +1,38 @@
 import React from 'react';
 
 import { Tabs, TabsTrigger, TabsList, TabsContent } from '@/components/ui/tabs';
-import MyFriends from './MyFriends';
-import FindFriends from './FindFriends';
+import AllFriends from './AllFriends';
+import SuggestedFriends from './SuggestedFriends';
 import FriendRequests from './FriendRequests';
-
-const myFriends = 'my-friends';
-const findFriends = 'find-friends';
-const friendRequests = 'friend-requests';
+import Block from '@/app/layout/Block';
+import H2 from '@/components/ui/typography/H2';
+import SearchInput from '@/components/app/SearchInput';
 
 const Page = () => {
   return (
-    <div>
-      <Tabs defaultValue={myFriends}>
-        <TabsList>
-          <TabsTrigger value={myFriends}>My Friends</TabsTrigger>
-          <TabsTrigger value={friendRequests}>Friend Requests</TabsTrigger>
-          <TabsTrigger value={findFriends}>Find Friends</TabsTrigger>
+    <Block>
+      <div className='my-10 space-y-2'>
+        <H2 className='font-medium'>Friends</H2>
+        <p>Connect with friends and discover events together.</p>
+      </div>
+      <SearchInput />
+      <Tabs defaultValue={'all'}>
+        <TabsList className='bg-secondary mb-2'>
+          <TabsTrigger value={'all'}>All Friends (3)</TabsTrigger>
+          <TabsTrigger value={'requests'}>Requests (2)</TabsTrigger>
+          <TabsTrigger value={'suggestions'}>Suggestions</TabsTrigger>
         </TabsList>
-        <TabsContent value={myFriends}>
-          <MyFriends />
+        <TabsContent value={'all'}>
+          <AllFriends />
         </TabsContent>
-        <TabsContent value={findFriends}>
-          <FindFriends />
-        </TabsContent>
-        <TabsContent value={friendRequests}>
+        <TabsContent value={'requests'}>
           <FriendRequests />
         </TabsContent>
+        <TabsContent value={'suggestions'}>
+          <SuggestedFriends />
+        </TabsContent>
       </Tabs>
-    </div>
+    </Block>
   );
 };
 

@@ -1,58 +1,46 @@
 import React from 'react';
 
-import { Activity, UserRound } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import Image from 'next/image';
 import Link from 'next/link';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-interface Props {
-  buttonText: React.ReactNode;
-  secondaryBtnText?: React.ReactNode;
-  onButtonClick?: () => void;
-  onSecondaryClick?: () => void;
-}
+// interface Props {
+//   buttonText?: React.ReactNode;
+//   secondaryBtnText?: React.ReactNode;
+//   onButtonClick?: () => void;
+//   onSecondaryClick?: () => void;
+// }
 
-const FriendCard = ({ buttonText, secondaryBtnText }: Props) => {
+const FriendCard = () => {
   return (
-    <div className='p-3 border rounded-lg shadow-xs bg-white'>
-      <Image
-        src='/images/dp.jpg'
-        alt='Profile picture'
-        width='500'
-        height='500'
-        className='w-full object-cover rounded-md'
-        objectFit='cover'
-      />
-      <div className='px-2 pb-3'>
-        <h2 className='font-bold text-2xl mt-5 hover:underline cursor-pointer'>
-          <Link href='#'>Irene Brooks</Link>
-        </h2>
-
-        <p className='text-muted-foreground'>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus
-          accusantium.
-        </p>
-        <div className='flex justify-between mt-5'>
-          <div className='flex space-x-5'>
-            <div className='flex text-lg items-center space-x-1 font-semibold'>
-              <Activity size='20' strokeWidth={2} color='#555' />{' '}
-              <span>20</span>
-            </div>
-            <div className='flex text-lg items-center space-x-1 font-semibold'>
-              <UserRound size='20' strokeWidth={2} color='#555' />{' '}
-              <span>254</span>
-            </div>
-          </div>
-          <div className='flex items-end space-x-2 '>
-            <Button className='cursor-pointer'>{buttonText}</Button>
-            {secondaryBtnText && (
-              <Button variant='outline' className='cursor-pointer'>
-                {secondaryBtnText}
-              </Button>
-            )}
+    <div className='p-3 border flex justify-between items-center rounded-lg'>
+      <div className='flex items-center space-x-2'>
+        <Avatar className='size-11'>
+          <AvatarImage
+            width={'100'}
+            height={'100'}
+            src={'/images/dp.jpg'}
+            className='object-cover'
+            alt={'Profile Picture'}
+          />
+          <AvatarFallback>SA</AvatarFallback>
+        </Avatar>
+        <div>
+          <h2 className='font-semibold hover:underline cursor-pointer'>
+            <Link href='#'>Irene Brooks</Link>
+          </h2>
+          <div className='flex flex-col md:flex-row space-x-2 text-sm'>
+            <p className='text-muted-foreground'>12 mutual friends</p>
+            <p className='text-muted-foreground'>24 events attended</p>
           </div>
         </div>
       </div>
+
+      <Button variant={'outline'} size='sm' className='bg-transparent'>
+        <Link href={'#'} className='text-sm'>
+          View Profile
+        </Link>
+      </Button>
     </div>
   );
 };
