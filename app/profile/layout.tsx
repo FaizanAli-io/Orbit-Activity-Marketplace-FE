@@ -1,17 +1,21 @@
 import React from 'react';
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from '@/components/ui/sidebar';
-import { ProfileSidebar } from './ProfileSidebar';
+import Navbar from './navbar';
+// import {
+//   SidebarInset,
+//   SidebarProvider,
+//   SidebarTrigger,
+// } from '@/components/ui/sidebar';
+// import { ProfileSidebar } from './ProfileSidebar';
 
 type Props = Readonly<{ children: React.ReactNode }>;
 
 export default function Layout({ children }: Props) {
   return (
     <>
-      <SidebarProvider
+      <header className='shadow-[0px_4px_4px_0px_#00000040]'>
+        <Navbar />
+      </header>
+      {/* <SidebarProvider
         style={
           {
             '--sidebar-width': '19rem',
@@ -25,7 +29,7 @@ export default function Layout({ children }: Props) {
           </header>
           <div className='flex flex-1 flex-col gap-4 p-4 pt-0'>{children}</div>
         </SidebarInset>
-      </SidebarProvider>
+      </SidebarProvider> */}
     </>
   );
 }

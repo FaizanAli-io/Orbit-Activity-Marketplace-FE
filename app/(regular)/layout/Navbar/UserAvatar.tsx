@@ -7,9 +7,9 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { getProfile } from '@/lib/data/profile/get-profile';
 import { AvatarImage } from '@radix-ui/react-avatar';
-import Link from 'next/link';
 import React from 'react';
 import LogoutButton from './LogoutButton';
+import Link from 'next/link';
 
 const UserAvatar = async () => {
   const profile = await getProfile();
@@ -36,12 +36,17 @@ const UserAvatar = async () => {
     <DropdownMenu>
       <DropdownMenuTrigger className='cursor-pointer'>
         <Avatar className='size-9'>
-          <AvatarImage
-            src={avatar}
-            className='object-cover'
-            alt={getFallback()}
-          />
-          <AvatarFallback>{getFallback()}</AvatarFallback>
+          {avatar ? (
+            <AvatarImage
+              width={'100'}
+              height={'100'}
+              src={avatar}
+              className='object-cover'
+              alt={getFallback()}
+            />
+          ) : (
+            <AvatarFallback>{getFallback()}</AvatarFallback>
+          )}
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
