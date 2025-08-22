@@ -6,6 +6,8 @@ export const schema = z.object({
     .min(3, 'must be atleast 3 characters long')
     .max(50, 'cannot exceed 50 characters'),
 
+  email: z.email(),
+
   phone: z
     .string()
     .trim()
@@ -14,7 +16,7 @@ export const schema = z.object({
   avatar: z.url('Avatar is required'),
 
   preferences: z
-    .array(z.number())
+    .array(z.string())
     .min(3, 'select 3 preferences')
     .max(3, 'cannot select more than 3 preferences'),
 });

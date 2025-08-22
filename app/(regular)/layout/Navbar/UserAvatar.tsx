@@ -51,8 +51,13 @@ const UserAvatar = async () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem>
-          <Link href='/me/profile'>My Account</Link>
+          <Link href='/profile/dashboard'>Dashboard</Link>
         </DropdownMenuItem>
+
+        <DropdownMenuItem>
+          <Link href='/profile'>Settings</Link>
+        </DropdownMenuItem>
+
         <LogoutButton />
       </DropdownMenuContent>
     </DropdownMenu>

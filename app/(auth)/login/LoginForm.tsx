@@ -132,7 +132,7 @@ export function LoginForm() {
             <LoadingButton
               type='button'
               variant='outline-accent'
-              className='flex-1 cursor-pointer'
+              className='flex-1 cursor-pointer min-h-8'
               onClick={handleGoogleLogin}
               disabled={loading || googleLoading}
               loading={googleLoading}

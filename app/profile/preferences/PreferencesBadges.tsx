@@ -36,7 +36,7 @@ const PreferencesBadges = ({ selected, onChange }: Props) => {
           <p className='font-semibold mb-2 text-sm text-muted-foreground'>
             {c.name}
           </p>
-          <div className='flex space-x-2'>
+          {/* <div className='flex space-x-2 flex-wrap space-y-2'>
             {c.subcategories.map(sub => (
               <Badge
                 key={sub.id}
@@ -49,7 +49,7 @@ const PreferencesBadges = ({ selected, onChange }: Props) => {
                 {sub.name}
               </Badge>
             ))}
-          </div>
+          </div> */}
         </div>
       ))}
     </div>

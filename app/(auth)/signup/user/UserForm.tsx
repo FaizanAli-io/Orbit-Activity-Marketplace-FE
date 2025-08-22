@@ -164,7 +164,7 @@ export function UserForm() {
           <LoadingButton
             type='button'
             variant='outline-accent'
-            className='flex-1 cursor-pointer'
+            className='flex-1 cursor-pointer min-h-8'
             onClick={handleGoogleSignup}
             disabled={loading || googleLoading}
             loading={googleLoading}

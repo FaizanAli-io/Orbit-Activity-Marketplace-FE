@@ -8,17 +8,18 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { schema } from './schema';
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@/components/ui/input';
-import Uploader from '@/components/app/Uploader';
-import PreferencesBadges from './PreferencesBadges';
 import { updateUser } from './action';
 import { toast } from 'sonner';
 import LoadingButton from '@/components/app/LoadingButton';
+import { MultiGroupCombobox } from '@/components/multi-combobox';
+import { useCategories } from '@/lib/data/categories/use-categories';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface Props {
   data: {
@@ -26,24 +27,26 @@ interface Props {
     phone?: string;
     preferences?: number[];
     avatar?: string;
-    // email: string;
+    email?: string;
   };
 }
 
 type Data = z.infer<typeof schema>;
 
 const PreferenceForm = ({
-  data: { name, phone, preferences, avatar },
+  data: { name, phone, preferences, avatar, email },
 }: Props) => {
   const [loading, setLoading] = useState<boolean>();
+
+  const { data: categories, isFetched } = useCategories();
 
   const form = useForm<Data>({
     resolver: zodResolver(schema),
     defaultValues: {
       name: name || '',
-      // email: email || '',
+      email: email || '',
       phone: phone || '',
-      preferences: preferences || [],
+      preferences: [],
       avatar: avatar || '',
     },
   });
@@ -51,13 +54,19 @@ const PreferenceForm = ({
   const onSubmit = async (data: Data) => {
     setLoading(true);
 
-    const { success, error, data: res } = await updateUser(data);
+    // const { success, error, data: res } = await updateUser(data);
 
-    if (success) toast.success('Record updated.');
-    else toast.error(error, { richColors: true });
+    // if (success) toast.success('Record updated.');
+    // else toast.error(error, { richColors: true });
+
+    console.log(data);
 
     setLoading(false);
   };
+
+  useEffect(() => {
+    console.log(form.getFieldState('preferences'));
+  }, [form.getFieldState('preferences')]);
 
   return (
     <Form {...form}>
@@ -67,7 +76,7 @@ const PreferenceForm = ({
           name='name'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name</FormLabel>
+              <FormLabel>Full Name</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -76,37 +85,66 @@ const PreferenceForm = ({
           )}
         />
 
-        <FormField
-          control={form.control}
-          name='phone'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Phone</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className='flex flex-col md:flex-row space-x-2 space-y-5 md:space-y-0'>
+          <FormField
+            control={form.control}
+            name='email'
+            render={({ field }) => (
+              <FormItem className='flex-1'>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name='phone'
+            render={({ field }) => (
+              <FormItem className='flex-1'>
+                <FormLabel>Phone</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
         <FormField
           control={form.control}
           name='preferences'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='mb-2'>Preferences</FormLabel>
+              <FormLabel>Preferences</FormLabel>
               <FormControl>
-                <PreferencesBadges
-                  selected={field.value}
-                  onChange={field.onChange}
-                />
+                {!isFetched || !categories || !categories?.length ? (
+                  <Skeleton className='w-full h-9 rounded-md' />
+                ) : (
+                  <MultiGroupCombobox
+                    groups={categories.map(c => ({
+                      group: c.name,
+                      options: c.subcategories.map(sub => ({
+                        value: String(sub.id),
+                        label: sub.name,
+                      })),
+                    }))}
+                    onChange={field.onChange}
+                    placeholder='Select Preferences'
+                    value={field.value.map(v => String(v))}
+                  />
+                )}
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
+        {/* 
         <FormField
           control={form.control}
           name='avatar'
@@ -124,10 +162,15 @@ const PreferenceForm = ({
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
 
         <div className='flex justify-end space-x-2 mt-10'>
-          <LoadingButton type='submit' disabled={loading} loading={loading}>
+          <LoadingButton
+            variant={'secondary'}
+            type='submit'
+            disabled={loading}
+            loading={loading}
+          >
             Save
           </LoadingButton>
         </div>
