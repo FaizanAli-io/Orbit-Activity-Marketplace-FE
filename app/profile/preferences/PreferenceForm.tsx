@@ -56,10 +56,10 @@ const PreferenceForm = ({
   const onSubmit = async (data: Data) => {
     setLoading(true);
 
-    // const { success, error, data: res } = await updateUser(data);
+    const { success, error, data: res } = await updateUser(data);
 
-    // if (success) toast.success('Record updated.');
-    // else toast.error(error, { richColors: true });
+    if (success) toast.success('Record updated.');
+    else toast.error(error, { richColors: true });
 
     console.log(data);
 
@@ -108,7 +108,7 @@ const PreferenceForm = ({
               <FormItem className='flex-1'>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} disabled />
                 </FormControl>
                 <FormMessage />
               </FormItem>

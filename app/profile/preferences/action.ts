@@ -9,6 +9,13 @@ import { HTTP_VERB } from '@/lib/enums/http-verbs';
 
 type Data = z.infer<typeof schema>;
 
+interface Req {
+  name?: string;
+  phone?: string;
+  preferences?: number[];
+  avatar?: string;
+}
+
 export async function updateUser(data: Data) {
   const { success, error } = schema.safeParse(data);
 
@@ -17,10 +24,15 @@ export async function updateUser(data: Data) {
   const token = await getAccessToken();
   if (!token) return { success: false, data: undefined, error: 'Unauthorized' };
 
+  const { email, preferences, ...body } = data;
+
   return withServerError(() =>
-    apiFetch<Data, unknown>('/users', {
+    apiFetch<Req, unknown>('/users', {
       method: HTTP_VERB.PATCH,
-      data,
+      data: {
+        ...body,
+        preferences: preferences.map(Number),
+      },
       headers: {
         Authorization: `Bearer ${token}`,
       },
