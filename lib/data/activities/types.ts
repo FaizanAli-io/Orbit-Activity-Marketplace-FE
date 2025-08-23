@@ -50,4 +50,8 @@ export interface Activity {
   quota: number;
   discount: number;
   timestamp: string;
+  vendor: {
+    id: number;
+    name: string;
+  };
 }

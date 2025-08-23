@@ -18,6 +18,7 @@ import { format } from 'date-fns';
 
 interface Props extends Activity {
   variant?: 'list' | 'grid';
+  viewLink?: string;
 }
 
 const ActivityCard = ({
@@ -26,8 +27,8 @@ const ActivityCard = ({
   location,
   description,
   timestamp,
-  id,
   variant = 'list',
+  viewLink = '#',
 }: Props) => {
   return (
     <Card
@@ -71,7 +72,7 @@ const ActivityCard = ({
 
         <CardFooter className='flex space-x-2 mt-5'>
           <Button className='flex-1' variant={'secondary'}>
-            <Link href='#'>View</Link>
+            <Link href={viewLink}>View</Link>
           </Button>
 
           <Button className='flex-1'>

@@ -1,9 +1,12 @@
+'use client';
 import React from 'react';
 
 import { DayNumberSelector } from '../schedule/DayNumberSelector';
 import { Minus } from 'lucide-react';
 import { ScheduleSchema } from '../schema';
 import z from 'zod';
+import { format } from 'date-fns';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 type Schedule = z.infer<typeof ScheduleSchema>;
 
@@ -15,58 +18,74 @@ interface Props {
 }
 
 const ScheduleCard = ({ dates, range, weekly, monthly }: Props) => {
+  const isMobile = useIsMobile();
+
   if (dates && dates.length)
     return (
-      <div className='divide-y divide-gray-300'>
-        <h2 className='font-semibold text-2xl pb-5'>Schedule</h2>
-        {dates.map(({ date, time }, i) => (
-          <div
-            className='p-5 flex justify-between items-center text-muted-foreground'
-            key={i}
-          >
-            <div>
-              <p>{formatDate(new Date(date))}</p>
-              <p>
-                {time?.start} - {time?.end}
-              </p>
+      <div>
+        <h2 className='font-medium text-2xl pb-2'>Schedule</h2>
+        <div className='divide-y divide-gray-300'>
+          {dates.map(({ date, time }, i) => (
+            <div className='py-2' key={i}>
+              <div className='flex space-x-5'>
+                {!isMobile ? (
+                  <p>{formatDate(new Date(date))}</p>
+                ) : (
+                  <p>{format(date, 'MMM dd, yyyy')}</p>
+                )}
+                <p>
+                  from {time?.start} - to {time?.end}
+                </p>
+              </div>
             </div>
-
-            <p className='text-emerald-600 font-semibold'>Available</p>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     );
 
   if (range)
     return (
       <div>
-        <h2 className='font-semibold text-2xl'>Schedule</h2>
-        <div className='flex justify-between items-center text-muted-foreground'>
-          <div className='flex space-x-5'>
-            <p> {formatDate(new Date(range.date.start))}</p>
-            <Minus />
-            <p> {formatDate(new Date(range.date.end))}</p>
+        <h2 className='font-medium text-2xl'>Schedule</h2>
+        {!isMobile ? (
+          <div>
+            <div className='flex  space-x-5'>
+              <p> {formatDate(new Date(range.date.start))}</p>
+              <Minus />
+              <p> {formatDate(new Date(range.date.end))}</p>
+            </div>
+            <p>
+              from {range.time?.start} - to {range.time?.end}
+            </p>
           </div>
-          <p>
-            {range.time?.start} - {range.time?.end}
-          </p>
-        </div>
+        ) : (
+          <div>
+            <div className='flex space-x-5'>
+              <p> {format(new Date(range.date.start), 'MMM dd, yyyy')}</p>
+              <Minus />
+              <p> {format(new Date(range.date.end), 'MMM dd, yyyy')}</p>
+            </div>
+            <p>
+              from {range.time?.start} - to {range.time?.end}
+            </p>
+          </div>
+        )}
       </div>
     );
 
   if (weekly)
     return (
       <div>
-        <h2 className='font-semibold text-2xl'>Scheduled every week</h2>
+        <h2 className='font-medium text-2xl'>Scheduled every week</h2>
 
-        <div className='flex justify-between items-center text-muted-foreground my-2'>
+        <div className='my-2'>
           <div className='flex space-x-5'>
-            <p> {formatDate(new Date(weekly.date.start))}</p>
+            <p> {format(weekly.date.start, 'MMM dd, yyyy')}</p>
             <Minus />
-            <p> {formatDate(new Date(weekly.date.end))}</p>
+            <p> {format(weekly.date.end, 'MMM dd, yyyy')}</p>
           </div>
           <p>
-            {weekly.time?.start} - {weekly.time?.end}
+            from {weekly.time?.start} - to {weekly.time?.end}
           </p>
         </div>
 
@@ -79,16 +98,17 @@ const ScheduleCard = ({ dates, range, weekly, monthly }: Props) => {
   if (monthly)
     return (
       <div>
-        <h2 className='font-semibold text-2xl'>Scheduled every month</h2>
-        <div className='flex justify-between items-center text-muted-foreground my-2'>
-          <div className='flex space-x-5'>
-            <p> {formatDate(new Date(monthly.date.start))}</p>
-            <Minus />
-            <p> {formatDate(new Date(monthly.date.end))}</p>
-          </div>
-          <p>
-            {monthly.time?.start} - {monthly.time?.end}
-          </p>
+        <h2 className='font-medium text-2xl'>Scheduled every month</h2>
+
+        <div className='flex space-x-5'>
+          <p> {format(monthly.date.start, 'MMM dd, yyyy')}</p>
+          <Minus />
+          <p> {format(monthly.date.end, 'MMM dd, yyyy')}</p>
+        </div>
+        <div className='flex space-x-5 mb-2'>
+          <p>From {monthly.time?.start}</p>
+          <Minus />
+          <p>to {monthly.time?.end}</p>
         </div>
         <div className='max-w-sm'>
           <DayNumberSelector readonly mode='month' selected={monthly.days} />

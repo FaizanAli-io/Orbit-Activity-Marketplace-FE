@@ -59,7 +59,11 @@ const Page = async ({ searchParams }: Props) => {
                 {activities && (
                   <div className='space-y-5'>
                     {activities.map((item, i) => (
-                      <ActivityCard {...item} key={i} />
+                      <ActivityCard
+                        viewLink={`/event/${item.id}`}
+                        {...item}
+                        key={i}
+                      />
                     ))}
                   </div>
                 )}
@@ -69,7 +73,12 @@ const Page = async ({ searchParams }: Props) => {
                 {activities && (
                   <div className='space-y-5 md:grid md:grid-cols-2 md:gap-x-5'>
                     {activities.map((item, i) => (
-                      <ActivityCard variant='grid' {...item} key={i} />
+                      <ActivityCard
+                        viewLink={`/event/${item.id}`}
+                        variant='grid'
+                        {...item}
+                        key={i}
+                      />
                     ))}
                   </div>
                 )}

@@ -3,7 +3,7 @@ import PreferenceForm from './preferences/PreferenceForm';
 import Block from '../layout/Block';
 import H2 from '@/components/ui/typography/H2';
 import H3 from '@/components/ui/typography/H3';
-import VerificationStatusCard from './preferences/VerificationStatusCard';
+import SummaryCard from './preferences/SummaryCard';
 import { Card, CardContent } from '@/components/ui/card';
 
 export default async function Page() {
@@ -31,7 +31,7 @@ export default async function Page() {
           </CardContent>
         </Card>
         <div className='hidden md:block md:col-span-2 w-full'>
-          <VerificationStatusCard />
+          <SummaryCard />
         </div>
       </div>
     </Block>

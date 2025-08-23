@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import H5 from '@/components/ui/typography/H5';
 import React from 'react';
 
-const VerificationStatusCard = () => {
+const SummaryCard = () => {
   return (
     <Card className='max-h-fit'>
       <CardHeader>
@@ -35,4 +35,4 @@ const VerificationStatusCard = () => {
   );
 };
 
-export default VerificationStatusCard;
+export default SummaryCard;
