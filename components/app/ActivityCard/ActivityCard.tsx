@@ -15,6 +15,7 @@ import {
   CardHeader,
 } from '@/components/ui/card';
 import { format } from 'date-fns';
+import LikeButton from './LikeButton';
 
 interface Props extends Activity {
   variant?: 'list' | 'grid';
@@ -22,14 +23,27 @@ interface Props extends Activity {
 }
 
 const ActivityCard = ({
+  id,
   images,
   name: title,
   location,
   description,
-  timestamp,
+  availability,
   variant = 'list',
   viewLink = '#',
 }: Props) => {
+  const getStartDate = () => {
+    const { dates, range, weekly, monthly } = availability;
+
+    if (monthly) return monthly.date.start;
+    if (weekly) return weekly.date.start;
+    if (range) return range.date.start;
+
+    if (dates && dates.length) return dates[0].date;
+
+    return new Date().toISOString();
+  };
+
   return (
     <Card
       className={cn('p-0 overflow-hidden md:gap-0', {
@@ -58,12 +72,12 @@ const ActivityCard = ({
               {title}
             </H4>
             <div className='space-x-1 italic text-sm'>
-              <span>Date: {format(timestamp, 'MMM dd, yyyy')}</span>
+              <span>Date: {format(getStartDate(), 'MMM dd, yyyy')}</span>
               <span>•</span>
               <span>Location: {location}</span>
             </div>
           </div>
-          <Heart className=' md:size-5 translate-y-1 md:translate-0' />
+          <LikeButton activityId={id} />
         </CardHeader>
 
         <CardContent>
