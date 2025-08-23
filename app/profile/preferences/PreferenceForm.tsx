@@ -20,6 +20,8 @@ import LoadingButton from '@/components/app/LoadingButton';
 import { MultiGroupCombobox } from '@/components/multi-combobox';
 import { useCategories } from '@/lib/data/categories/use-categories';
 import { Skeleton } from '@/components/ui/skeleton';
+import Avatar from './ProfileAvatar';
+import ProfileAvatar from './ProfileAvatar';
 
 interface Props {
   data: {
@@ -71,6 +73,19 @@ const PreferenceForm = ({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-5'>
+        <FormField
+          control={form.control}
+          name='avatar'
+          render={({ field }) => (
+            <FormItem className='w-full flex justify-center'>
+              <FormControl>
+                <ProfileAvatar />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <FormField
           control={form.control}
           name='name'

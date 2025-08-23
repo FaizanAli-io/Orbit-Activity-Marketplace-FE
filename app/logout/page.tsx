@@ -10,7 +10,7 @@ const Page = () => {
     logout().finally(() => router.replace('/'));
   }, []);
 
-  return <></>;
+  return <>logging out...</>;
 };
 
 export default Page;

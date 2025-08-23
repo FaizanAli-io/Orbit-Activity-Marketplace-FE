@@ -35,18 +35,15 @@ const UserAvatar = async () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className='cursor-pointer'>
-        <Avatar className='size-9'>
-          {avatar ? (
-            <AvatarImage
-              width={'100'}
-              height={'100'}
-              src={avatar}
-              className='object-cover'
-              alt={getFallback()}
-            />
-          ) : (
-            <AvatarFallback>{getFallback()}</AvatarFallback>
-          )}
+        <Avatar className='size-9 rounded-full overflow-hidden'>
+          <AvatarImage
+            width={'100'}
+            height={'100'}
+            src={avatar}
+            className='object-cover'
+            alt={getFallback()}
+          />
+          <AvatarFallback>{getFallback()}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
