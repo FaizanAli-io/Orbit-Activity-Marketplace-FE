@@ -4,6 +4,14 @@ import { getAccessToken } from '@/lib/utils/cookies/auth-cookies';
 import { withServerError } from '@/lib/utils/with-server-error';
 import { redirect } from 'next/navigation';
 
+interface Preference {
+  categoryId: number;
+  category: string;
+
+  subcategoryId: number;
+  subcategory: string;
+}
+
 interface Profile {
   role: 'USER' | 'VENDOR';
   email: string;
@@ -12,7 +20,7 @@ interface Profile {
     name?: string;
     phone?: string;
     avatar?: string;
-    preferences?: [];
+    preferences?: Preference[];
   };
 }
 

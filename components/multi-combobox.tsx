@@ -93,7 +93,7 @@ export function MultiGroupCombobox({
             autoHeight={true}
             mode='input'
             placeholder={selectedValues.length === 0}
-            className='w-full p-1 relative bg-transparent'
+            className='w-full p-1 relative bg-transparent border-2'
           >
             <div className='flex flex-wrap items-center gap-1 pe-2.5'>
               {selectedValues.length > 0 ? (

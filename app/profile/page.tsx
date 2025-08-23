@@ -14,7 +14,9 @@ export default async function Page() {
   return (
     <Block space={false} className='my-10'>
       <div className='space-y-1 mb-5'>
-        <H3 className='font-medium md:text-4xl'>Profile and Settings</H3>
+        <H3 className='font-medium text-2xl md:text-4xl'>
+          Profile and Settings
+        </H3>
         <p>Manage your account preferences and settings</p>
       </div>
       <div className='md:grid md:grid-cols-6 md:gap-x-5'>
@@ -24,8 +26,11 @@ export default async function Page() {
               data={{
                 name: data?.user.name,
                 phone: data?.user.phone,
-                preferences: data?.user.preferences,
+                preferences:
+                  data?.user.preferences?.map(p => String(p.subcategoryId)) ||
+                  [],
                 avatar: data?.user.avatar,
+                email: data.email,
               }}
             />
           </CardContent>

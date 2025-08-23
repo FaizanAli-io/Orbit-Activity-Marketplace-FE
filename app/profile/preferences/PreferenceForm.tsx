@@ -27,7 +27,7 @@ interface Props {
   data: {
     name?: string;
     phone?: string;
-    preferences?: number[];
+    preferences?: string[];
     avatar?: string;
     email?: string;
   };
@@ -48,7 +48,7 @@ const PreferenceForm = ({
       name: name || '',
       email: email || '',
       phone: phone || '',
-      preferences: [],
+      preferences: preferences && preferences.length ? preferences : [],
       avatar: avatar || '',
     },
   });
@@ -67,8 +67,8 @@ const PreferenceForm = ({
   };
 
   useEffect(() => {
-    console.log(form.getFieldState('preferences'));
-  }, [form.getFieldState('preferences')]);
+    console.log(preferences);
+  }, [preferences]);
 
   return (
     <Form {...form}>
@@ -79,7 +79,7 @@ const PreferenceForm = ({
           render={({ field }) => (
             <FormItem className='w-full flex justify-center'>
               <FormControl>
-                <ProfileAvatar />
+                <ProfileAvatar onChange={field.onChange} value={field.value} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -158,26 +158,6 @@ const PreferenceForm = ({
             </FormItem>
           )}
         />
-
-        {/* 
-        <FormField
-          control={form.control}
-          name='avatar'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Avatar</FormLabel>
-              <FormControl>
-                <Uploader
-                  maxFiles={1}
-                  maxSizeInMbs={5}
-                  setUrl={field.onChange}
-                  imageUrl={field.value}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        /> */}
 
         <div className='flex justify-end space-x-2 mt-10'>
           <LoadingButton
