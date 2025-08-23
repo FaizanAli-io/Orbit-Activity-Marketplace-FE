@@ -1,9 +1,6 @@
-import { Clock3Icon, Heart, MapPin, Users2Icon } from 'lucide-react';
-
 import { Activity } from '@/lib/data/activities/types';
 import { Button } from '../../ui/button';
-import { cn, getFirstWords } from '@/lib/utils';
-import ActivityBadge from './ActivityBadge';
+import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -16,13 +13,14 @@ import {
 } from '@/components/ui/card';
 import { format } from 'date-fns';
 import LikeButton from './LikeButton';
+import { getLikedActivities } from '@/lib/data/activities/get-liked-activities';
 
 interface Props extends Activity {
   variant?: 'list' | 'grid';
   viewLink?: string;
 }
 
-const ActivityCard = ({
+const ActivityCard = async ({
   id,
   images,
   name: title,
@@ -32,6 +30,11 @@ const ActivityCard = ({
   variant = 'list',
   viewLink = '#',
 }: Props) => {
+  const { success, data: likedActivities } = await getLikedActivities();
+
+  const liked =
+    success && likedActivities && likedActivities.find(a => a.id === id);
+
   const getStartDate = () => {
     const { dates, range, weekly, monthly } = availability;
 
@@ -77,7 +80,7 @@ const ActivityCard = ({
               <span>Location: {location}</span>
             </div>
           </div>
-          <LikeButton activityId={id} />
+          <LikeButton liked={!!liked} activityId={id} />
         </CardHeader>
 
         <CardContent>
