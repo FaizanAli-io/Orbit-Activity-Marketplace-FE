@@ -72,7 +72,7 @@ const ActivityCard = async ({
         <CardHeader className='flex justify-between items-baseline mb-5'>
           <div>
             <H4 className='font-semibold md:font-medium md:text-3xl'>
-              {title}
+              <Link href={viewLink}> {title}</Link>
             </H4>
             <div className='space-x-1 italic text-sm'>
               <span>Date: {format(getStartDate(), 'MMM dd, yyyy')}</span>
