@@ -12,8 +12,8 @@ const EventList = async () => {
     await getLikedActivities();
 
   return (
-    <Tabs defaultValue='liked'>
-      <div className='w-full hidden md:flex md:justify-between md:items-baseline-last'>
+    <Tabs defaultValue='best'>
+      <div className='w-full md:flex md:justify-between md:items-baseline-last'>
         <div>
           <H5 className='font-medium mb-2'>Events you might like</H5>
           <TabsList className='bg-secondary'>
