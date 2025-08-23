@@ -29,14 +29,13 @@ export default async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL('/login', req.nextUrl));
 
   if (isPublicRoute && token)
-    return NextResponse.redirect(new URL('/me/profile', req.nextUrl));
+    return NextResponse.redirect(new URL('/profile', req.nextUrl));
 
   if (isVendorRoute) {
-    if (!user)
-      return NextResponse.redirect(new URL('/me/profile', req.nextUrl));
+    if (!user) return NextResponse.redirect(new URL('/profile', req.nextUrl));
 
     if (!user.type || user.type !== 'VENDOR')
-      return NextResponse.redirect(new URL('/me/profile', req.nextUrl));
+      return NextResponse.redirect(new URL('/profile', req.nextUrl));
   }
 
   return NextResponse.next();

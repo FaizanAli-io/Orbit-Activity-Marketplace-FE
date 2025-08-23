@@ -16,7 +16,7 @@ export async function setAccessToken(
     // secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
     path: '/',
-    maxAge: options?.maxAge ?? 60 * 60 * 24 * 7, // Default: 7 days
+    maxAge: options?.maxAge ?? 60 * 60 * 24 * 1, // Default: 1 days
   });
 }
 
