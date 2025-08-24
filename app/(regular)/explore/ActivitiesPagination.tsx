@@ -16,6 +16,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   totalPages: number;
   hasNext: boolean;
   hasPrev: boolean;
+  baseURL?: string;
 }
 
 function ActivitiesPagination({
@@ -25,6 +26,7 @@ function ActivitiesPagination({
   totalPages,
   hasNext,
   hasPrev,
+  baseURL = '/explore',
   ...props
 }: Props) {
   return (
@@ -32,24 +34,25 @@ function ActivitiesPagination({
       <PaginationContent>
         {hasPrev && (
           <PaginationItem>
-            <PaginationPrevious href={`/explore?page=${page - 1}`} />
+            <PaginationPrevious href={`${baseURL}?page=${page - 1}`} />
           </PaginationItem>
         )}
 
-        {new Array(totalPages).fill(null).map((_, i) => (
-          <PaginationItem>
-            <PaginationLink
-              isActive={i + 1 === page}
-              href={`/explore?page=${i + 1}`}
-            >
-              {i + 1}
-            </PaginationLink>
-          </PaginationItem>
-        ))}
+        {totalPages > 1 &&
+          new Array(totalPages).fill(null).map((_, i) => (
+            <PaginationItem>
+              <PaginationLink
+                isActive={i + 1 === page}
+                href={`${baseURL}?page=${i + 1}`}
+              >
+                {i + 1}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
 
         {hasNext && (
           <PaginationItem>
-            <PaginationNext href={`/explore?page=${page + 1}`} />
+            <PaginationNext href={`${baseURL}?page=${page + 1}`} />
           </PaginationItem>
         )}
       </PaginationContent>

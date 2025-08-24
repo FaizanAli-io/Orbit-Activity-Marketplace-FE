@@ -17,9 +17,10 @@ type Data = z.infer<typeof schema>;
 
 interface Props {
   search?: string;
+  baseURL?: string;
 }
 
-const SearchForm = ({ search = '' }: Props) => {
+const SearchForm = ({ search = '', baseURL = '/explore' }: Props) => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -31,8 +32,8 @@ const SearchForm = ({ search = '' }: Props) => {
 
   const onSubmit = ({ name }: Data) => {
     setLoading(true);
-    if (name.length) router.push(`/explore?name=${encodeURIComponent(name)}`);
-    else router.push('/explore');
+    if (name.length) router.push(`${baseURL}?name=${encodeURIComponent(name)}`);
+    else router.push(baseURL);
   };
 
   useEffect(() => {

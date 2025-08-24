@@ -7,6 +7,10 @@ import { Loader2 } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
+interface Props {
+  baseURL?: string;
+}
+
 const ranges = [
   { id: '100', min: 0, max: 100, label: '$0 - $100' },
   { id: '1000', min: 100, max: 1000, label: '$100 - $1000' },
@@ -15,7 +19,7 @@ const ranges = [
   { id: '10000', min: 5000, max: 10000, label: '$5000 - $10000' },
 ];
 
-const PriceRange = () => {
+const PriceRange = ({ baseURL = '/explore' }: Props) => {
   const [loading, setLoading] = useState(false);
   const [selected, setSelected] = useState<string[]>([]);
   const [min, setMin] = useState<number | null>(null);
@@ -68,7 +72,7 @@ const PriceRange = () => {
       const currentMax = Number(params.get('maxPrice'));
 
       if (currentMin !== min || currentMax !== max) {
-        const targetUrl = `/explore?minPrice=${min}&maxPrice=${max}`;
+        const targetUrl = `${baseURL}?minPrice=${min}&maxPrice=${max}`;
 
         router.prefetch(targetUrl);
 

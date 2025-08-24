@@ -8,10 +8,15 @@ import PriceRange from './PriceRange';
 import React, { HTMLAttributes } from 'react';
 import Tagline from '@/components/ui/typography/Tagline';
 
+interface Props extends HTMLAttributes<HTMLDivElement> {
+  baseURL?: string;
+}
+
 const Sidebar = async ({
+  baseURL = '/explore',
   className,
   ...props
-}: HTMLAttributes<HTMLDivElement>) => {
+}: Props) => {
   const { success, data } = await getCategories();
 
   if (!success || !data) return null;
@@ -23,10 +28,10 @@ const Sidebar = async ({
 
       <div className='space-y-1'>
         <Tagline className='font-normal block md:text-sm'>Event Type</Tagline>
-        <CategoriesDropdown />
+        <CategoriesDropdown baseURL={baseURL} />
       </div>
 
-      <PriceRange />
+      <PriceRange baseURL={baseURL} />
 
       {/* <div className='space-y-1'>
         <Tagline className='font-normal block md:text-sm'>Date Range</Tagline>

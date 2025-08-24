@@ -10,6 +10,7 @@ interface Props {
   minPrice?: string;
   maxPrice?: string;
   page?: string;
+  baseURL?: string;
 }
 
 const EventsList = async ({
@@ -18,6 +19,7 @@ const EventsList = async ({
   minPrice: min,
   maxPrice: max,
   page: _page,
+  baseURL = '/explore',
 }: Props) => {
   const minPrice = !Number.isNaN(min) ? min : undefined;
   const maxPrice = !Number.isNaN(max) ? max : undefined;
@@ -70,7 +72,13 @@ const EventsList = async ({
         </TabsContent>
       </Tabs>
 
-      {pagination && <ActivitiesPagination className='my-10' {...pagination} />}
+      {pagination && (
+        <ActivitiesPagination
+          baseURL={baseURL}
+          className='my-10'
+          {...pagination}
+        />
+      )}
     </>
   );
 };

@@ -5,8 +5,8 @@ import { Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import Sidebar from '@/app/(regular)/explore/Sidebar';
-import EventsList from '@/app/profile/events/EventsList';
-import EventsListSkeleton from '@/app/profile/events/EventsListSkeleton';
+import EventsList from '@/app/(regular)/explore/EventsList';
+import EventsListSkeleton from '@/app/(regular)/explore/EventsListSkeleton';
 import SearchForm from './SearchForm';
 
 type Props = {

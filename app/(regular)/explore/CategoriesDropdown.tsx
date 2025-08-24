@@ -8,7 +8,11 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
-const CategoriesDropdown = () => {
+interface Props {
+  baseURL?: string;
+}
+
+const CategoriesDropdown = ({ baseURL = '/explore' }: Props) => {
   const [categoryId, setCategoryId] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -40,7 +44,7 @@ const CategoriesDropdown = () => {
   const handleChange = (id: string) => {
     setLoading(true);
     setCategoryId(id);
-    router.push(`/explore/?category=${id}`);
+    router.push(`${baseURL}/?category=${id}`);
   };
 
   return (
