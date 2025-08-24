@@ -59,7 +59,8 @@ export function AddEventDialog({ children, startDate, startTime }: IProps) {
     end: Date;
   }>({ start: new Date(), end: new Date() });
 
-  const { data: activities, isFetched } = useActivities();
+  const { data, isFetched } = useActivities();
+  const activities = data?.data;
 
   const { isOpen, onClose, onToggle } = useDisclosure();
 
@@ -95,7 +96,7 @@ export function AddEventDialog({ children, startDate, startTime }: IProps) {
   };
 
   const validateDate = (id: number) => {
-    const activity = activities?.find(a => a.id === id);
+    const activity = data?.data?.find(a => a.id === id);
 
     if (!activity) return;
 
@@ -158,8 +159,8 @@ export function AddEventDialog({ children, startDate, startTime }: IProps) {
     <Dialog open={isOpen} onOpenChange={onToggle}>
       <DialogTrigger asChild>{children}</DialogTrigger>
 
-      <DialogContent className='sm:max-w-min'>
-        <DialogHeader>
+      <DialogContent className='sm:max-w-min bg-white max-h-[90vh] overflow-y-auto'>
+        <DialogHeader className='text-left'>
           <DialogTitle>Add New Event</DialogTitle>
           <DialogDescription>
             Add events to set the reminders for yourself.
@@ -196,7 +197,7 @@ export function AddEventDialog({ children, startDate, startTime }: IProps) {
               />
             )}
 
-            <div className='flex space-x-5 my-10'>
+            <div className='md:flex space-y-5 md:space-y-0 md:space-x-5 my-10'>
               <FormField
                 control={form.control}
                 name='startDate'
