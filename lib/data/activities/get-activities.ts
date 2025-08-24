@@ -5,6 +5,7 @@ import { withServerError } from '@/lib/utils/with-server-error';
 
 interface params {
   name?: string;
+  categoryId?: string;
 }
 
 interface Res {
@@ -22,9 +23,16 @@ interface Res {
 export async function getActivities(params: params = {}) {
   let endpoint = '/activities';
 
-  if (params.name) {
-    endpoint += `?name=${params.name}`;
-  }
+  const query: string[] = [];
+
+  if (params.name) query.push(`name=${encodeURIComponent(params.name)}`);
+
+  if (params.categoryId)
+    query.push(`categoryId=${encodeURIComponent(params.categoryId)}`);
+
+  if (query.length > 0) endpoint += `?${query.join('&')}`;
+
+  console.log(endpoint, params, '----------------------------');
 
   return withServerError(() =>
     apiFetch<unknown, Res>(endpoint, {

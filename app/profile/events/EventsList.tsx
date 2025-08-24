@@ -5,13 +5,13 @@ import React from 'react';
 
 interface Props {
   name?: string;
+  categoryId?: string;
 }
 
-const EventsList = async ({ name }: Props) => {
-  const { data, error } = await getActivities({ name });
+const EventsList = async ({ name, categoryId }: Props) => {
+  const { data, error } = await getActivities({ name, categoryId });
 
   const activities = data?.data;
-  const isEmpty = !activities?.length;
 
   return (
     <>

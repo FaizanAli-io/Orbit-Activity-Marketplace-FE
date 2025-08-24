@@ -3,7 +3,6 @@ import React, { Suspense } from 'react';
 import Block from '@/app/layout/Block';
 import { Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import SearchInput from '@/components/app/SearchInput';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import Sidebar from '@/app/(regular)/explore/Sidebar';
 import EventsList from '@/app/profile/events/EventsList';
@@ -17,6 +16,9 @@ type Props = {
 const Page = async ({ searchParams }: Props) => {
   const search = await searchParams;
   const name = search?.name as string;
+  const category = search?.category as string;
+
+  console.log('category in page.tsx ------------------ ', category);
 
   return (
     <Sheet>
@@ -39,15 +41,9 @@ const Page = async ({ searchParams }: Props) => {
                 <Filter />
               </Button>
             </SheetTrigger>
-            {name ? (
-              <Suspense fallback={<EventsListSkeleton />}>
-                <EventsList name={name} />
-              </Suspense>
-            ) : (
-              <Suspense fallback={<EventsListSkeleton />}>
-                <EventsList />
-              </Suspense>
-            )}
+            <Suspense fallback={<EventsListSkeleton />}>
+              <EventsList name={name} categoryId={category} />
+            </Suspense>
           </div>
         </div>
       </Block>

@@ -39,6 +39,7 @@ type Props = {
   emptyMessage?: string;
   value?: string;
   onChange?: (value: string) => void;
+  disable?: boolean;
 };
 
 export default function GroupCombobox({
@@ -48,6 +49,7 @@ export default function GroupCombobox({
   emptyMessage = 'No results found.',
   value: controlledValue,
   onChange,
+  disable = false,
 }: Props) {
   const [open, setOpen] = React.useState(false);
   const [internalValue, setInternalValue] = React.useState('');
@@ -68,12 +70,13 @@ export default function GroupCombobox({
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild className='p-0'>
+      <PopoverTrigger asChild className='p-0' disabled={disable}>
         <Button
           variant='outline'
           role='combobox'
           aria-expanded={open}
           className='px-2 py-1 bg-white h-fit shadow-[0px_3px_4px_0px_#00000040] border-none'
+          disabled={disable}
         >
           <span className={cn('truncate text-sm')}>
             {selectedLabel ?? placeholder}

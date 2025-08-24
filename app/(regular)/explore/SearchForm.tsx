@@ -31,7 +31,8 @@ const SearchForm = ({ search = '' }: Props) => {
 
   const onSubmit = ({ name }: Data) => {
     setLoading(true);
-    router.push(`/explore?name=${encodeURIComponent(name)}`);
+    if (name.length) router.push(`/explore?name=${encodeURIComponent(name)}`);
+    else router.push('/explore');
   };
 
   useEffect(() => {
