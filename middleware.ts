@@ -9,7 +9,7 @@ const publicRoutes = [
   /^\/reset-password(\/.*)/,
   /^\/forgot-password(\/.*)/,
 ];
-const protectedRoutes = [/^\/me\/profile(\/.*)?$/]; // matches /me/profile and anything nested
+const protectedRoutes = [/^\/profile(\/.*)?$/]; // matches /me/profile and anything nested
 const vendorRoutes = [/^\/activity-form(\/.*)?$/];
 
 function matchAny(path: string, patterns: RegExp[]) {

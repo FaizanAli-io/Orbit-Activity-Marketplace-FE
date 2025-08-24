@@ -24,9 +24,9 @@ const NavItem = ({ link, icon: Icon, text }: Props) => {
       })}
     >
       <Link href={link}>
-        <span className='flex items-center gap-x-1 font-medium text-md md:text-lg'>
+        <span className='flex items-center gap-x-1 font-medium text-md md:text-[1rem]'>
           <Icon
-            className={cn('size-4 md:size-5 text-black', {
+            className={cn('size-3 md:size-5 text-black', {
               'text-primary-600': isActive,
             })}
             strokeWidth={2.5}
