@@ -6,10 +6,25 @@ import React from 'react';
 interface Props {
   name?: string;
   categoryId?: string;
+  minPrice?: string;
+  maxPrice?: string;
 }
 
-const EventsList = async ({ name, categoryId }: Props) => {
-  const { data, error } = await getActivities({ name, categoryId });
+const EventsList = async ({
+  name,
+  categoryId,
+  minPrice: min,
+  maxPrice: max,
+}: Props) => {
+  const minPrice = !Number.isNaN(min) ? min : undefined;
+  const maxPrice = !Number.isNaN(max) ? max : undefined;
+
+  const { data, error } = await getActivities({
+    name,
+    categoryId,
+    minPrice,
+    maxPrice,
+  });
 
   const activities = data?.data;
 

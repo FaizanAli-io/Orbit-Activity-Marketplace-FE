@@ -1,15 +1,12 @@
 import { cn } from '@/lib/utils';
 import { getCategories } from '@/lib/data/categories/getCategories';
-import React, { HTMLAttributes } from 'react';
-import { Separator } from '@/components/ui/separator';
-import H6 from '@/components/ui/typography/H6';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Label } from '@/components/ui/label';
-import Tagline from '@/components/ui/typography/Tagline';
-import { DropdownMenu, DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import { DropdownMenuContent } from '@radix-ui/react-dropdown-menu';
-import CategoriesDropdown from './CategoriesDropdown';
 import { RangeDatePicker } from '@/components/app/RangeDatePicker';
+import { Separator } from '@/components/ui/separator';
+import CategoriesDropdown from './CategoriesDropdown';
+import H6 from '@/components/ui/typography/H6';
+import PriceRange from './PriceRange';
+import React, { HTMLAttributes } from 'react';
+import Tagline from '@/components/ui/typography/Tagline';
 
 const Sidebar = async ({
   className,
@@ -29,31 +26,7 @@ const Sidebar = async ({
         <CategoriesDropdown />
       </div>
 
-      <div>
-        <Tagline className='font-normal block md:text-sm'>Price Range</Tagline>
-        <div className='space-y-2 my-2'>
-          <div className='flex items-center gap-3'>
-            <Checkbox id='$100' className='shadow-none' />
-            <Label htmlFor='$100'>$0 - $100</Label>
-          </div>
-          <div className='flex items-center gap-3'>
-            <Checkbox id='$1000' className='shadow-none' />
-            <Label htmlFor='$1000'>$100 - $1000</Label>
-          </div>
-          <div className='flex items-center gap-3'>
-            <Checkbox id='$2000' className='shadow-none' />
-            <Label htmlFor='$2000'>$1000 - $2000</Label>
-          </div>
-          <div className='flex items-center gap-3'>
-            <Checkbox id='$5000' className='shadow-none' />
-            <Label htmlFor='$5000'>$2000 - $5000</Label>
-          </div>
-          <div className='flex items-center gap-3'>
-            <Checkbox id='$10000' className='shadow-none' />
-            <Label htmlFor='$10000'>$5000 - $10000</Label>
-          </div>
-        </div>
-      </div>
+      <PriceRange />
 
       <div className='space-y-1'>
         <Tagline className='font-normal block md:text-sm'>Date Range</Tagline>

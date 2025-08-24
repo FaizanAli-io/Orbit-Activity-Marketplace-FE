@@ -6,6 +6,8 @@ import { withServerError } from '@/lib/utils/with-server-error';
 interface params {
   name?: string;
   categoryId?: string;
+  minPrice?: string;
+  maxPrice?: string;
 }
 
 interface Res {
@@ -30,9 +32,13 @@ export async function getActivities(params: params = {}) {
   if (params.categoryId)
     query.push(`categoryId=${encodeURIComponent(params.categoryId)}`);
 
-  if (query.length > 0) endpoint += `?${query.join('&')}`;
+  if (params.minPrice)
+    query.push(`minPrice=${encodeURIComponent(params.minPrice)}`);
 
-  console.log(endpoint, params, '----------------------------');
+  if (params.maxPrice)
+    query.push(`maxPrice=${encodeURIComponent(params.maxPrice)}`);
+
+  if (query.length > 0) endpoint += `?${query.join('&')}`;
 
   return withServerError(() =>
     apiFetch<unknown, Res>(endpoint, {

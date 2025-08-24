@@ -17,8 +17,8 @@ const Page = async ({ searchParams }: Props) => {
   const search = await searchParams;
   const name = search?.name as string;
   const category = search?.category as string;
-
-  console.log('category in page.tsx ------------------ ', category);
+  const minPrice = search?.minPrice as string;
+  const maxPrice = search?.maxPrice as string;
 
   return (
     <Sheet>
@@ -42,7 +42,12 @@ const Page = async ({ searchParams }: Props) => {
               </Button>
             </SheetTrigger>
             <Suspense fallback={<EventsListSkeleton />}>
-              <EventsList name={name} categoryId={category} />
+              <EventsList
+                name={name}
+                categoryId={category}
+                minPrice={minPrice}
+                maxPrice={maxPrice}
+              />
             </Suspense>
           </div>
         </div>
