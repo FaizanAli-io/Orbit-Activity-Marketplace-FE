@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 
-import ActivityList from './ActivityList';
+import RecommendedList from './RecommendedList';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import EventListSkeleton from './EventListSkeleton';
 import H5 from '@/components/ui/typography/H5';
@@ -17,14 +17,14 @@ const EventList = async ({ page }: Props) => {
         <div>
           <H5 className='font-medium mb-2'>Events you might like</H5>
           <TabsList className='bg-secondary'>
-            <TabsTrigger value='best'>Best Matches</TabsTrigger>
+            <TabsTrigger value='best'>Recommended</TabsTrigger>
             <TabsTrigger value='liked'>Liked Events</TabsTrigger>
           </TabsList>
         </div>
       </div>
       <TabsContent value='best'>
         <Suspense fallback={<EventListSkeleton />}>
-          <ActivityList page={page} />
+          <RecommendedList page={page} />
         </Suspense>
       </TabsContent>
 

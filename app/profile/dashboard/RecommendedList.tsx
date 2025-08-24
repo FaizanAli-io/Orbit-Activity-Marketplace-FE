@@ -1,14 +1,13 @@
 import ActivitiesPagination from '@/app/(regular)/explore/ActivitiesPagination';
 import ActivityCard from '@/components/app/ActivityCard/ActivityCard';
-import { getActivities } from '@/lib/data/activities/get-activities';
+import { getRecommendedActivities } from '@/lib/data/activities/get-recommended-activities';
 
 interface Props {
   page?: string;
 }
 
-const ActivityList = async ({ page }: Props) => {
-  console.log(page, '------------------------ page at dashboard');
-  const { data, error } = await getActivities({ page });
+const RecommendedList = async ({ page }: Props) => {
+  const { data, error } = await getRecommendedActivities({ page });
 
   const activities = data?.data;
 
@@ -39,4 +38,4 @@ const ActivityList = async ({ page }: Props) => {
   );
 };
 
-export default ActivityList;
+export default RecommendedList;
