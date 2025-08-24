@@ -4,6 +4,7 @@ import Button3D from '@/components/app/Button3D';
 import Block from '@/app/layout/Block';
 import Link from 'next/link';
 import H2 from '@/components/ui/typography/H2';
+import HeroButtons from './HeroButtons';
 
 const Hero = () => {
   return (
@@ -16,14 +17,7 @@ const Hero = () => {
         and expanding your professional network. Join us today to explore,
         register, and manage your experiences effortlessly.
       </p>
-      <div className='flex space-x-2'>
-        <Button3D>
-          <Link href='/explore'>Explore</Link>
-        </Button3D>
-        <Button3D variant={'outline'}>
-          <Link href='/signup'>Sign Up</Link>
-        </Button3D>
-      </div>
+      <HeroButtons />
     </Block>
   );
 };

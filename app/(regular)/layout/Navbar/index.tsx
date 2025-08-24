@@ -9,14 +9,13 @@ import {
 } from '@/components/ui/navigation-menu';
 import Image from 'next/image';
 import Link from 'next/link';
-import { getUser } from '@/lib/utils/cookies/user-cookies';
 import UserAvatar from './UserAvatar';
 import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Bell } from 'lucide-react';
+import { getAccessToken } from '@/lib/utils/cookies/auth-cookies';
 
 export default async function Navbar() {
-  const user = await getUser();
+  const token = await getAccessToken();
 
   return (
     <div className='flex justify-between items-center w-full px-10'>
@@ -37,7 +36,7 @@ export default async function Navbar() {
             </NavLink>
           ))}
 
-          {!user ? (
+          {!token ? (
             <>
               <NavigationMenuItem className='ml-4'>
                 <Button3D variant={'outline'}>

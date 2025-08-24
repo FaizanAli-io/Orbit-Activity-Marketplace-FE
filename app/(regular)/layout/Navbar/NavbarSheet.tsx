@@ -4,8 +4,11 @@ import { data } from './data';
 import { Equal } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import NavLink from './NavLink';
+import { getAccessToken } from '@/lib/utils/cookies/auth-cookies';
 
-const NavbarSheet = () => {
+const NavbarSheet = async () => {
+  const token = await getAccessToken();
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -28,15 +31,35 @@ const NavbarSheet = () => {
           </div>
 
           <p className='text-muted-foreground font-semibold mx-3 mt-5 -mb-2'>
-            Auth
+            {token ? 'Profile' : 'Auth'}
           </p>
           <div className='space-y-2 my-2'>
-            <NavLink href='/signup' className='text-3xl text-black'>
-              Get Started
-            </NavLink>
-            <NavLink href='/login' className='text-3xl text-black'>
-              Sign in
-            </NavLink>
+            {!token ? (
+              <>
+                <NavLink href='/signup' className='text-3xl text-black'>
+                  Get Started
+                </NavLink>
+                <NavLink href='/login' className='text-3xl text-black'>
+                  Sign in
+                </NavLink>{' '}
+              </>
+            ) : (
+              <>
+                <NavLink
+                  href='/profile/dashboard'
+                  className='text-3xl text-black'
+                >
+                  Dashboard
+                </NavLink>
+                <NavLink href='/profile' className='text-3xl text-black'>
+                  Settings
+                </NavLink>
+
+                <NavLink href='/logout' className='text-3xl text-black'>
+                  Logout
+                </NavLink>
+              </>
+            )}
           </div>
         </div>
       </SheetContent>
