@@ -22,19 +22,20 @@ const HeaderCard = () => {
       </div>
       <ul className='space-y-1 text-primary-600 text-[0.9rem] font-medium mt-2'>
         <li>
-          <Link href='#' className='flex items-center'>
+          <Link href='/profile/events' className='flex items-center'>
             Registered Events <ArrowRight className='size-4 ml-2' />
           </Link>
         </li>
         <li>
-          <Link href='#' className='flex items-center'>
+          <Link href='/profile' className='flex items-center'>
             Edit Preferences <ArrowRight className='size-4 ml-2' />
           </Link>
         </li>
 
         <li>
-          <Link href='#' className='flex items-center'>
-            Invite Friend <ArrowRight className='size-4 ml-2' />
+          <Link href='/profile/friends' className='flex items-center'>
+            Discover Friends
+            <ArrowRight className='size-4 ml-2' />
           </Link>
         </li>
       </ul>

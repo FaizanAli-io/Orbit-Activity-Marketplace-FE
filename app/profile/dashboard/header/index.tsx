@@ -1,8 +1,6 @@
 import React, { Suspense } from 'react';
 import Image from 'next/image';
 import H4 from '@/components/ui/typography/H4';
-import SearchInput from '@/components/app/SearchInput';
-import HeaderCard from './HeaderCard';
 import Username from './Username';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -33,9 +31,7 @@ const Header = async () => {
             alt='Event illustration.'
           />
         </div>
-        <SearchInput />
       </div>
-      {/* <HeaderCard /> */}
     </div>
   );
 };
