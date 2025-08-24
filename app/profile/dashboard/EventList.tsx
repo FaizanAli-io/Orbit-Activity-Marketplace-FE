@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 
-import ActivityCard from '@/components/app/ActivityCard/ActivityCard';
-import H5 from '@/components/ui/typography/H5';
-import { getActivities } from '@/lib/data/activities/get-activities';
+import ActivityList from './ActivityList';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { getLikedActivities } from '@/lib/data/activities/get-liked-activities';
+import EventListSkeleton from './EventListSkeleton';
+import H5 from '@/components/ui/typography/H5';
+import LikedActivityList from './LikedActivityList';
 
-const EventList = async () => {
-  const { data: activities, error } = await getActivities();
-  const { data: likedActivities, error: likedError } =
-    await getLikedActivities();
+interface Props {
+  page?: string;
+}
 
+const EventList = async ({ page }: Props) => {
   return (
     <Tabs defaultValue='best'>
       <div className='w-full md:flex md:justify-between md:items-baseline-last'>
@@ -23,33 +23,15 @@ const EventList = async () => {
         </div>
       </div>
       <TabsContent value='best'>
-        {error && (
-          <p className='text-destructive text-center'>Something went wrong</p>
-        )}
-
-        {/* {activities && (
-          <div className='space-y-5'>
-            {activities?.map(item => (
-              <ActivityCard {...item} key={item.id} />
-            ))}
-          </div>
-        )} */}
+        <Suspense fallback={<EventListSkeleton />}>
+          <ActivityList page={page} />
+        </Suspense>
       </TabsContent>
 
       <TabsContent value='liked'>
-        {/* {likedError && (
-          <p className='text-destructive text-center'>Something went wrong</p>
-        )}
-
-        {!likedActivities || !likedActivities.length ? (
-          <p className='text-center'>You have'nt liked any activity.</p>
-        ) : (
-          <div className='space-y-5'>
-            {likedActivities.map(item => (
-              <ActivityCard {...item} key={item.id} />
-            ))}
-          </div>
-        )} */}
+        <Suspense fallback={<EventListSkeleton />}>
+          <LikedActivityList />
+        </Suspense>
       </TabsContent>
     </Tabs>
   );
