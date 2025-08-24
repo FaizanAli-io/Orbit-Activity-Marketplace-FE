@@ -1,3 +1,4 @@
+import ActivitiesPagination from '@/app/(regular)/explore/ActivitiesPagination';
 import ActivityCard from '@/components/app/ActivityCard/ActivityCard';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { getActivities } from '@/lib/data/activities/get-activities';
@@ -8,6 +9,7 @@ interface Props {
   categoryId?: string;
   minPrice?: string;
   maxPrice?: string;
+  page?: string;
 }
 
 const EventsList = async ({
@@ -15,18 +17,22 @@ const EventsList = async ({
   categoryId,
   minPrice: min,
   maxPrice: max,
+  page: _page,
 }: Props) => {
   const minPrice = !Number.isNaN(min) ? min : undefined;
   const maxPrice = !Number.isNaN(max) ? max : undefined;
+  const page = !Number.isNaN(_page) ? _page : undefined;
 
   const { data, error } = await getActivities({
     name,
     categoryId,
     minPrice,
     maxPrice,
+    page,
   });
 
   const activities = data?.data;
+  const pagination = data?.pagination;
 
   return (
     <>
@@ -63,6 +69,8 @@ const EventsList = async ({
           )}
         </TabsContent>
       </Tabs>
+
+      {pagination && <ActivitiesPagination className='my-10' {...pagination} />}
     </>
   );
 };

@@ -19,6 +19,7 @@ const Page = async ({ searchParams }: Props) => {
   const category = search?.category as string;
   const minPrice = search?.minPrice as string;
   const maxPrice = search?.maxPrice as string;
+  const page = search?.page as string;
 
   return (
     <Sheet>
@@ -32,7 +33,7 @@ const Page = async ({ searchParams }: Props) => {
         </div>
 
         <div className='md:grid md:grid-cols-8 md:gap-x-5'>
-          <div className='mt-12 bg-white rounded-lg shadow-[0px_4px_4px_0px_#00000040] hidden md:block col-span-2 pb-5'>
+          <div className='mt-12 max-h-min bg-white rounded-lg shadow-[0px_4px_4px_0px_#00000040] hidden md:block col-span-2 pb-5'>
             <Sidebar />
           </div>
           <div className='md:col-span-6'>
@@ -47,6 +48,7 @@ const Page = async ({ searchParams }: Props) => {
                 categoryId={category}
                 minPrice={minPrice}
                 maxPrice={maxPrice}
+                page={page}
               />
             </Suspense>
           </div>

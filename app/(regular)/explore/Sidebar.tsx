@@ -28,10 +28,10 @@ const Sidebar = async ({
 
       <PriceRange />
 
-      <div className='space-y-1'>
+      {/* <div className='space-y-1'>
         <Tagline className='font-normal block md:text-sm'>Date Range</Tagline>
         <RangeDatePicker />
-      </div>
+      </div> */}
     </div>
   );
 };

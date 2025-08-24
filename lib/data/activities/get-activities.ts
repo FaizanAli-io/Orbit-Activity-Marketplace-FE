@@ -8,6 +8,7 @@ interface params {
   categoryId?: string;
   minPrice?: string;
   maxPrice?: string;
+  page?: string;
 }
 
 interface Res {
@@ -37,6 +38,8 @@ export async function getActivities(params: params = {}) {
 
   if (params.maxPrice)
     query.push(`maxPrice=${encodeURIComponent(params.maxPrice)}`);
+
+  if (params.page) query.push(`page=${encodeURIComponent(params.page)}`);
 
   if (query.length > 0) endpoint += `?${query.join('&')}`;
 
