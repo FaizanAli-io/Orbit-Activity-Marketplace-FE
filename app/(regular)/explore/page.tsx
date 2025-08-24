@@ -8,12 +8,16 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import Sidebar from '@/app/(regular)/explore/Sidebar';
 import EventsList from '@/app/profile/events/EventsList';
 import EventsListSkeleton from '@/app/profile/events/EventsListSkeleton';
+import SearchForm from './SearchForm';
 
 type Props = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
 const Page = async ({ searchParams }: Props) => {
+  const search = await searchParams;
+  const name = search?.name as string;
+
   return (
     <Sheet>
       <Block space={false} className='my-5'>
@@ -21,9 +25,12 @@ const Page = async ({ searchParams }: Props) => {
           <Sidebar />
         </SheetContent>
 
-        <SearchInput />
+        <div className='my-5'>
+          <SearchForm search={name} />
+        </div>
+
         <div className='md:grid md:grid-cols-8 md:gap-x-5'>
-          <div className='mt-12 bg-white rounded-lg shadow-[0px_4px_4px_0px_#00000040] hidden md:block col-span-2'>
+          <div className='mt-12 bg-white rounded-lg shadow-[0px_4px_4px_0px_#00000040] hidden md:block col-span-2 pb-5'>
             <Sidebar />
           </div>
           <div className='md:col-span-6'>
@@ -32,9 +39,15 @@ const Page = async ({ searchParams }: Props) => {
                 <Filter />
               </Button>
             </SheetTrigger>
-            <Suspense fallback={<EventsListSkeleton />}>
-              <EventsList />
-            </Suspense>
+            {name ? (
+              <Suspense fallback={<EventsListSkeleton />}>
+                <EventsList name={name} />
+              </Suspense>
+            ) : (
+              <Suspense fallback={<EventsListSkeleton />}>
+                <EventsList />
+              </Suspense>
+            )}
           </div>
         </div>
       </Block>

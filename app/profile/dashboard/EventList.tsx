@@ -27,17 +27,17 @@ const EventList = async () => {
           <p className='text-destructive text-center'>Something went wrong</p>
         )}
 
-        {activities && (
+        {/* {activities && (
           <div className='space-y-5'>
-            {activities.map(item => (
+            {activities?.map(item => (
               <ActivityCard {...item} key={item.id} />
             ))}
           </div>
-        )}
+        )} */}
       </TabsContent>
 
       <TabsContent value='liked'>
-        {likedError && (
+        {/* {likedError && (
           <p className='text-destructive text-center'>Something went wrong</p>
         )}
 
@@ -49,7 +49,7 @@ const EventList = async () => {
               <ActivityCard {...item} key={item.id} />
             ))}
           </div>
-        )}
+        )} */}
       </TabsContent>
     </Tabs>
   );

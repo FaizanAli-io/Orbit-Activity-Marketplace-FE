@@ -3,8 +3,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { getActivities } from '@/lib/data/activities/get-activities';
 import React from 'react';
 
-const EventsList = async () => {
-  const { data: activities, error } = await getActivities();
+interface Props {
+  name?: string;
+}
+
+const EventsList = async ({ name }: Props) => {
+  const { data, error } = await getActivities({ name });
+
+  const activities = data?.data;
+  const isEmpty = !activities?.length;
+
   return (
     <>
       {error && (
@@ -19,12 +27,14 @@ const EventsList = async () => {
           </TabsList>
         </div>
         <TabsContent value='list'>
-          {activities && (
+          {activities && activities.length ? (
             <div className='space-y-5'>
               {activities.map((item, i) => (
                 <ActivityCard {...item} key={i} />
               ))}
             </div>
+          ) : (
+            <p className='text-center'>No result found</p>
           )}
         </TabsContent>
 

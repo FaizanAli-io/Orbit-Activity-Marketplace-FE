@@ -32,8 +32,8 @@ const ActivityCard = async ({
 }: Props) => {
   const { success, data: likedActivities } = await getLikedActivities();
 
-  const liked =
-    success && likedActivities && likedActivities.find(a => a.id === id);
+  const liked = false;
+  // success && likedActivities && likedActivities.find(a => a.id === id);
 
   const getStartDate = () => {
     const { dates, range, weekly, monthly } = availability;
