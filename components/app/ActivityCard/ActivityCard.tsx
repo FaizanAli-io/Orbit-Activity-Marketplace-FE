@@ -30,10 +30,12 @@ const ActivityCard = async ({
   variant = 'list',
   viewLink = '#',
 }: Props) => {
-  const { success, data: likedActivities } = await getLikedActivities();
+  const { success, data } = await getLikedActivities();
 
-  const liked = false;
-  // success && likedActivities && likedActivities.find(a => a.id === id);
+  const likedActivities = data?.data;
+
+  const liked =
+    success && likedActivities && likedActivities.find(a => a.id === id);
 
   const getStartDate = () => {
     const { dates, range, weekly, monthly } = availability;
