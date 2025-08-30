@@ -43,28 +43,28 @@ export const schema = z
       .string()
       .min(1)
       .refine(val => !isNaN(+val) && +val > 0, {
-        message: 'Members must be a positive number',
+        message: 'price must be a positive number',
       }),
 
     discount: z
       .string()
       .min(1)
-      .refine(val => !isNaN(+val) && +val > 0 && +val <= 100, {
-        message: 'Members must be between 0 and 100',
+      .refine(val => !isNaN(+val) && +val >= 0 && +val <= 100, {
+        message: 'Discount must be between 0 and 100',
       }),
 
     quota: z
       .string()
       .min(1)
       .refine(val => !isNaN(+val) && +val > 0, {
-        message: 'Members must be a positive number',
+        message: 'Quota must be a positive number',
       }),
 
     capacity: z
       .string()
       .min(1)
       .refine(val => !isNaN(+val) && +val > 0, {
-        message: 'Members must be a positive number',
+        message: 'Capacity must be a positive number',
       }),
 
     // location & duration

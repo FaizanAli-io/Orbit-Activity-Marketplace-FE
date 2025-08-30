@@ -40,7 +40,7 @@ function ActivitiesPagination({
 
         {totalPages > 1 &&
           new Array(totalPages).fill(null).map((_, i) => (
-            <PaginationItem>
+            <PaginationItem key={i}>
               <PaginationLink
                 isActive={i + 1 === page}
                 href={`${baseURL}?page=${i + 1}`}

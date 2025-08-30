@@ -56,7 +56,7 @@ const Page = () => {
     if (!useActivityFormStore.persist.hasHydrated()) return;
 
     if (!isPrevFormValid())
-      return router.replace('/activity-form/basic-details');
+      return router.replace('/profile/vendor/activities/basic-details');
 
     setStep(2);
 
@@ -71,14 +71,14 @@ const Page = () => {
   const onSubmit = (data: Data) => {
     setForm(data);
     setStep(3);
-    router.push('/activity-form/location-and-duration');
+    router.push('/profile/vendor/activities/location-and-duration');
   };
 
   const handlePrev = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
 
     setStep(1);
-    router.push('/activity-form/basic-details');
+    router.push('/profile/vendor/activities/basic-details');
   };
 
   if (!hydrated || !isPrevFormValid()) return <FormSkeleton />;

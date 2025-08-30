@@ -1,12 +1,13 @@
 'use server';
 
 import { apiFetch } from '@/lib/api';
-import { ActivityFormSchema as Data } from './../schema';
+import { ActivityFormSchema as Data } from '../schema';
 import { HTTP_VERB } from '@/lib/enums/http-verbs';
 import { getAccessToken } from '@/lib/utils/cookies/auth-cookies';
 import { withServerError } from '@/lib/utils/with-server-error';
 import { revalidatePath } from 'next/cache';
 import { getUser } from '@/lib/utils/cookies/user-cookies';
+import { getProfile } from '@/lib/data/profile/get-profile';
 
 export type Body = {
   name: string;
@@ -73,9 +74,9 @@ export type Body = {
 
 export async function postActivity(data: Body) {
   const authToken = await getAccessToken();
-  const user = await getUser();
+  const { data: user } = await getProfile();
 
-  if (!authToken || !user || user.type !== 'VENDOR')
+  if (!authToken || !user || user.role !== 'VENDOR')
     return { success: false, error: 'Unauthorized', data: null };
 
   const res = await withServerError(() =>
@@ -89,7 +90,7 @@ export async function postActivity(data: Body) {
   );
 
   if (res.success) {
-    revalidatePath('/explore');
+    revalidatePath('/profile/vendor/activities');
   }
 
   return res;

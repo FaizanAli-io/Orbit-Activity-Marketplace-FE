@@ -3,7 +3,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import React, { Suspense } from 'react';
 import Username from './Username';
 import Link from 'next/link';
-import { ArrowRight, ChevronRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 const HeaderCard = () => {
   return (

@@ -1,17 +1,14 @@
 import { getProfile } from '@/lib/data/profile/get-profile';
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 
-const Username = async () => {
+const Username = async (props: HTMLAttributes<HTMLSpanElement>) => {
   const profile = await getProfile();
 
   if (!profile || !profile.data) return null;
 
-  const {
-    user: { name },
-    email,
-  } = profile.data;
+  const { user, email } = profile.data;
 
-  return <span>{name ? name : email}</span>;
+  return <span {...props}>{user?.name ? user?.name : email}</span>;
 };
 
 export default Username;

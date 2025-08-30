@@ -48,12 +48,14 @@ const Page = () => {
   useEffect(() => {
     if (!useActivityFormStore.persist.hasHydrated()) return;
 
-    if (!isForm1Valid()) return router.replace('/activity-form/basic-details');
+    if (!isForm1Valid())
+      return router.replace('/profile/vendor/activities/basic-details');
     if (!isForm2Valid())
-      return router.replace('/activity-form/pricing-and-capacity');
+      return router.replace('/profile/vendor/activities/pricing-and-capacity');
     if (!isForm3Valid())
-      return router.replace('/activity-form/location-and-duration');
-    if (!isForm4Valid()) return router.replace('/activity-form/schedule');
+      return router.replace('/profile/vendor/activities/location-and-duration');
+    if (!isForm4Valid())
+      return router.replace('/profile/vendor/activities/schedule');
 
     setStep(5);
   }, [setStep, router, isForm1Valid, isForm2Valid, isForm3Valid, isForm4Valid]);
@@ -61,7 +63,7 @@ const Page = () => {
   const handlePrev = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     setStep(3);
-    router.push('/activity-form/schedule');
+    router.push('/profile/vendor/activities/schedule');
   };
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -85,7 +87,7 @@ const Page = () => {
 
     setForm(data);
     setStep(5);
-    router.push('/activity-form/review');
+    router.push('/profile/vendor/activities/review');
   };
 
   if (

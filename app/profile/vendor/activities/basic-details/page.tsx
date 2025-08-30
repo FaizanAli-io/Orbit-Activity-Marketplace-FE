@@ -94,7 +94,7 @@ const Page = () => {
     setForm(data);
     setStep(2);
 
-    router.push('/activity-form/pricing-and-capacity');
+    router.push('/profile/vendor/activities/pricing-and-capacity');
   };
 
   const handleSupCatChange = (val: string) => {

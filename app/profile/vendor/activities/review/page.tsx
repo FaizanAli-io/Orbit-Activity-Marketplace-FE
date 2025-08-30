@@ -18,6 +18,7 @@ import { postActivity } from './action';
 import { toast } from 'sonner';
 import ScheduleCard from './ScheduleCard';
 import { formatCurrency } from '@/lib/utils';
+import { Card, CardContent } from '@/components/ui/card';
 
 const Page = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -68,13 +69,16 @@ const Page = () => {
   useEffect(() => {
     if (!useActivityFormStore.persist.hasHydrated()) return;
 
-    if (!isForm1Valid()) return router.replace('/activity-form/basic-details');
+    if (!isForm1Valid())
+      return router.replace('/profile/vendor/activities/basic-details');
     if (!isForm2Valid())
-      return router.replace('/activity-form/pricing-and-capacity');
-    if (!isForm3Valid()) return router.replace('/activity-form/schedule');
+      return router.replace('/profile/vendor/activities/pricing-and-capacity');
+    if (!isForm3Valid())
+      return router.replace('/profile/vendor/activities/schedule');
     if (!isForm4Valid())
-      return router.replace('/activity-form/pricing-and-capacity');
-    if (!isForm5Valid()) return router.replace('/activity-form/media');
+      return router.replace('/profile/vendor/activities/pricing-and-capacity');
+    if (!isForm5Valid())
+      return router.replace('/profile/vendor/activities/media');
 
     setStep(6);
   }, [
@@ -89,7 +93,7 @@ const Page = () => {
 
   const handlePrev = () => {
     setStep(4);
-    router.push('/activity-form/media');
+    router.push('/profile/vendor/activities/media');
   };
 
   const handleNext = async () => {
@@ -165,39 +169,43 @@ const Page = () => {
     return <ReviewSkeleton />;
 
   return (
-    <div>
-      <div className='flex justify-between items-center'>
-        <h1 className='font-bold text-4xl'>{title}</h1>
-        <h1 className='font-bold text-4xl'>
-          {formatCurrency(parseFloat(price))}
-        </h1>
-      </div>
-      <div className='flex items-center space-x-7 text-muted-foreground mb-3'>
-        {category && (
-          <p className='rounded-lg bg-primary text-white px-5 text-sm'>
-            {category?.name}
-          </p>
-        )}
-        <p className='flex items-center space-x-1'>
-          <MapPin size='20' /> <span>{location}</span>
-        </p>
-        <p className='flex items-center space-x-1'>
-          <Clock3Icon size='17' /> <span>{duration} Hrs</span>
-        </p>
-        <p className='flex items-center space-x-1'>
-          <Users2Icon size='17' /> <span>0/{capacity}</span>
-        </p>
-      </div>
-      <MasonryGallery items={galleryItems} showMoreCount={3} />
-      <p className='text-muted-foreground'>{description}</p>
-      <div className='my-10'>
-        <ScheduleCard
-          dates={dates}
-          range={range}
-          weekly={weekly}
-          monthly={monthly}
-        />
-      </div>
+    <>
+      <Card>
+        <CardContent>
+          <div className='flex justify-between items-center'>
+            <h1 className='font-bold text-4xl'>{title}</h1>
+            <h1 className='font-bold text-4xl'>
+              {formatCurrency(parseFloat(price))}
+            </h1>
+          </div>
+          <div className='flex items-center space-x-7 text-muted-foreground mb-3'>
+            {category && (
+              <p className='rounded-lg bg-primary text-white px-5 text-sm'>
+                {category?.name}
+              </p>
+            )}
+            <p className='flex items-center space-x-1'>
+              <MapPin size='20' /> <span>{location}</span>
+            </p>
+            <p className='flex items-center space-x-1'>
+              <Clock3Icon size='17' /> <span>{duration} Hrs</span>
+            </p>
+            <p className='flex items-center space-x-1'>
+              <Users2Icon size='17' /> <span>0/{capacity}</span>
+            </p>
+          </div>
+          <MasonryGallery items={galleryItems} showMoreCount={3} />
+          <p className='text-muted-foreground'>{description}</p>
+          <div className='my-10'>
+            <ScheduleCard
+              dates={dates}
+              range={range}
+              weekly={weekly}
+              monthly={monthly}
+            />
+          </div>
+        </CardContent>
+      </Card>
       <div className='flex justify-between my-10'>
         <Button
           className='cursor-pointer'
@@ -219,7 +227,7 @@ const Page = () => {
           <MoveRight />
         </Button>
       </div>
-    </div>
+    </>
   );
 };
 

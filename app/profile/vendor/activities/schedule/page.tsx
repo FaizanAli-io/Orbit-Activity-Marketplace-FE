@@ -82,11 +82,12 @@ const Page = () => {
   useEffect(() => {
     if (!useActivityFormStore.persist.hasHydrated()) return;
 
-    if (!isForm1Valid()) return router.replace('/activity-form/basic-details');
+    if (!isForm1Valid())
+      return router.replace('/profile/vendor/activities/basic-details');
     if (!isForm2Valid())
-      return router.replace('/activity-form/pricing-and-capacity');
+      return router.replace('/profile/vendor/activities/pricing-and-capacity');
     if (!isForm3Valid())
-      return router.replace('/activity-form/location-and-duration');
+      return router.replace('/profile/vendor/activities/location-and-duration');
 
     setStep(4);
 
@@ -139,13 +140,13 @@ const Page = () => {
   const handlePrev = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     setStep(3);
-    router.push('/activity-form/location-and-duration');
+    router.push('/profile/vendor/activities/location-and-duration');
   };
 
   const onSubmit = (data: Data) => {
     setForm(data);
     setStep(5);
-    router.push('/activity-form/media');
+    router.push('/profile/vendor/activities/media');
   };
 
   const { control } = form;

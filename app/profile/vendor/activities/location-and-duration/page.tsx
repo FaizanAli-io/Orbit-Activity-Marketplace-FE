@@ -57,9 +57,10 @@ const Page = () => {
   useEffect(() => {
     if (!useActivityFormStore.persist.hasHydrated()) return;
 
-    if (!isForm1Valid()) return router.replace('/activity-form/basic-details');
+    if (!isForm1Valid())
+      return router.replace('/profile/vendor/activities/basic-details');
     if (!isForm2Valid())
-      return router.replace('/activity-form/pricing-and-capacity');
+      return router.replace('/profile/vendor/activities/pricing-and-capacity');
 
     setStep(3);
 
@@ -72,13 +73,13 @@ const Page = () => {
   const handlePrev = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     setStep(3);
-    router.push('/activity-form/pricing-and-capacity');
+    router.push('/profile/vendor/activities/pricing-and-capacity');
   };
 
   const onSubmit = (data: Data) => {
     setForm(data);
     setStep(4);
-    router.push('/activity-form/schedule');
+    router.push('/profile/vendor/activities/schedule');
   };
 
   if (!hydrated || !isForm1Valid() || !isForm2Valid()) return <FormSkeleton />;

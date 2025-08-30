@@ -4,7 +4,7 @@ import Block from '@/app/layout/Block';
 import { getActivity } from '@/lib/data/activities/get-activities';
 import ActivityBadge from '@/components/app/ActivityCard/ActivityBadge';
 import { MasonryGallery, MediaItem } from '@/components/app/MasonaryGallery';
-import ScheduleCard from '../../activity-form/review/ScheduleCard';
+import ScheduleCard from '../../../profile/vendor/activities/review/ScheduleCard';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import H1 from '@/components/ui/typography/H1';
 import H2 from '@/components/ui/typography/H2';

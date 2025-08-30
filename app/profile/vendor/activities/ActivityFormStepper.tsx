@@ -6,7 +6,7 @@ import Stepper, { Step } from '@/components/app/Stepper';
 
 const ActivityFormStepper = () => {
   const currentStep = useActivityFormStore(s => s.currentStep);
-  const baseHref = '/activity-form';
+  const baseHref = '/profile/vendor/activities';
   const steps: Step[] = [
     {
       title: 'Basic Details',
