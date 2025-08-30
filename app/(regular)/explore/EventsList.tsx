@@ -79,6 +79,7 @@ const EventsList = async ({
           {...pagination}
         />
       )}
+
     </>
   );
 };

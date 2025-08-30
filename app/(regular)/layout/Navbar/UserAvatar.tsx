@@ -16,14 +16,11 @@ const UserAvatar = async () => {
 
   if (profile.error || !profile.data) return null;
 
-  const {
-    user: { avatar, name },
-    email,
-  } = profile.data;
+  const { user, email } = profile.data;
 
   const getFallback = () => {
-    if (name)
-      return name
+    if (user?.name)
+      return user.name
         .split(' ')
         .map(word => word[0])
         .join()
@@ -39,7 +36,7 @@ const UserAvatar = async () => {
           <AvatarImage
             width={'100'}
             height={'100'}
-            src={avatar}
+            src={user?.avatar || ''}
             className='object-cover'
             alt={getFallback()}
           />
