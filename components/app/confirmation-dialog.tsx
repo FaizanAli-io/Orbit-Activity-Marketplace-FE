@@ -32,7 +32,7 @@ const ConfirmationDialog = ({
 }: Props) => {
   return (
     <AlertDialog>
-      <AlertDialogTrigger>{children}</AlertDialogTrigger>
+      <AlertDialogTrigger className='w-full'>{children}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>

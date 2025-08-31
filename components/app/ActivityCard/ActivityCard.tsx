@@ -14,6 +14,8 @@ import {
 import { format } from 'date-fns';
 import LikeButton from './LikeButton';
 import { getLikedActivities } from '@/lib/data/activities/get-liked-activities';
+import SubButton from './SubButton';
+import { getUserSubs } from '@/lib/data/activities/get-user-subs';
 
 interface Props extends Activity {
   variant?: 'list' | 'grid';
@@ -31,6 +33,9 @@ const ActivityCard = async ({
   viewLink = '#',
 }: Props) => {
   const { success, data } = await getLikedActivities();
+  const { data: subData } = await getUserSubs();
+
+  const subscribed = !!subData?.data?.find(e => e.id === id);
 
   const likedActivities = data?.data;
 
@@ -94,9 +99,7 @@ const ActivityCard = async ({
             <Link href={viewLink}>View</Link>
           </Button>
 
-          <Button className='flex-1'>
-            <Link href='#'>Register</Link>
-          </Button>
+          <SubButton activityId={id} subscribed={subscribed} />
         </CardFooter>
       </div>
     </Card>

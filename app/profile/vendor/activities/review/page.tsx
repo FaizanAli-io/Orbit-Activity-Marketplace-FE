@@ -55,6 +55,7 @@ const Page = () => {
   const isForm5Valid = useActivityFormStore(s => s.isForm5Valid);
 
   const activityId = useActivityFormStore(s => s.activityId);
+  const setActivityId = useActivityFormStore(s => s.setActivityId);
 
   const [hydrated, setHydrated] = useState(false);
 
@@ -119,6 +120,7 @@ const Page = () => {
     if (success) {
       toast.success('Activity updated!');
       clearForms();
+      setActivityId(undefined);
       router.replace('/profile/vendor/events');
     } else toast.error(error, { richColors: true });
 

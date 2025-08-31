@@ -18,7 +18,7 @@ const ActivitiesList = async () => {
     return <p className='text-center text-2xl'>No Activities Found.</p>;
 
   return (
-    <div className='space-y-3'>
+    <div className='space-y-3 md:grid md:grid-cols-2 md:space-y-0 md:gap-5'>
       {activities.data.map(a => (
         <ActivityCard key={a.id} {...a} />
       ))}

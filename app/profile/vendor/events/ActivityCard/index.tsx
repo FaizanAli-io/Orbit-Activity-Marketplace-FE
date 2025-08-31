@@ -42,10 +42,14 @@ const ActivityCard = (props: Activity) => {
   };
 
   return (
-    <Card className='md:px-40'>
+    <Card className='md:max-w-xl'>
       <CardHeader>
-        <CardTitle>
-          <H4 className='font-medium md:text-3xl'>{title}</H4>
+        <CardTitle className='overflow-hidden'>
+          <H4 className='font-medium md:text-3xl truncate'>
+            <Link href={`/event/${id}`} className='hover:underline'>
+              {title}
+            </Link>
+          </H4>
           <ActivityBadge categoryId={categoryId} />
         </CardTitle>
         <CardHeader />
