@@ -1,7 +1,6 @@
 import { getProfile } from '@/lib/data/profile/get-profile';
 import PreferenceForm from './preferences/PreferenceForm';
 import Block from '../layout/Block';
-import H2 from '@/components/ui/typography/H2';
 import H3 from '@/components/ui/typography/H3';
 import SummaryCard from './preferences/SummaryCard';
 import { Card, CardContent } from '@/components/ui/card';

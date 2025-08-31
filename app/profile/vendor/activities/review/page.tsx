@@ -14,12 +14,13 @@ import { useActivityFormStore } from '../store';
 import ReviewSkeleton from './ReviewSkeleton';
 import { useCategories } from '@/lib/data/categories/use-categories';
 import { MasonryGallery, MediaItem } from '@/components/app/MasonaryGallery';
-import { postActivity } from './action';
+import { Body, postActivity } from './action';
 import { toast } from 'sonner';
 import ScheduleCard from './ScheduleCard';
 import { formatCurrency } from '@/lib/utils';
 import { Card, CardContent } from '@/components/ui/card';
 import LoadingButton from '@/components/app/LoadingButton';
+import { updateActivity } from '../actions/update';
 
 const Page = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -52,6 +53,8 @@ const Page = () => {
   const isForm3Valid = useActivityFormStore(s => s.isForm3Valid);
   const isForm4Valid = useActivityFormStore(s => s.isForm4Valid);
   const isForm5Valid = useActivityFormStore(s => s.isForm5Valid);
+
+  const activityId = useActivityFormStore(s => s.activityId);
 
   const [hydrated, setHydrated] = useState(false);
 
@@ -98,6 +101,30 @@ const Page = () => {
     router.push('/profile/vendor/activities/media');
   };
 
+  const handlePost = async (data: Body) => {
+    const { success, error } = await postActivity(data);
+
+    if (success) {
+      toast.success('Activity posted!');
+      clearForms();
+      router.replace('/profile/vendor/events');
+    } else toast.error(error, { richColors: true });
+
+    setIsLoading(false);
+  };
+
+  const handleUpdate = async (data: Body, id: number) => {
+    const { success, error } = await updateActivity(data, id);
+
+    if (success) {
+      toast.success('Activity updated!');
+      clearForms();
+      router.replace('/profile/vendor/events');
+    } else toast.error(error, { richColors: true });
+
+    setIsLoading(false);
+  };
+
   const handleNext = async () => {
     setIsLoading(true);
     const data = {
@@ -123,18 +150,11 @@ const Page = () => {
       images,
     };
 
-    const { success, error } = await postActivity(data);
-
-    if (success) {
-      toast.success('Activity posted!');
-      clearForms();
-      router.replace('/explore');
+    if (!activityId) {
+      await handlePost(data);
     } else {
-      toast.error(error, { richColors: true });
-      console.log(error);
+      await handleUpdate(data, activityId);
     }
-
-    setIsLoading(false);
   };
 
   const galleryItems: MediaItem[] = images.images.map((img, key) => ({

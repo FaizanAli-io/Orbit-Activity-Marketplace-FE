@@ -13,6 +13,8 @@ import z from 'zod';
 import { Store } from 'lucide-react';
 
 interface Store extends ActivityFormSchema {
+  activityId?: number;
+  setActivityId: (id: number) => void;
   currentStep: number;
   setCurrentStep: (n: number) => void;
   setFormData: (data: Partial<ActivityFormSchema>) => void;
@@ -36,6 +38,8 @@ interface Store extends ActivityFormSchema {
 export const useActivityFormStore = create<Store>()(
   persist<Store>(
     (set, get) => ({
+      setActivityId: (id: number) =>
+        set(store => ({ ...store, activityId: id })),
       supCategory: '',
       setSupCategory: (val: string) =>
         set(store => ({ ...store, supCategory: val })),

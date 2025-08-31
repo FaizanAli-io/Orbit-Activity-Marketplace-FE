@@ -22,6 +22,15 @@ interface Profile {
     avatar?: string;
     preferences?: Preference[];
   };
+
+  vendor?: {
+    id: number;
+    name: string;
+    location?: string;
+    description?: string;
+    phone?: string;
+    rating: number;
+  };
 }
 
 export async function getProfile(navigate: boolean = true) {

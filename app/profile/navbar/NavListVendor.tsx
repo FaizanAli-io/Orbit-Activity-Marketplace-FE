@@ -2,7 +2,7 @@
 
 import React from 'react';
 import NavItem from './NavItem';
-import { LayoutDashboard, TentTree, CalendarDays, Users } from 'lucide-react';
+import { LayoutDashboard, TentTree } from 'lucide-react';
 
 const NavListVendor = () => {
   return (
@@ -13,8 +13,6 @@ const NavListVendor = () => {
         icon={LayoutDashboard}
       />
       <NavItem link='/profile/vendor/events' text='Events' icon={TentTree} />
-      {/* <NavItem link='/profile/calendar' text='Calendar' icon={CalendarDays} />
-      <NavItem link='/profile/friends' text='Friends' icon={Users} /> */}
     </ul>
   );
 };

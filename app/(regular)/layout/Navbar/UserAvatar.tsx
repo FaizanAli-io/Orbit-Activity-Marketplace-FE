@@ -16,7 +16,8 @@ const UserAvatar = async () => {
 
   if (profile.error || !profile.data) return null;
 
-  const { user, email } = profile.data;
+  const { user, email, role } = profile.data;
+  const isVendor = role === 'VENDOR';
 
   const getFallback = () => {
     if (user?.name)
@@ -45,13 +46,24 @@ const UserAvatar = async () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem>
-          <Link href='/profile/dashboard'>Dashboard</Link>
+          <Link
+            href={isVendor ? '/profile/vendor/dashboard' : '/profile/dashboard'}
+          >
+            Dashboard
+          </Link>
         </DropdownMenuItem>
 
-        <DropdownMenuItem>
-          <Link href='/profile'>Settings</Link>
-        </DropdownMenuItem>
+        {isVendor && (
+          <DropdownMenuItem>
+            <Link href='/profile/vendor/events'>Events</Link>
+          </DropdownMenuItem>
+        )}
 
+        {!isVendor && (
+          <DropdownMenuItem>
+            <Link href='/profile'>Settings</Link>
+          </DropdownMenuItem>
+        )}
         <LogoutButton />
       </DropdownMenuContent>
     </DropdownMenu>

@@ -5,14 +5,11 @@ import Link from 'next/link';
 import { Skeleton } from '@/components/ui/skeleton';
 import UserAvatar from '@/app/(regular)/layout/Navbar/UserAvatar';
 import NavList from './NavList';
-import { getUser } from '@/lib/utils/cookies/user-cookies';
 import NavListVendor from './NavListVendor';
 import { getProfile } from '@/lib/data/profile/get-profile';
 
 const Navbar = async () => {
   const { data: user } = await getProfile();
-
-  console.log(user?.role);
 
   return (
     <nav className='flex px-2 py-2 md:py-1 md:px-8 justify-between items-center w-full'>

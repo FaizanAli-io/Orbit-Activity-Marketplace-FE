@@ -71,7 +71,7 @@ export type Body = {
   };
 };
 
-export async function postActivity(data: Body) {
+export async function updateActivity(data: Body, id: number) {
   const authToken = await getAccessToken();
   const { data: user } = await getProfile();
 
@@ -79,8 +79,8 @@ export async function postActivity(data: Body) {
     return { success: false, error: 'Unauthorized', data: null };
 
   const res = await withServerError(() =>
-    apiFetch<Body, Data & { id: number }>('/activities', {
-      method: HTTP_VERB.POST,
+    apiFetch<Body, Data & { id: number }>(`/activities/${id}`, {
+      method: HTTP_VERB.PATCH,
       data,
       headers: {
         Authorization: `Bearer ${authToken}`,
