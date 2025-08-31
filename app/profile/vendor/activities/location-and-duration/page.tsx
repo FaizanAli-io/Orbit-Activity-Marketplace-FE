@@ -19,10 +19,13 @@ import { Button } from '@/components/ui/button';
 import { MoveLeft, MoveRight } from 'lucide-react';
 import { useActivityFormStore } from '../store';
 import FormSkeleton from './FormSkeleton';
+import LoadingButton from '@/components/app/LoadingButton';
 
 type Data = z.infer<typeof LocationNDurationSchema>;
 
 const Page = () => {
+  const [loading, setLoading] = useState(false);
+
   const setStep = useActivityFormStore(s => s.setCurrentStep);
   const setForm = useActivityFormStore(s => s.setFormData);
 
@@ -72,11 +75,13 @@ const Page = () => {
 
   const handlePrev = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
+    setLoading(true);
     setStep(3);
     router.push('/profile/vendor/activities/pricing-and-capacity');
   };
 
   const onSubmit = (data: Data) => {
+    setLoading(true);
     setForm(data);
     setStep(4);
     router.push('/profile/vendor/activities/schedule');
@@ -97,7 +102,12 @@ const Page = () => {
                 <FormItem>
                   <FormLabel>Location</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder='London' autoFocus />
+                    <Input
+                      {...field}
+                      placeholder='London'
+                      autoFocus
+                      disabled={loading}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -111,7 +121,7 @@ const Page = () => {
                 <FormItem>
                   <FormLabel>Duration </FormLabel>
                   <FormControl>
-                    <Input {...field} type='number' />
+                    <Input {...field} type='number' disabled={loading} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -120,19 +130,26 @@ const Page = () => {
           </div>
 
           <div className='flex justify-between my-10'>
-            <Button
+            <LoadingButton
+              disabled={loading}
+              loading={loading}
               className='cursor-pointer'
               variant='outline'
               onClick={handlePrev}
             >
               <MoveLeft />
               Pricing & Capacity
-            </Button>
+            </LoadingButton>
 
-            <Button className='cursor-pointer' type='submit'>
+            <LoadingButton
+              disabled={loading}
+              loading={loading}
+              className='cursor-pointer'
+              type='submit'
+            >
               Schedule
               <MoveRight />
-            </Button>
+            </LoadingButton>
           </div>
         </form>
       </Form>

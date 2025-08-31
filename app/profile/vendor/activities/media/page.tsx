@@ -10,8 +10,10 @@ import { useActivityFormStore } from '../store';
 import { useRouter } from 'next/navigation';
 import FormSkeleton from './FormSkeleton';
 import Uploader from '@/components/app/Uploader';
+import LoadingButton from '@/components/app/LoadingButton';
 
 const Page = () => {
+  const [loading, setLoading] = useState(false);
   const setStep = useActivityFormStore(s => s.setCurrentStep);
   const setForm = useActivityFormStore(s => s.setFormData);
 
@@ -62,12 +64,17 @@ const Page = () => {
 
   const handlePrev = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
+
+    setLoading(true);
+
     setStep(3);
     router.push('/profile/vendor/activities/schedule');
   };
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
+
+    setLoading(true);
 
     const data = {
       images: {
@@ -136,19 +143,26 @@ const Page = () => {
       </div>
 
       <div className='flex justify-between my-10'>
-        <Button
+        <LoadingButton
+          loading={loading}
+          disabled={loading}
           className='cursor-pointer'
           variant='outline'
           onClick={handlePrev}
         >
           <MoveLeft />
           Schedule
-        </Button>
+        </LoadingButton>
 
-        <Button className='cursor-pointer' onClick={onSubmit}>
+        <LoadingButton
+          loading={loading}
+          disabled={loading}
+          className='cursor-pointer'
+          onClick={onSubmit}
+        >
           Review & Post
           <MoveRight />
-        </Button>
+        </LoadingButton>
       </div>
     </div>
   );

@@ -19,7 +19,7 @@ const TimePicker: React.FC<TimePickerProps> = ({
     <Input
       type='time'
       id={id}
-      step='1'
+      step='60'
       value={value}
       onChange={e => {
         const raw = e.target.value; // e.g. "16:00:00"

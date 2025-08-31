@@ -24,7 +24,7 @@ interface Profile {
   };
 }
 
-export async function getProfile() {
+export async function getProfile(navigate: boolean = true) {
   const token = await getAccessToken();
 
   if (!token) return { success: false, data: undefined, error: 'Unauthorized' };
@@ -36,7 +36,7 @@ export async function getProfile() {
     })
   );
 
-  if (result?.error?.includes('expired token')) {
+  if (result?.error?.includes('expired token') && navigate) {
     redirect('/logout');
   }
 

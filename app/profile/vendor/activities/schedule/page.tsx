@@ -25,6 +25,7 @@ import { MultipleDatePicker } from '@/components/app/MultipleDatePicker';
 import { Calendar } from '@/components/ui/calendar';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { DayNumberSelector } from './DayNumberSelector';
+import LoadingButton from '@/components/app/LoadingButton';
 
 type Data = z.infer<typeof ScheduleSchema>;
 
@@ -34,6 +35,7 @@ const scheduleTypeOptions = ['dates', 'range', 'weekly', 'monthly'].map(v => ({
 }));
 
 const Page = () => {
+  const [loading, setLoading] = useState(false);
   const setStep = useActivityFormStore(s => s.setCurrentStep);
   const setForm = useActivityFormStore(s => s.setFormData);
 
@@ -139,11 +141,13 @@ const Page = () => {
 
   const handlePrev = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
+    setLoading(true);
     setStep(3);
     router.push('/profile/vendor/activities/location-and-duration');
   };
 
   const onSubmit = (data: Data) => {
+    setLoading(true);
     setForm(data);
     setStep(5);
     router.push('/profile/vendor/activities/media');
@@ -578,19 +582,26 @@ const Page = () => {
           </div>
 
           <div className='flex justify-between my-10'>
-            <Button
+            <LoadingButton
+              loading={loading}
+              disabled={loading}
               className='cursor-pointer'
               variant='outline'
               onClick={handlePrev}
             >
               <MoveLeft />
               Location & Duration
-            </Button>
+            </LoadingButton>
 
-            <Button className='cursor-pointer' type='submit'>
+            <LoadingButton
+              loading={loading}
+              disabled={loading}
+              className='cursor-pointer'
+              type='submit'
+            >
               Media
               <MoveRight />
-            </Button>
+            </LoadingButton>
           </div>
         </form>
       </Form>

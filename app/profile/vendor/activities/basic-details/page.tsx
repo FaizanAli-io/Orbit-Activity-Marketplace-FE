@@ -14,7 +14,6 @@ import {
 } from '@/components/ui/form';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { ArrowRight } from 'lucide-react';
 import { useActivityFormStore } from '../store';
@@ -23,12 +22,14 @@ import FormSkeleton from './FormSkeleton';
 import { Combobox } from '@/components/ui/Combobox';
 import { useCategories } from '@/lib/data/categories/use-categories';
 import { Skeleton } from '@/components/ui/skeleton';
+import LoadingButton from '@/components/app/LoadingButton';
 
 type BasicDetails = z.infer<typeof BasicDetailsSchema>;
 
 type CategoryOption = { label: string; value: string };
 
 const Page = () => {
+  const [loading, setLoading] = useState(false);
   const { data: categories, isFetched } = useCategories();
 
   const [subCategories, setSubCategories] = useState<CategoryOption[]>([]);
@@ -91,6 +92,7 @@ const Page = () => {
   }, [setStep, form, categories]);
 
   const onSubmit = (data: BasicDetails) => {
+    setLoading(true);
     setForm(data);
     setStep(2);
 
@@ -159,7 +161,12 @@ const Page = () => {
                 <FormItem>
                   <FormLabel>Title</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder='Mountain Hiking' autoFocus />
+                    <Input
+                      {...field}
+                      placeholder='Mountain Hiking'
+                      autoFocus
+                      disabled={loading}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -176,6 +183,7 @@ const Page = () => {
                       {...field}
                       maxLength={500}
                       className='min-h-[200px] resize-y field-sizing-fixed'
+                      disabled={loading}
                     />
                   </FormControl>
                   <FormMessage />
@@ -184,9 +192,14 @@ const Page = () => {
             />
           </div>
           <div className='flex justify-end my-15'>
-            <Button className='cursor-pointer' type='submit'>
+            <LoadingButton
+              className='cursor-pointer'
+              type='submit'
+              loading={loading}
+              disabled={loading}
+            >
               Pricing & Capacity <ArrowRight />
-            </Button>
+            </LoadingButton>
           </div>
         </form>
       </Form>

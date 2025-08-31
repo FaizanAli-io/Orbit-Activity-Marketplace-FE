@@ -19,6 +19,7 @@ import { toast } from 'sonner';
 import ScheduleCard from './ScheduleCard';
 import { formatCurrency } from '@/lib/utils';
 import { Card, CardContent } from '@/components/ui/card';
+import LoadingButton from '@/components/app/LoadingButton';
 
 const Page = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -92,6 +93,7 @@ const Page = () => {
   ]);
 
   const handlePrev = () => {
+    setIsLoading(true);
     setStep(4);
     router.push('/profile/vendor/activities/media');
   };
@@ -207,7 +209,8 @@ const Page = () => {
         </CardContent>
       </Card>
       <div className='flex justify-between my-10'>
-        <Button
+        <LoadingButton
+          loading={isLoading}
           className='cursor-pointer'
           variant='outline'
           onClick={handlePrev}
@@ -215,17 +218,18 @@ const Page = () => {
         >
           <MoveLeft />
           Media
-        </Button>
+        </LoadingButton>
 
-        <Button
+        <LoadingButton
           className='cursor-pointer'
           type='button'
           onClick={handleNext}
           disabled={isLoading}
+          loading={isLoading}
         >
           Confirm & Post
           <MoveRight />
-        </Button>
+        </LoadingButton>
       </div>
     </>
   );

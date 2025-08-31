@@ -24,9 +24,7 @@ export default async function middleware(req: NextRequest) {
   const isVendorRoute = matchAny(path, vendorRoutes);
 
   const token = await getAccessToken();
-  const { data: user } = await getProfile();
-
-  console.log(user);
+  const { success, data: user } = await getProfile(false);
 
   if (isProtectedRoute && !token)
     return NextResponse.redirect(new URL('/login', req.nextUrl));
@@ -35,7 +33,8 @@ export default async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL('/profile', req.nextUrl));
 
   if (isVendorRoute) {
-    if (!user) return NextResponse.redirect(new URL('/profile', req.nextUrl));
+    if (!success || !user)
+      return NextResponse.redirect(new URL('/profile', req.nextUrl));
 
     if (user.role !== 'VENDOR')
       return NextResponse.redirect(new URL('/profile', req.nextUrl));
