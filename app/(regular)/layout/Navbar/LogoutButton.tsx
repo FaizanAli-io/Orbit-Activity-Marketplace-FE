@@ -1,25 +1,25 @@
-'use client';
-import React, { useState } from 'react';
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import { logout } from './action';
+// 'use client';
+// import React, { useState } from 'react';
+// import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
+// import { logout } from './action';
 
-const LogoutButton = () => {
-  const [loading, setLoading] = useState(false);
+// const LogoutButton = () => {
+//   const [loading, setLoading] = useState(false);
 
-  const handleClick = async () => {
-    setLoading(true);
-    await logout();
-  };
+//   const handleClick = async () => {
+//     setLoading(true);
+//     await logout();
+//   };
 
-  return (
-    <DropdownMenuItem
-      className='cursor-pointer'
-      onClick={handleClick}
-      disabled={loading}
-    >
-      {!loading ? 'Logout' : 'logging out...'}
-    </DropdownMenuItem>
-  );
-};
+//   return (
+//     <DropdownMenuItem
+//       className='cursor-pointer'
+//       onClick={handleClick}
+//       disabled={loading}
+//     >
+//       {!loading ? 'Logout' : 'logging out...'}
+//     </DropdownMenuItem>
+//   );
+// };
 
-export default LogoutButton;
+// export default LogoutButton;

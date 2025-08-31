@@ -8,7 +8,6 @@ import {
 import { getProfile } from '@/lib/data/profile/get-profile';
 import { AvatarImage } from '@radix-ui/react-avatar';
 import React from 'react';
-import LogoutButton from './LogoutButton';
 import Link from 'next/link';
 
 const UserAvatar = async () => {
@@ -64,7 +63,10 @@ const UserAvatar = async () => {
             <Link href='/profile'>Settings</Link>
           </DropdownMenuItem>
         )}
-        <LogoutButton />
+
+        <DropdownMenuItem>
+          <Link href='/logout'>Logout</Link>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
