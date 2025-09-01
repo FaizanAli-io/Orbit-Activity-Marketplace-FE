@@ -64,7 +64,7 @@ const ActivityCardFooter = ({
       quota: String(quota),
       location,
       duration: String(duration),
-      exclusions: exclusions.map(e => new Date(e)),
+      exclusions: exclusions?.map(e => new Date(e)),
       type,
       dates: dates?.map(d => ({
         date: new Date(d.date),
@@ -95,9 +95,9 @@ const ActivityCardFooter = ({
       },
     });
 
-    setImages(images.images);
-    setThumbnail(images.thumbnail);
-    setVideo(images.video);
+    if (images?.images) setImages(images.images);
+    if (images?.thumbnail) setThumbnail(images.thumbnail);
+    if (images?.video) setVideo(images.video);
 
     router.push('/profile/vendor/activities/basic-details');
   };
