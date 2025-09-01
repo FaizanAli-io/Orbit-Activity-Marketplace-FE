@@ -11,7 +11,6 @@ import {
 } from '@/components/ui/sidebar';
 import Link from 'next/link';
 import MenuLink from './MenuLink';
-import LogoutButton from './LogoutButton';
 import { getLinks } from './sidebar-links';
 
 export async function ProfileSidebar({
@@ -48,7 +47,8 @@ export async function ProfileSidebar({
               ))}
 
             <SidebarMenuItem className='ml-2 cursor-pointer'>
-              <LogoutButton />
+              {/* <LogoutButton /> */}
+              <MenuLink title='logout' url='/logout' />
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarGroup>

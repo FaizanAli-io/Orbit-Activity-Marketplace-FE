@@ -3,7 +3,6 @@ import React from 'react';
 import { Tabs, TabsTrigger, TabsContent, TabsList } from '@/components/ui/tabs';
 import SubscribedActivities from './SubscribedActivites';
 import LikedActivities from './LikedActivities';
-import FindFriends from '@/app/me/profile/friends/FindFriends';
 
 const friends = 'friends';
 const likedActivities = 'liked-activities';
@@ -35,7 +34,7 @@ const UserTabs = () => {
         <LikedActivities />
       </TabsContent>
       <TabsContent value={friends} className={contentClass}>
-        <FindFriends />
+        {/* <FindFriends /> */}
       </TabsContent>
     </Tabs>
   );
