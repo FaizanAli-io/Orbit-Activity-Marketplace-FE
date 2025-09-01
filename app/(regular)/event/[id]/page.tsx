@@ -10,6 +10,7 @@ import H1 from '@/components/ui/typography/H1';
 import H2 from '@/components/ui/typography/H2';
 import { Button } from '@/components/ui/button';
 import Tagline from '@/components/ui/typography/Tagline';
+import { formatCurrency } from '@/lib/utils';
 
 interface Props {
   params: Promise<{ id: number }>;
@@ -42,16 +43,18 @@ const Page = async ({ params }: Props) => {
     vendor,
   } = activity.data;
 
-  const galleryItems: MediaItem[] = images.images.map((img, key) => ({
-    id: String(key),
-    type: 'image' as const,
-    src: img,
-    alt: 'Activity picture',
-    width: 100,
-    height: 100,
-  }));
+  const galleryItems: MediaItem[] | undefined = images?.images?.map(
+    (img, key) => ({
+      id: String(key),
+      type: 'image' as const,
+      src: img,
+      alt: 'Activity picture',
+      width: 100,
+      height: 100,
+    })
+  );
 
-  if (images.video) {
+  if (images?.video) {
     galleryItems.push({
       id: 'video',
       type: 'video',
@@ -107,7 +110,7 @@ const Page = async ({ params }: Props) => {
           <CardContent>{description}</CardContent>
         </Card>
 
-        {images.images && (
+        {images?.images && (
           <Card>
             <CardContent>
               <MasonryGallery items={galleryItems} showMoreCount={3} />
@@ -119,7 +122,7 @@ const Page = async ({ params }: Props) => {
         <Card>
           <CardHeader>
             <H2 className='font-semibold text-3xl md:text-3xl text-center'>
-              HK$ {price}
+              {formatCurrency(price)}
             </H2>
           </CardHeader>
           <CardContent>
