@@ -17,6 +17,7 @@ import { Eye, PenBox, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 import ActivityCardFooter from './ActivityCardFooter';
+import Button3D from '@/components/app/Button3D';
 
 const ActivityCard = (props: Activity) => {
   const {
@@ -45,11 +46,18 @@ const ActivityCard = (props: Activity) => {
     <Card className='md:max-w-xl'>
       <CardHeader>
         <CardTitle className='overflow-hidden'>
-          <H4 className='font-medium md:text-3xl truncate'>
-            <Link href={`/event/${id}`} className='hover:underline'>
-              {title}
-            </Link>
-          </H4>
+          <div className='flex justify-between space-x-5'>
+            <H4 className='font-medium md:text-3xl truncate'>
+              <Link href={`/event/${id}`} className='hover:underline'>
+                {title}
+              </Link>
+            </H4>
+            <Button variant={'secondary'}>
+              <Link href={`/profile/vendor/attendees/${id}`}>
+                View Attendees
+              </Link>
+            </Button>
+          </div>
           <ActivityBadge categoryId={categoryId} />
         </CardTitle>
         <CardHeader />
