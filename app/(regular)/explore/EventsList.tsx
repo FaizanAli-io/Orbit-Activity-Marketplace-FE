@@ -2,7 +2,6 @@ import ActivitiesPagination from '@/app/(regular)/explore/ActivitiesPagination';
 import ActivityCard from '@/components/app/ActivityCard/ActivityCard';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { getActivities } from '@/lib/data/activities/get-activities';
-import React from 'react';
 
 interface Props {
   name?: string;

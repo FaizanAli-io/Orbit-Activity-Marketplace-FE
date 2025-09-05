@@ -10,6 +10,7 @@ interface params {
   maxPrice?: string;
   page?: string;
   vendorId?: string;
+  limit?: number;
 }
 
 interface Res {
@@ -45,6 +46,8 @@ export async function getActivities(params: params = {}) {
   if (params.vendorId)
     query.push(`vendorId=${encodeURIComponent(params.vendorId)}`);
 
+  if (params.limit) query.push(`limit=${encodeURIComponent(params.limit)}`);
+
   if (query.length > 0) endpoint += `?${query.join('&')}`;
 
   return withServerError(() =>
@@ -57,7 +60,7 @@ export async function getActivity(id: number) {
   return await withServerError(() =>
     apiFetch<unknown, Activity>(`/activities/${id}`, {
       method: HTTP_VERB.GET,
-      cache: 'no-cache',
+      cache: 'force-cache',
     })
   );
 }
