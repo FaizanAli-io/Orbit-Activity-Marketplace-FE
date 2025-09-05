@@ -24,12 +24,12 @@ export async function getRecommendedActivities(params: params = {}) {
   const token = await getAccessToken();
   if (!token) return { success: false, data: undefined, error: 'Unauthorized' };
 
-  let endpoint = '/reccomendation';
+  let endpoint = '/recommendation/single';
   if (params.page) endpoint += `?page=${encodeURIComponent(params.page)}`;
 
   return withServerError(() =>
     apiFetch<unknown, Res>(endpoint, {
-      method: HTTP_VERB.GET,
+      method: HTTP_VERB.POST,
       headers: {
         Authorization: `Bearer ${token}`,
       },
