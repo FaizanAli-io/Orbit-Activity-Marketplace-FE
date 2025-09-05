@@ -6,6 +6,7 @@ import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
+  getPaginationRowModel,
   getSortedRowModel,
   SortingState,
   useReactTable,
@@ -34,12 +35,13 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [globalFilter, setGlobalFilter] = useState(''); // ✅ global filter state
+  const [globalFilter, setGlobalFilter] = useState('');
 
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
@@ -47,9 +49,9 @@ export function DataTable<TData, TValue>({
     state: {
       sorting,
       columnFilters,
-      globalFilter, // ✅ hook up global filter
+      globalFilter,
     },
-    onGlobalFilterChange: setGlobalFilter, // ✅ handler
+    onGlobalFilterChange: setGlobalFilter,
   });
 
   return (
@@ -58,7 +60,7 @@ export function DataTable<TData, TValue>({
         <Input
           placeholder='Search all columns...'
           value={globalFilter ?? ''}
-          onChange={e => setGlobalFilter(e.target.value)} // ✅ global search
+          onChange={e => setGlobalFilter(e.target.value)}
           className='max-w-sm'
         />
       </div>
