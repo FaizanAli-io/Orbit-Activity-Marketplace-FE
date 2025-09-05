@@ -10,20 +10,20 @@ import Sidebar from '@/app/(regular)/explore/Sidebar';
 import EventsList from '@/app/(regular)/explore/EventsList';
 import EventsListSkeleton from '@/app/(regular)/explore/EventsListSkeleton';
 import SearchForm from './SearchForm';
+import {
+  SimplePageProps,
+  getSearchParam,
+  createSearchKey,
+} from '@/lib/types/page-props';
 
-// 1. FIX: Correct the type. searchParams is an object, not a promise.
-type Props = {
-  searchParams: { [key: string]: string | string[] | undefined };
-};
-
-const Page = ({ searchParams }: Props) => {
-  // Removed 'async' as it's not needed here
-  // 2. FIX: Remove 'await'. Access searchParams directly.
-  const name = searchParams?.name as string;
-  const category = searchParams?.category as string;
-  const minPrice = searchParams?.minPrice as string;
-  const maxPrice = searchParams?.maxPrice as string;
-  const page = searchParams?.page as string;
+const Page = async ({ searchParams }: SimplePageProps) => {
+  // Await the searchParams promise and extract values
+  const resolvedSearchParams = await searchParams;
+  const name = getSearchParam(resolvedSearchParams, 'name');
+  const category = getSearchParam(resolvedSearchParams, 'category');
+  const minPrice = getSearchParam(resolvedSearchParams, 'minPrice');
+  const maxPrice = getSearchParam(resolvedSearchParams, 'maxPrice');
+  const page = getSearchParam(resolvedSearchParams, 'page');
 
   return (
     <Sheet>
@@ -49,7 +49,7 @@ const Page = ({ searchParams }: Props) => {
             </SheetTrigger>
             {/* Suspense will now work correctly, showing the skeleton immediately */}
             <Suspense
-              key={name + category + minPrice + maxPrice + page}
+              key={createSearchKey(name, category, minPrice, maxPrice, page)}
               fallback={<EventsListSkeleton />}
             >
               <EventsList
