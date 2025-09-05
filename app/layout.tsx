@@ -20,6 +20,8 @@ export const metadata: Metadata = {
   description: 'Orbit where you find the activity you love.',
 };
 
+export const experimental_ppr = true;
+
 export default function RootLayout({
   children,
 }: Readonly<{

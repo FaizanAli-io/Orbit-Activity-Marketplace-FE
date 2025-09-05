@@ -1,3 +1,5 @@
+// src/app/your-route/page.tsx
+
 import React, { Suspense } from 'react';
 
 import Block from '@/app/layout/Block';
@@ -9,21 +11,24 @@ import EventsList from '@/app/(regular)/explore/EventsList';
 import EventsListSkeleton from '@/app/(regular)/explore/EventsListSkeleton';
 import SearchForm from './SearchForm';
 
+// 1. FIX: Correct the type. searchParams is an object, not a promise.
 type Props = {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  searchParams: { [key: string]: string | string[] | undefined };
 };
 
-const Page = async ({ searchParams }: Props) => {
-  const search = await searchParams;
-  const name = search?.name as string;
-  const category = search?.category as string;
-  const minPrice = search?.minPrice as string;
-  const maxPrice = search?.maxPrice as string;
-  const page = search?.page as string;
+const Page = ({ searchParams }: Props) => {
+  // Removed 'async' as it's not needed here
+  // 2. FIX: Remove 'await'. Access searchParams directly.
+  const name = searchParams?.name as string;
+  const category = searchParams?.category as string;
+  const minPrice = searchParams?.minPrice as string;
+  const maxPrice = searchParams?.maxPrice as string;
+  const page = searchParams?.page as string;
 
   return (
     <Sheet>
       <Block space={false} className='my-5'>
+        {/* This part can now render immediately */}
         <SheetContent side='left'>
           <Sidebar />
         </SheetContent>
@@ -42,7 +47,11 @@ const Page = async ({ searchParams }: Props) => {
                 <Filter />
               </Button>
             </SheetTrigger>
-            <Suspense fallback={<EventsListSkeleton />}>
+            {/* Suspense will now work correctly, showing the skeleton immediately */}
+            <Suspense
+              key={name + category + minPrice + maxPrice + page}
+              fallback={<EventsListSkeleton />}
+            >
               <EventsList
                 name={name}
                 categoryId={category}
