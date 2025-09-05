@@ -5,9 +5,6 @@ import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { User } from '@/lib/data/profile/users/get-users';
 interface Props extends User {
-  // secondaryBtnText?: React.ReactNode;
-  // onButtonClick?: (id: number) => void;
-  // onSecondaryClick?: () => void;
   btn?: ReactNode;
 }
 
@@ -33,7 +30,6 @@ const FriendCard = ({ name, avatar, email, btn }: Props) => {
           </h2>
           <div className='flex flex-col md:flex-row space-x-2 text-sm'>
             <p className='text-muted-foreground'>{email}</p>
-            {/* <p className='text-muted-foreground'>24 events attended</p> */}
           </div>
         </div>
       </div>

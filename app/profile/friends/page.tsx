@@ -1,9 +1,9 @@
 import { Tabs, TabsTrigger, TabsList, TabsContent } from '@/components/ui/tabs';
-import AllFriends from './AllFriends';
 import Block from '@/app/layout/Block';
 import H2 from '@/components/ui/typography/H2';
 import SuggestedFriends from './suggested-friends';
 import FriendRequests from './friend-requests';
+import AllFriends from './all-friends';
 
 const Page = () => {
   return (
