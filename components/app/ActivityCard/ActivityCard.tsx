@@ -3,7 +3,6 @@ import { Button } from '../../ui/button';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
 import H4 from '@/components/ui/typography/H4';
 import {
   Card,
