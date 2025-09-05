@@ -30,6 +30,9 @@ const ActivityCard = async ({
   availability,
   variant = 'list',
   viewLink = '#',
+  vendorId,
+  price,
+  ...activityProps
 }: Props) => {
   const { success, data } = await getLikedActivities();
   const { data: subData } = await getUserSubs();
@@ -98,7 +101,17 @@ const ActivityCard = async ({
             <Link href={viewLink}>View</Link>
           </Button>
 
-          <SubButton activityId={id} subscribed={subscribed} />
+          <SubButton
+            activityId={id}
+            subscribed={subscribed}
+            activity={{
+              id,
+              name: title,
+              price,
+              vendorId,
+              location,
+            }}
+          />
         </CardFooter>
       </div>
     </Card>

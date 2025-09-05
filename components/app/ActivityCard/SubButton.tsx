@@ -1,44 +1,58 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import LoadingButton from '../LoadingButton';
-import ConfirmationDialog from '../confirmation-dialog';
-import { subscribeActivity } from './action-subscribe';
+import { PaymentModal } from '../PaymentModal';
+import { Activity } from '@/lib/data/activities/types';
 import { toast } from 'sonner';
 
 interface Props {
   activityId: number;
   subscribed?: boolean;
+  activity?: Pick<Activity, 'id' | 'name' | 'price' | 'vendorId' | 'location'>;
 }
 
-const SubButton = ({ activityId: id, subscribed }: Props) => {
-  const [loading, setLoading] = useState(false);
+const SubButton = ({ activityId: id, subscribed, activity }: Props) => {
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [isSubscribed, setIsSubscribed] = useState(subscribed);
 
-  const handleSubscribe = async () => {
-    setLoading(true);
+  const handleSubscribeClick = () => {
+    if (isSubscribed) {
+      toast.info('You are already subscribed to this activity');
+      return;
+    }
 
-    const { success, error } = await subscribeActivity(id);
-    if (!success) {
-      toast.error(error || 'Activity not subscribed. Try again');
-    } else toast.success('Activity Subscribed!');
+    if (!activity) {
+      toast.error('Activity information is not available');
+      return;
+    }
 
-    setLoading(false);
+    setShowPaymentModal(true);
+  };
+
+  const handlePaymentSuccess = () => {
+    setIsSubscribed(true);
+    setShowPaymentModal(false);
+    toast.success('Successfully subscribed to the activity!');
   };
 
   return (
     <div className='flex-1'>
-      <ConfirmationDialog
-        title={'Do you want to subscribe activity?'}
-        onAction={handleSubscribe}
-        onCancel={() => setLoading(false)}
+      <LoadingButton
+        onClick={handleSubscribeClick}
+        disabled={isSubscribed}
+        className='w-full'
       >
-        <LoadingButton
-          loading={loading}
-          disabled={loading || subscribed}
-          className='w-full'
-        >
-          {subscribed ? 'Subscribed' : 'Subscribe'}
-        </LoadingButton>
-      </ConfirmationDialog>
+        {isSubscribed ? 'Subscribed' : 'Subscribe'}
+      </LoadingButton>
+
+      {activity && (
+        <PaymentModal
+          isOpen={showPaymentModal}
+          onClose={() => setShowPaymentModal(false)}
+          activity={activity}
+          onPaymentSuccess={handlePaymentSuccess}
+        />
+      )}
     </div>
   );
 };
