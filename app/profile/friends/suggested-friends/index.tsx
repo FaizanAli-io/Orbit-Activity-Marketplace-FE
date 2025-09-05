@@ -1,8 +1,7 @@
-import FriendCard from './FriendCard';
-import H4 from '@/components/ui/typography/H4';
-import FriendsList from './FriendsList';
+import SuggestedFriendsList from './FriendsList';
 import { Suspense } from 'react';
 import { Loader2 } from 'lucide-react';
+import H4 from '@/components/ui/typography/H4';
 
 const SuggestedFriends = () => {
   return (
@@ -18,7 +17,7 @@ const SuggestedFriends = () => {
           </div>
         }
       >
-        <FriendsList />
+        <SuggestedFriendsList />
       </Suspense>
     </div>
   );

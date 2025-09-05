@@ -1,12 +1,9 @@
-import React from 'react';
-
 import { Tabs, TabsTrigger, TabsList, TabsContent } from '@/components/ui/tabs';
 import AllFriends from './AllFriends';
-import SuggestedFriends from './SuggestedFriends';
-import FriendRequests from './FriendRequests';
 import Block from '@/app/layout/Block';
 import H2 from '@/components/ui/typography/H2';
-import SearchInput from '@/components/app/SearchInput';
+import SuggestedFriends from './suggested-friends';
+import FriendRequests from './friend-requests';
 
 const Page = () => {
   return (
@@ -15,11 +12,10 @@ const Page = () => {
         <H2 className='font-medium md:text-4xl'>Friends</H2>
         <p>Connect with friends and discover events together.</p>
       </div>
-      <SearchInput />
-      <Tabs defaultValue={'suggestions'}>
+      <Tabs defaultValue={'requests'}>
         <TabsList className='bg-secondary mb-2'>
-          <TabsTrigger value={'all'}>All Friends (3)</TabsTrigger>
-          <TabsTrigger value={'requests'}>Requests (2)</TabsTrigger>
+          <TabsTrigger value={'all'}>All Friends</TabsTrigger>
+          <TabsTrigger value={'requests'}>Requests</TabsTrigger>
           <TabsTrigger value={'suggestions'}>Suggestions</TabsTrigger>
         </TabsList>
         <TabsContent value={'all'}>

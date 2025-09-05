@@ -1,11 +1,12 @@
 import { getUsers } from '@/lib/data/profile/users/get-users';
-import FriendCard from './FriendCard';
+import FriendCard from '../FriendCard';
 import { HTMLAttributes } from 'react';
-import { Button } from '@/components/ui/button';
-import BtnSendReq from './btnSendReq';
 import { getProfile } from '@/lib/data/profile/get-profile';
+import BtnSendReq from './BtnSendReq';
 
-const FriendsList = async ({ ...props }: HTMLAttributes<HTMLDivElement>) => {
+const SuggestedFriendsList = async ({
+  ...props
+}: HTMLAttributes<HTMLDivElement>) => {
   const { data: users, success } = await getUsers();
   const { data: profile } = await getProfile();
 
@@ -25,4 +26,4 @@ const FriendsList = async ({ ...props }: HTMLAttributes<HTMLDivElement>) => {
   );
 };
 
-export default FriendsList;
+export default SuggestedFriendsList;

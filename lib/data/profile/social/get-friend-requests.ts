@@ -1,43 +1,24 @@
-// import { apiFetch } from '@/lib/api';
-// import { HTTP_VERB } from '@/lib/enums/http-verbs';
-// import { getAccessToken } from '@/lib/utils/cookies/auth-cookies';
-// import { getUser } from '@/lib/utils/cookies/user-cookies';
-// import { withServerError } from '@/lib/utils/with-server-error';
+import { apiFetch } from '@/lib/api';
+import { HTTP_VERB } from '@/lib/enums/http-verbs';
+import { getAccessToken } from '@/lib/utils/cookies/auth-cookies';
+import { withServerError } from '@/lib/utils/with-server-error';
+import { getProfile } from '../get-profile';
+import { User } from '../users/get-users';
 
-// interface params {
-//   name?: string;
-//   categoryId?: string;
-//   minPrice?: string;
-//   maxPrice?: string;
-//   page?: string;
-// }
+export async function getFriendRequests() {
+  const token = await getAccessToken();
+  const { success: isValidUser } = await getProfile();
 
-// interface Res {
-//   data: Activity[];
-//   pagination: {
-//     page: number;
-//     limit: number;
-//     total: number;
-//     totalPages: number;
-//     hasNext: boolean;
-//     hasPrev: boolean;
-//   };
-// }
+  if (!token || !isValidUser)
+    return { success: false, error: 'Unauthorized', data: undefined };
 
-// export async function getLikedActivities() {
-//   const token = await getAccessToken();
-//   const user = await getUser();
-
-//   if (!token || !user)
-//     return { success: false, error: 'Unauthorized', data: undefined };
-
-//   return await withServerError(() =>
-//     apiFetch<unknown, Res>(`/users/liked/`, {
-//       method: HTTP_VERB.GET,
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//       cache: 'no-cache',
-//     })
-//   );
-// }
+  return await withServerError(() =>
+    apiFetch<unknown, User[]>(`/social/friend-requests`, {
+      method: HTTP_VERB.GET,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      cache: 'no-cache',
+    })
+  );
+}

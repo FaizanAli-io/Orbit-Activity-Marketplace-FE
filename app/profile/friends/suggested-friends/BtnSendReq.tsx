@@ -1,15 +1,15 @@
 'use client';
 import LoadingButton from '@/components/app/LoadingButton';
 import { UserPlus } from 'lucide-react';
-import { ReactNode, useState } from 'react';
-import { sendFriendReq } from './actions/request-actions';
+import { useState } from 'react';
+import { sendFriendReq } from '../actions/request-actions';
 import { toast } from 'sonner';
 
 interface Props {
   id: number;
 }
 
-const CardButton = ({ id }: Props) => {
+const BtnSendReq = ({ id }: Props) => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
@@ -18,7 +18,10 @@ const CardButton = ({ id }: Props) => {
 
     const { success, error } = await sendFriendReq(id);
     if (!success) toast.error(error || 'Request was not sent. Try again.');
-    else toast.success('Friend request sent!');
+    else {
+      toast.success('Friend request sent!');
+      setSuccess(true);
+    }
 
     setLoading(false);
   };
@@ -42,4 +45,4 @@ const CardButton = ({ id }: Props) => {
   );
 };
 
-export default CardButton;
+export default BtnSendReq;
