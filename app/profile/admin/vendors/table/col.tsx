@@ -5,6 +5,7 @@ import { DataTableColumnHeader } from '@/components/datatable/col-header';
 import { Vendor } from '@/lib/data/profile/vendors/get-vendors';
 import { Badge } from '@/components/ui/badge';
 import { Star } from 'lucide-react';
+import Link from 'next/link';
 
 export const columns: ColumnDef<Vendor>[] = [
   {
@@ -18,6 +19,18 @@ export const columns: ColumnDef<Vendor>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Name' />
     ),
+    cell: ({ row }) => {
+      const name = row.getValue('name') as string;
+      const vendorId = row.getValue('id') as number;
+      return (
+        <Link
+          href={`/profile/admin/vendor/${vendorId}`}
+          className='text-blue-600 hover:text-blue-800 hover:underline font-medium'
+        >
+          {name}
+        </Link>
+      );
+    },
   },
   {
     accessorKey: 'email',
