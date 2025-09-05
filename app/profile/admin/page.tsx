@@ -1,53 +1,26 @@
-import { Suspense } from 'react';
 import Block from '@/app/layout/Block';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Loader2 } from 'lucide-react';
-import UsersTable from './table';
-import VendorsTable from './vendors/table';
+import { StatsGrid, TableSection } from './components';
 
-const Page = async () => {
+const AdminDashboard = async () => {
   return (
     <Block>
-      <Card>
-        <CardHeader>
-          <CardTitle>Admin Dashboard</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Tabs defaultValue='users' className='w-full'>
-            <TabsList className='grid w-full grid-cols-2'>
-              <TabsTrigger value='users'>Users</TabsTrigger>
-              <TabsTrigger value='vendors'>Vendors</TabsTrigger>
-            </TabsList>
+      <div className='space-y-6'>
+        {/* Page Header */}
+        <div>
+          <h1 className='text-3xl font-bold tracking-tight'>Admin Dashboard</h1>
+          <p className='text-muted-foreground'>
+            Overview of your platform's key metrics and user management.
+          </p>
+        </div>
 
-            <TabsContent value='users' className='mt-6'>
-              <Suspense
-                fallback={
-                  <div className='h-52 flex justify-center items-center'>
-                    <Loader2 className='animate-spin' size='32' />
-                  </div>
-                }
-              >
-                <UsersTable />
-              </Suspense>
-            </TabsContent>
+        {/* Stats Cards */}
+        <StatsGrid />
 
-            <TabsContent value='vendors' className='mt-6'>
-              <Suspense
-                fallback={
-                  <div className='h-52 flex justify-center items-center'>
-                    <Loader2 className='animate-spin' size='32' />
-                  </div>
-                }
-              >
-                <VendorsTable />
-              </Suspense>
-            </TabsContent>
-          </Tabs>
-        </CardContent>
-      </Card>
+        {/* Tables Section */}
+        <TableSection />
+      </div>
     </Block>
   );
 };
 
-export default Page;
+export default AdminDashboard;
