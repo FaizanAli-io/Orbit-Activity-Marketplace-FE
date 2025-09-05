@@ -2,7 +2,9 @@ import Block from '@/app/layout/Block';
 import Button3D from '@/components/app/Button3D';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { getUsers } from '@/lib/data/profile/users/get-users';
-import { UserPlus } from 'lucide-react';
+import { Check, Loader2, UserPlus } from 'lucide-react';
+import { Suspense } from 'react';
+import GroupRecommendationList from './GroupRecommendationList';
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -24,8 +26,8 @@ const Page = async ({ params }: Props) => {
   const initials = user?.name?.match(/\b\w/g)?.join('').toUpperCase();
 
   return (
-    <Block>
-      <div className='md:flex md:justify-between md:items-center space-y-5 md:space-y-0'>
+    <Block className='space-y-5 md:max-w-4xl'>
+      <div className=' md:flex md:justify-between md:items-center space-y-5 md:space-y-0'>
         <div className='flex items-center space-x-2 '>
           <Avatar className='size-24'>
             <AvatarImage
@@ -47,11 +49,26 @@ const Page = async ({ params }: Props) => {
           </div>
         </div>
 
-        <Button3D>
-          <UserPlus />
-          Add Friend
+        <Button3D disabled>
+          <Check />
+          Friends
         </Button3D>
       </div>
+
+      <div>
+        <h2 className='text-2xl font-medium'>Find Events Together</h2>
+        <p>Explore activities that are fit for both.</p>
+      </div>
+
+      <Suspense
+        fallback={
+          <div className='flex justify-center items-center'>
+            <Loader2 className='animate-spin' size='32' />
+          </div>
+        }
+      >
+        <GroupRecommendationList friendId={+id} />
+      </Suspense>
     </Block>
   );
 };

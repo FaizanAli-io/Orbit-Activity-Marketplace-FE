@@ -12,7 +12,7 @@ const Page = () => {
         <H2 className='font-medium md:text-4xl'>Friends</H2>
         <p>Connect with friends and discover events together.</p>
       </div>
-      <Tabs defaultValue={'requests'}>
+      <Tabs defaultValue={'all'}>
         <TabsList className='bg-secondary mb-2'>
           <TabsTrigger value={'all'}>All Friends</TabsTrigger>
           <TabsTrigger value={'requests'}>Requests</TabsTrigger>
