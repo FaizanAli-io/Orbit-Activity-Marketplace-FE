@@ -4,7 +4,7 @@ import { getAccessToken } from '@/lib/utils/cookies/auth-cookies';
 import { withServerError } from '@/lib/utils/with-server-error';
 import { redirect } from 'next/navigation';
 
-interface Preference {
+export interface Preference {
   categoryId: number;
   category: string;
 

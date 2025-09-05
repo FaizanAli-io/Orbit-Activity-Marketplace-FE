@@ -12,11 +12,11 @@ const Page = () => {
   return (
     <Block>
       <div className='my-10 space-y-2'>
-        <H2 className='font-medium'>Friends</H2>
+        <H2 className='font-medium md:text-4xl'>Friends</H2>
         <p>Connect with friends and discover events together.</p>
       </div>
       <SearchInput />
-      <Tabs defaultValue={'all'}>
+      <Tabs defaultValue={'suggestions'}>
         <TabsList className='bg-secondary mb-2'>
           <TabsTrigger value={'all'}>All Friends (3)</TabsTrigger>
           <TabsTrigger value={'requests'}>Requests (2)</TabsTrigger>

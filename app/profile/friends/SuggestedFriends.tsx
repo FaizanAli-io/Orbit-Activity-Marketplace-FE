@@ -1,6 +1,8 @@
-import React from 'react';
 import FriendCard from './FriendCard';
 import H4 from '@/components/ui/typography/H4';
+import FriendsList from './FriendsList';
+import { Suspense } from 'react';
+import { Loader2 } from 'lucide-react';
 
 const SuggestedFriends = () => {
   return (
@@ -9,11 +11,15 @@ const SuggestedFriends = () => {
         <H4 className='font-medium md:text-2xl'>Suggested Friends</H4>
         <p className='md:text-sm'>People you may know.</p>
       </div>
-      <div className='space-y-3'>
-        {new Array(5).fill(null).map((_, i) => (
-          <FriendCard key={i} />
-        ))}
-      </div>
+      <Suspense
+        fallback={
+          <div className='flex justify-center items-center'>
+            <Loader2 size='20' className='animate-spin' />
+          </div>
+        }
+      >
+        <FriendsList />
+      </Suspense>
     </div>
   );
 };
