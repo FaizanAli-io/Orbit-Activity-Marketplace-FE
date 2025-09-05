@@ -50,7 +50,7 @@ const Page = () => {
       price: '',
       discount: '',
       capacity: '',
-      quota: '',
+      quota: '0',
     },
   });
 
@@ -155,7 +155,7 @@ const Page = () => {
               control={form.control}
               name='quota'
               render={({ field }) => (
-                <FormItem>
+                <FormItem className='hidden'>
                   <FormLabel>Quota</FormLabel>
                   <FormControl>
                     <Input

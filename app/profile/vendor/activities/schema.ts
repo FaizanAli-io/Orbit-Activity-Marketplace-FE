@@ -90,7 +90,7 @@ export const schema = z
     exclusions: z.array(z.date()).optional(),
 
     images: z.object({
-      video: z.string().optional(),
+      video: z.string().min(1, 'Video is required'),
       thumbnail: z.string().min(1, 'Thumbnail is required'),
       images: z.array(z.string()).nonempty('Images are required'),
     }),
