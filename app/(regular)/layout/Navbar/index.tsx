@@ -51,7 +51,6 @@ export default async function Navbar() {
             </>
           ) : (
             <div className='flex space-x-2 items-center'>
-              {/* <Bell size={20} /> */}
               <Suspense
                 fallback={<Skeleton className='size-10 rounded-full' />}
               >

@@ -20,7 +20,6 @@ import LoadingButton from '@/components/app/LoadingButton';
 import { MultiGroupCombobox } from '@/components/multi-combobox';
 import { useCategories } from '@/lib/data/categories/use-categories';
 import { Skeleton } from '@/components/ui/skeleton';
-import Avatar from './ProfileAvatar';
 import ProfileAvatar from './ProfileAvatar';
 
 interface Props {
@@ -100,17 +99,19 @@ const PreferenceForm = ({
           )}
         />
 
-        <div className='flex flex-col md:flex-row space-x-2 space-y-5 md:space-y-0'>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
           <FormField
             control={form.control}
             name='email'
             render={({ field }) => (
-              <FormItem className='flex-1'>
+              <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input {...field} disabled />
                 </FormControl>
-                <FormMessage />
+                <div className='min-h-[1.25rem] mt-2'>
+                  <FormMessage />
+                </div>
               </FormItem>
             )}
           />
@@ -119,12 +120,14 @@ const PreferenceForm = ({
             control={form.control}
             name='phone'
             render={({ field }) => (
-              <FormItem className='flex-1'>
+              <FormItem>
                 <FormLabel>Phone</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
-                <FormMessage />
+                <div className='min-h-[1.25rem] mt-2'>
+                  <FormMessage />
+                </div>
               </FormItem>
             )}
           />

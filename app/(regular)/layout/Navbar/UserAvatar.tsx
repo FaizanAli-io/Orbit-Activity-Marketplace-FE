@@ -19,12 +19,7 @@ const UserAvatar = async () => {
   const isVendor = role === 'VENDOR';
 
   const getFallback = () => {
-    if (user?.name)
-      return user.name
-        .split(' ')
-        .map(word => word[0])
-        .join()
-        .toUpperCase();
+    if (user?.name) return user.name.match(/\b\w/g)?.join('').toUpperCase();
 
     return email[0].toUpperCase();
   };
