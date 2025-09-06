@@ -66,7 +66,7 @@ const EventsList = async ({
 
         <TabsContent value='grid'>
           {activities && (
-            <div className='space-y-5 md:grid md:grid-cols-2 md:gap-x-5'>
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5 items-start'>
               {activities.map((item, i) => (
                 <ActivityCard
                   variant='grid'

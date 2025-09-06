@@ -93,7 +93,7 @@ const PreferenceForm = ({
           )}
         />
 
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
+        <div className='grid grid-cols-1 md:grid-cols-2 md:gap-x-5 gap-y-5 mb-0 pb-0'>
           <FormField
             control={form.control}
             name='email'

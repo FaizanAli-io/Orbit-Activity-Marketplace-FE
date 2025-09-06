@@ -15,6 +15,7 @@ import LikeButton from './LikeButton';
 import { getLikedActivities } from '@/lib/data/activities/get-liked-activities';
 import SubButton from './SubButton';
 import { getUserSubs } from '@/lib/data/activities/get-user-subs';
+import { Calendar, MapPin } from 'lucide-react';
 
 interface Props extends Activity {
   variant?: 'list' | 'grid';
@@ -58,8 +59,9 @@ const ActivityCard = async ({
 
   return (
     <Card
-      className={cn('p-0 overflow-hidden md:gap-0', {
+      className={cn('p-0 overflow-hidden md:gap-0 h-full', {
         'md:grid md:grid-cols-3': variant === 'list',
+        'grid grid-rows-[auto_1fr_auto] h-full': variant === 'grid',
       })}
     >
       <Image
@@ -67,15 +69,18 @@ const ActivityCard = async ({
         alt={title}
         width={300}
         height={200}
-        className={cn('object-cover aspect-video w-full h-full rounded-t-md ', {
-          'md:order-1': variant === 'list',
+        className={cn('object-cover aspect-video w-full rounded-t-md', {
+          'md:order-1 md:h-full': variant === 'list',
+          'w-full': variant === 'grid',
         })}
       />
 
       <div
-        className={cn('md:col-span-2  md:py-5 ', {
-          'pb-5': images?.thumbnail,
-          'py-5': !images?.thumbnail,
+        className={cn('flex flex-col', {
+          'md:col-span-2 md:py-5 pb-5': variant === 'list' && images?.thumbnail,
+          'md:col-span-2 md:py-5 py-5':
+            variant === 'list' && !images?.thumbnail,
+          'flex-1 flex flex-col py-5': variant === 'grid',
         })}
       >
         <CardHeader className='flex justify-between items-baseline mb-5'>
@@ -83,20 +88,33 @@ const ActivityCard = async ({
             <H4 className='font-semibold md:font-medium md:text-3xl'>
               <Link href={viewLink}> {title}</Link>
             </H4>
-            <div className='space-x-1 italic text-sm'>
-              <span>Date: {format(getStartDate(), 'MMM dd, yyyy')}</span>
-              <span>•</span>
-              <span>Location: {location}</span>
+            <div className='flex items-center space-x-2'>
+              <div className='space-x-2 italic text-sm flex items-center'>
+                <Calendar size='18' className='mr-1' />{' '}
+                {format(getStartDate(), 'MMM dd, yyyy')}
+              </div>
+
+              <div className='space-x-2 italic text-sm flex items-center'>
+                <MapPin size='18' /> {location}
+              </div>
             </div>
           </div>
           <LikeButton liked={!!liked} activityId={id} />
         </CardHeader>
 
-        <CardContent>
+        <CardContent
+          className={cn({
+            'flex-1': variant === 'grid',
+          })}
+        >
           <p>{description.slice(0, 200)}...</p>
         </CardContent>
 
-        <CardFooter className='flex space-x-2 mt-5'>
+        <CardFooter
+          className={cn('flex space-x-2 mt-5', {
+            'mt-5': variant === 'grid',
+          })}
+        >
           <Button className='flex-1' variant={'secondary'}>
             <Link href={viewLink}>View</Link>
           </Button>

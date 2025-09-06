@@ -139,7 +139,7 @@ const ProfileAvatar = ({ value, onChange }: Props) => {
         <AvatarImage
           src={dp || value}
           alt='Profile picture.'
-          className='object-cover'
+          className='object-cover bg-secondary aspect-square ring-3'
         />
         <AvatarFallback className='bg-secondary'>
           <UserRound size='36' />
