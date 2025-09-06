@@ -1,5 +1,4 @@
 'use client';
-import React from 'react';
 
 import { DayNumberSelector } from '../schedule/DayNumberSelector';
 import { Minus } from 'lucide-react';
@@ -34,7 +33,7 @@ const ScheduleCard = ({ dates, range, weekly, monthly }: Props) => {
                   <p>{format(date, 'MMM dd, yyyy')}</p>
                 )}
                 <p>
-                  from {time?.start} - to {time?.end}
+                  {time?.start} - {time?.end}
                 </p>
               </div>
             </div>
@@ -55,7 +54,7 @@ const ScheduleCard = ({ dates, range, weekly, monthly }: Props) => {
               <p> {formatDate(new Date(range.date.end))}</p>
             </div>
             <p>
-              from {range.time?.start} - to {range.time?.end}
+              {range.time?.start} - {range.time?.end}
             </p>
           </div>
         ) : (
@@ -66,7 +65,7 @@ const ScheduleCard = ({ dates, range, weekly, monthly }: Props) => {
               <p> {format(new Date(range.date.end), 'MMM dd, yyyy')}</p>
             </div>
             <p>
-              from {range.time?.start} - to {range.time?.end}
+              {range.time?.start} - {range.time?.end}
             </p>
           </div>
         )}
@@ -85,7 +84,7 @@ const ScheduleCard = ({ dates, range, weekly, monthly }: Props) => {
             <p> {format(weekly.date.end, 'MMM dd, yyyy')}</p>
           </div>
           <p>
-            from {weekly.time?.start} - to {weekly.time?.end}
+            {weekly.time?.start} - {weekly.time?.end}
           </p>
         </div>
 
@@ -106,9 +105,9 @@ const ScheduleCard = ({ dates, range, weekly, monthly }: Props) => {
           <p> {format(monthly.date.end, 'MMM dd, yyyy')}</p>
         </div>
         <div className='flex space-x-5 mb-2'>
-          <p>From {monthly.time?.start}</p>
+          <p>{monthly.time?.start}</p>
           <Minus />
-          <p>to {monthly.time?.end}</p>
+          <p>{monthly.time?.end}</p>
         </div>
         <div className='max-w-sm'>
           <DayNumberSelector readonly mode='month' selected={monthly.days} />
@@ -122,8 +121,6 @@ const ScheduleCard = ({ dates, range, weekly, monthly }: Props) => {
 export default ScheduleCard;
 
 function formatDate(date: Date) {
-  console.log(typeof date);
-
   return date.toLocaleDateString('en-US', {
     // "Monday, July 24, 2023"
     weekday: 'long', // "Monday"

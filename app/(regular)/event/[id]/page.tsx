@@ -26,7 +26,7 @@ const Page = async ({ params }: Props) => {
       <Block>
         <div className='space-y-5 h-screen flex justify-center items-center'>
           <h2 className='text-5xl -translate-y-[150%] md:text-7xl font-bold'>
-            404 NOT FOUND
+            Event Not Found
           </h2>
         </div>
       </Block>

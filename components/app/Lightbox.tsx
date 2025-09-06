@@ -105,21 +105,23 @@ export function Lightbox({
       )}
 
       {/* Main content */}
-      <div className='relative max-w-[90vw] max-h-[90vh] flex items-center justify-center'>
+      <div className='relative w-full h-full flex items-center justify-center p-4'>
         {currentItem.type === 'image' ? (
-          <Image
-            src={currentItem.src || '/placeholder.svg'}
-            alt={currentItem.alt}
-            width={currentItem.width}
-            height={currentItem.height}
-            className='max-w-full max-h-full object-contain'
-            priority
-          />
+          <div className='relative w-full h-full max-w-[95vw] max-h-[95vh]'>
+            <Image
+              src={currentItem.src || '/placeholder.svg'}
+              alt={currentItem.alt}
+              fill
+              className='object-contain'
+              priority
+              sizes='95vw'
+            />
+          </div>
         ) : (
           <video
             src={currentItem.src}
             controls
-            className='max-w-full max-h-full'
+            className='w-full h-full max-w-[95vw] max-h-[95vh] object-contain'
             autoPlay
           >
             Your browser does not support the video tag.
