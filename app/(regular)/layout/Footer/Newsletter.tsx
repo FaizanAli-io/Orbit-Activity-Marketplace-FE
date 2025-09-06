@@ -20,7 +20,7 @@ const Newsletter = ({
           <NewsletterForm />
           <p className='text-sm'>
             By subscribing you agree to our{' '}
-            <Link href='#' className='underline'>
+            <Link href='/privacy-policy' className='underline'>
               Privacy Policy
             </Link>
           </p>
