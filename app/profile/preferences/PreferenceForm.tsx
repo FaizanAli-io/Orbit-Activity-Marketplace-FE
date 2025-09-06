@@ -60,8 +60,6 @@ const PreferenceForm = ({
     if (success) toast.success('Record updated.');
     else toast.error(error, { richColors: true });
 
-    console.log(data);
-
     setLoading(false);
   };
 

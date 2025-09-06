@@ -12,6 +12,7 @@ import { Camera, UserRound } from 'lucide-react';
 import { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { toast } from 'sonner';
+import { updateAvatar } from './action-update-avatar';
 
 interface Props {
   value?: string;
@@ -70,9 +71,26 @@ const ProfileAvatar = ({ value, onChange }: Props) => {
         };
 
         // In the uploadFile function, modify the success case:
-        xhr.onload = () => {
+        xhr.onload = async () => {
           if (xhr.status === 200 || xhr.status === 204) {
-            if (key) onChange(getS3Url(key));
+            if (key) {
+              const url = getS3Url(key);
+              onChange(url);
+              setDp(url);
+
+              // Automatically update user avatar using the dedicated action
+              try {
+                const { success, error } = await updateAvatar({ avatar: url });
+                if (success) {
+                  toast.success('Profile picture updated successfully');
+                } else {
+                  toast.error(error || 'Failed to update profile picture');
+                }
+              } catch (updateError) {
+                toast.error('Failed to update profile picture');
+                console.error('Avatar update error:', updateError);
+              }
+            }
 
             resolve();
           } else
