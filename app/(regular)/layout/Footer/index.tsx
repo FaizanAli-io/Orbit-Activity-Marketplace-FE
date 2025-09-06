@@ -1,4 +1,3 @@
-import React from 'react';
 import { data } from './links';
 import Tagline from '@/components/ui/typography/Tagline';
 import Link from 'next/link';
@@ -8,7 +7,7 @@ import Newsletter from './Newsletter';
 
 const Footer = () => {
   return (
-    <Block>
+    <Block className='md:mb-10'>
       <footer className='divide-y space-y-10'>
         <Newsletter className='pb-10' />
         <div className='space-y-5 md:space-y-0 grid grid-cols-2 md:grid-cols-6 md:gap-x-5 pb-10'>
@@ -26,7 +25,7 @@ const Footer = () => {
           ))}
         </div>
 
-        <div className='flex flex-col items-center justify-center md:flex-row md:justify-between  pb-10'>
+        <div className='flex flex-col items-center justify-center md:flex-row md:justify-between '>
           <Image
             src='/images/logo.png'
             width={100}
