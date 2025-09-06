@@ -128,9 +128,6 @@ const Page = async ({ params }: Props) => {
           <CardContent>
             <div className='space-y-3 mb-5'>
               <Button className='w-full'>Register</Button>
-              <Button className='w-full' variant='secondary'>
-                Contact Vendor
-              </Button>
             </div>
 
             <Tagline>About the Vendor</Tagline>

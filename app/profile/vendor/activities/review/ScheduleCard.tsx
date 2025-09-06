@@ -22,16 +22,12 @@ const ScheduleCard = ({ dates, range, weekly, monthly }: Props) => {
   if (dates && dates.length)
     return (
       <div>
-        <h2 className='font-medium text-2xl pb-2'>Schedule</h2>
+        <h2 className='font-medium text-2xl pb-2'>Schedule </h2>
         <div className='divide-y divide-gray-300'>
           {dates.map(({ date, time }, i) => (
             <div className='py-2' key={i}>
-              <div className='flex space-x-5'>
-                {!isMobile ? (
-                  <p>{formatDate(new Date(date))}</p>
-                ) : (
-                  <p>{format(date, 'MMM dd, yyyy')}</p>
-                )}
+              <div className='flex items-center  space-x-5'>
+                <p> {format(date, 'MMM dd, yyyy')}</p>
                 <p>
                   {time?.start} - {time?.end}
                 </p>
