@@ -60,3 +60,35 @@ export function getFormatedTime(date: Date) {
 
   return `${formattedHour}:${formattedMins}`;
 }
+
+export function formatQuantity(
+  num: number,
+  options: {
+    decimals?: number; // decimal places (default 0)
+    locale?: string; // e.g. "en-US"
+    pad?: number; // total length to pad with zeros
+  } = {}
+): string {
+  const { decimals = 0, locale = 'en-US', pad } = options;
+
+  let formatted = num.toLocaleString(locale, {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  });
+
+  if (pad) {
+    // Remove commas before padding, then add them back if needed
+    const noCommas = formatted.replace(/,/g, '');
+    const padded = noCommas.padStart(pad, '0');
+
+    // Reinsert commas if number is large
+    const withCommas = Number(padded).toLocaleString(locale, {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals,
+    });
+
+    return withCommas.length >= padded.length ? withCommas : padded;
+  }
+
+  return formatted;
+}
