@@ -10,9 +10,6 @@ interface Props {
 export default async function Layout({ children }: Props) {
   const { success, data } = await getEvents();
 
-  console.log('re rendering: ', new Date().toLocaleTimeString());
-  console.log('data', data);
-
   if (!success)
     return (
       <div className='grid place-content-center'>

@@ -9,7 +9,7 @@ import Link from 'next/link';
 const Page = () => {
   return (
     <Block>
-      <div className='flex justify-end mb-5'>
+      <div className='flex mb-5'>
         <Link href='/profile/vendor/activities/basic-details'>
           <Button>
             <Plus /> Add Event

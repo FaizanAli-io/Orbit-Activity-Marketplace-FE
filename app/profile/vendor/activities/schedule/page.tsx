@@ -211,10 +211,6 @@ const Page = () => {
     form.setValue('type', val);
   };
 
-  useEffect(() => {
-    console.log(form.formState.errors);
-  }, [form.formState.errors]);
-
   if (!hydrated || !isForm1Valid() || !isForm2Valid() || !isForm3Valid())
     return <FormSkeleton />;
 

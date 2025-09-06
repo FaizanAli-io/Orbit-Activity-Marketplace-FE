@@ -9,7 +9,7 @@ const HeaderCard = () => {
   return (
     <div className='p-5 bg-secondary rounded-lg shadow-theme'>
       <div className='flex items-center space-x-2'>
-        <UserAvatar />{' '}
+        <UserAvatar dropdown={false} />{' '}
         <p className='text-lg font-medium truncate'>
           <Suspense
             fallback={

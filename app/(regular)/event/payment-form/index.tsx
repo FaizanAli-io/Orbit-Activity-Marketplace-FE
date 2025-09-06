@@ -38,9 +38,7 @@ export function PaymentForm({ submitButton }: Props) {
     },
   });
 
-  function onSubmit(values: z.infer<typeof PaymentFormSchema>) {
-    console.log(values);
-  }
+  function onSubmit(values: z.infer<typeof PaymentFormSchema>) {}
 
   return (
     <Form {...form}>

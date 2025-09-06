@@ -27,7 +27,6 @@ const Navbar = async () => {
       {user?.role === 'VENDOR' && <NavListVendor />}
 
       <div className='hidden md:flex space-x-4 items-center '>
-        <Bell size={22} />
         <Suspense fallback={<Skeleton className='size-10 rounded-full' />}>
           <UserAvatar />
         </Suspense>

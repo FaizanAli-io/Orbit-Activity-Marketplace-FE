@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import { profileSchema } from './schema';
 import z from 'zod';
@@ -37,9 +36,7 @@ const ProfileForm = ({ data: { name, phone, preferences, email } }: Props) => {
     },
   });
 
-  const onSubmit = (data: Data) => {
-    console.log(data, 'profile data');
-  };
+  const onSubmit = (data: Data) => {};
 
   return (
     <Form {...form}>

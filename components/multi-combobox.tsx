@@ -78,10 +78,6 @@ export function MultiGroupCombobox({
   // Flattened list for label lookup
   const flatOptions = groups.flatMap(g => g.options);
 
-  React.useEffect(() => {
-    console.log(selectedValues);
-  }, [selectedValues]);
-
   return (
     <div className='w-full'>
       <Popover open={open} onOpenChange={setOpen}>

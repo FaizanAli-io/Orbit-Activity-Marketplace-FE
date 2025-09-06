@@ -6,11 +6,15 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { getProfile } from '@/lib/data/profile/get-profile';
+import { cn } from '@/lib/utils';
 import { AvatarImage } from '@radix-ui/react-avatar';
-import React from 'react';
 import Link from 'next/link';
 
-const UserAvatar = async () => {
+interface Props {
+  dropdown?: boolean;
+}
+
+const UserAvatar = async ({ dropdown = true }: Props) => {
   const profile = await getProfile();
 
   if (profile.error || !profile.data) return null;
@@ -26,7 +30,7 @@ const UserAvatar = async () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className='cursor-pointer'>
+      <DropdownMenuTrigger className={cn({ 'cursor-pointer': dropdown })}>
         <Avatar className='size-9 rounded-full overflow-hidden'>
           <AvatarImage
             width={'100'}
@@ -38,31 +42,37 @@ const UserAvatar = async () => {
           <AvatarFallback>{getFallback()}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuItem>
-          <Link
-            href={isVendor ? '/profile/vendor/dashboard' : '/profile/dashboard'}
-          >
-            Dashboard
-          </Link>
-        </DropdownMenuItem>
+      {dropdown && (
+        <>
+          <DropdownMenuContent>
+            <DropdownMenuItem>
+              <Link
+                href={
+                  isVendor ? '/profile/vendor/dashboard' : '/profile/dashboard'
+                }
+              >
+                Dashboard
+              </Link>
+            </DropdownMenuItem>
 
-        {isVendor && (
-          <DropdownMenuItem>
-            <Link href='/profile/vendor/events'>Events</Link>
-          </DropdownMenuItem>
-        )}
+            {isVendor && (
+              <DropdownMenuItem>
+                <Link href='/profile/vendor/events'>Events</Link>
+              </DropdownMenuItem>
+            )}
 
-        {!isVendor && (
-          <DropdownMenuItem>
-            <Link href='/profile'>Settings</Link>
-          </DropdownMenuItem>
-        )}
+            {!isVendor && (
+              <DropdownMenuItem>
+                <Link href='/profile'>Settings</Link>
+              </DropdownMenuItem>
+            )}
 
-        <DropdownMenuItem>
-          <Link href='/logout'>Logout</Link>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
+            <DropdownMenuItem>
+              <Link href='/logout'>Logout</Link>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </>
+      )}
     </DropdownMenu>
   );
 };

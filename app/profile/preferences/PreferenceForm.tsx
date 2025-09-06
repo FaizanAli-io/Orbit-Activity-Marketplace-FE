@@ -8,7 +8,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { schema } from './schema';
 import z from 'zod';
@@ -62,10 +62,6 @@ const PreferenceForm = ({
 
     setLoading(false);
   };
-
-  useEffect(() => {
-    console.log(preferences);
-  }, [preferences]);
 
   return (
     <Form {...form}>
