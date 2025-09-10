@@ -4,7 +4,7 @@ import { getAccessToken } from '@/lib/utils/cookies/auth-cookies';
 import { withServerError } from '@/lib/utils/with-server-error';
 import { apiFetch } from '@/lib/api';
 import { HTTP_VERB } from '@/lib/enums/http-verbs';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 
 export async function deleteActivity(id: number) {
   const token = await getAccessToken();
@@ -21,7 +21,16 @@ export async function deleteActivity(id: number) {
       }
     );
 
-    if (result.success) revalidatePath('/profile/vendor/events');
+    if (result.success) {
+      // Revalidate key pages in the background (less aggressive than before)
+      revalidatePath('/profile/vendor/events', 'page');
+      revalidatePath('/profile/events', 'page');
+      revalidatePath('/explore', 'page');
+
+      // Revalidate cache tags for activities
+      revalidateTag('activities');
+      revalidateTag(`activity-${id}`);
+    }
 
     return result;
   });

@@ -1,14 +1,13 @@
 import { getActivities } from '@/lib/data/activities/get-activities';
 import { getProfile } from '@/lib/data/profile/get-profile';
-import ActivityCard from './ActivityCard';
+import ActivitiesListClient from './ActivitiesListClient';
 import { HTMLAttributes } from 'react';
-import { cn } from '@/lib/utils';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   limit?: number;
 }
 
-const ActivitiesList = async ({ limit, className, ...props }: Props) => {
+const ActivitiesList = async ({ limit, ...props }: Props) => {
   const { data: profile } = await getProfile();
 
   if (!profile || !profile.vendor)
@@ -24,17 +23,11 @@ const ActivitiesList = async ({ limit, className, ...props }: Props) => {
     return <p className='text-center text-2xl'>No Activities Found.</p>;
 
   return (
-    <div
-      className={cn(
-        'space-y-3 md:grid md:grid-cols-2 md:space-y-0 md:gap-5',
-        className
-      )}
+    <ActivitiesListClient
+      initialActivities={activities.data}
+      limit={limit}
       {...props}
-    >
-      {activities.data.map(a => (
-        <ActivityCard key={a.id} {...a} />
-      ))}
-    </div>
+    />
   );
 };
 

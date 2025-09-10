@@ -13,6 +13,11 @@ import LoadingButton from '@/components/app/LoadingButton';
 import { useRouter } from 'next/navigation';
 import { useActivityFormStore } from '../../activities/store';
 
+interface ActivityCardFooterProps extends Activity {
+  onDeleted?: (activityId: number) => void;
+  onDeleteFailed?: (activityId: number) => void;
+}
+
 const ActivityCardFooter = ({
   timestamp,
   id,
@@ -27,7 +32,9 @@ const ActivityCardFooter = ({
   duration,
   availability: { exclusions, dates, monthly, range, weekly, type },
   images,
-}: Activity) => {
+  onDeleted,
+  onDeleteFailed,
+}: ActivityCardFooterProps) => {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
   const loading = deleteLoading || editLoading;
@@ -43,9 +50,22 @@ const ActivityCardFooter = ({
   const handleDelete = async () => {
     setDeleteLoading(true);
 
+    // Optimistically remove the activity from the UI immediately
+    if (onDeleted) {
+      onDeleted(id);
+    }
+
     const { success, error } = await deleteActivity(id);
-    if (success) toast.success('Event Deleted!');
-    else toast.error(error || 'Event was not deleted! Try again.');
+    if (success) {
+      toast.success('Event Deleted!');
+      // Activity successfully deleted, no need to do anything else
+    } else {
+      toast.error(error || 'Event was not deleted! Try again.');
+      // If deletion failed, restore the item to the UI
+      if (onDeleteFailed) {
+        onDeleteFailed(id);
+      }
+    }
 
     setDeleteLoading(false);
   };

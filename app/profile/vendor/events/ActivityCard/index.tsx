@@ -19,11 +19,15 @@ import React from 'react';
 import ActivityCardFooter from './ActivityCardFooter';
 import Button3D from '@/components/app/Button3D';
 
-const ActivityCard = (props: Activity) => {
+interface ActivityCardProps extends Activity {
+  onDeleted?: (activityId: number) => void;
+  onDeleteFailed?: (activityId: number) => void;
+}
+
+const ActivityCard = (props: ActivityCardProps) => {
   const {
     name: title,
     categoryId,
-    timestamp,
     location,
     quota,
     price,

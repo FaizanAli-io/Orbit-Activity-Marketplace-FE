@@ -101,7 +101,7 @@ const Page = () => {
       const thumbnailErrors = errorMessages.formErrors;
 
       let errorMessage = 'Validation error';
-      
+
       // Check for video errors in the nested structure
       if (error.issues.some(issue => issue.path.includes('video'))) {
         errorMessage = 'Video is required';
