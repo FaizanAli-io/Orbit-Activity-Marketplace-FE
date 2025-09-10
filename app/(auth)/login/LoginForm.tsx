@@ -41,8 +41,9 @@ export function LoginForm() {
   async function onSubmit(values: z.infer<typeof LoginSchema>) {
     setloading(true);
 
-    const { success, error } = await login(values);
+    const { success, data, error } = await login(values);
     if (success) {
+      if (data.vendorId) return router.replace('/profile/vendor/dashboard');
       router.replace('/');
     } else {
       toast.error(error);
@@ -55,13 +56,14 @@ export function LoginForm() {
     try {
       const { user } = await signInWithPopup(firebaseAuth, googleProvider);
 
-      const { success, error } = await loginWithFirebase({
+      const { success, data, error } = await loginWithFirebase({
         email: user.email!,
         firebaseId: user.uid,
       });
 
       if (success) {
         toast.success('Login successful');
+        if (data.vendorId) return router.replace('/profile/vendor/dashboard');
         router.replace('/');
       } else {
         toast.error(error, { richColors: true });

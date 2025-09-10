@@ -21,13 +21,11 @@ export async function login(data: ReqData) {
   if (!success) return { success, error: error.message };
 
   return withServerError(async () => {
-    const { accessToken, type, userId, vendorId } = await apiFetch<
-      ReqData,
-      Res
-    >('/auth/login', {
+    const result = await apiFetch<ReqData, Res>('/auth/login', {
       method: HTTP_VERB.POST,
       data,
     });
+    const { accessToken, type, userId, vendorId } = result;
 
     await setAccessToken(accessToken);
 
@@ -35,6 +33,6 @@ export async function login(data: ReqData) {
     const user: UserCookie = { userId: id, type };
     await setUser(user);
 
-    return null;
+    return result;
   });
 }

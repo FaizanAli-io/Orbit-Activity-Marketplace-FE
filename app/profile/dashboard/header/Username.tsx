@@ -6,9 +6,16 @@ const Username = async (props: HTMLAttributes<HTMLSpanElement>) => {
 
   if (!profile || !profile.data) return null;
 
-  const { user, email } = profile.data;
+  const { user, email, vendor } = profile.data;
 
-  return <span {...props}>{user?.name ? user?.name : email}</span>;
+  const getName = () => {
+    if (user?.name) return user.name;
+    if (vendor?.name) return vendor.name;
+
+    return email;
+  };
+
+  return <span {...props}>{getName()}</span>;
 };
 
 export default Username;
