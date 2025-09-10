@@ -13,7 +13,6 @@ import {
 import { useActivityFormStore } from '../store';
 import ReviewSkeleton from './ReviewSkeleton';
 import { useCategories } from '@/lib/data/categories/use-categories';
-import { MasonryGallery, MediaItem } from '@/components/app/MasonaryGallery';
 import { Body, postActivity } from './action';
 import { toast } from 'sonner';
 import ScheduleCard from './ScheduleCard';
@@ -21,6 +20,7 @@ import { formatCurrency } from '@/lib/utils';
 import { Card, CardContent } from '@/components/ui/card';
 import LoadingButton from '@/components/app/LoadingButton';
 import { updateActivity } from '../actions/update';
+import Carousel from '@/components/app/MasonaryGallery';
 
 const Page = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -159,26 +159,6 @@ const Page = () => {
     }
   };
 
-  const galleryItems: MediaItem[] = images.images.map((img, key) => ({
-    id: String(key),
-    type: 'image' as const,
-    src: img,
-    alt: 'Activity picture',
-    width: 100,
-    height: 100,
-  }));
-
-  if (images.video) {
-    galleryItems.push({
-      id: 'video',
-      type: 'video',
-      src: images.video,
-      alt: 'Activity video',
-      width: 100,
-      height: 100,
-    });
-  }
-
   const subCategories = categories?.map(c => c.subcategories).flat();
   const category = subCategories?.find(c => c.id === +categoryId);
 
@@ -197,8 +177,8 @@ const Page = () => {
       <Card>
         <CardContent>
           <div className='flex justify-between items-center'>
-            <h1 className='font-bold text-4xl'>{title}</h1>
-            <h1 className='font-bold text-4xl'>
+            <h1 className='font-semibold text-3xl'>{title}</h1>
+            <h1 className='font-semibold text-3xl'>
               {formatCurrency(parseFloat(price))}
             </h1>
           </div>
@@ -218,9 +198,15 @@ const Page = () => {
               <Users2Icon size='17' /> <span>0/{capacity}</span>
             </p>
           </div>
-          <MasonryGallery items={galleryItems} showMoreCount={3} />
-          <p className='text-muted-foreground'>{description}</p>
+
+          {images?.images && (
+            <div className='my-5'>
+              <Carousel images={images.images.map(url => ({ url }))} />
+            </div>
+          )}
+
           <div className='my-10'>
+            <p className='text-muted-foreground mb-5'>{description}</p>
             <ScheduleCard
               dates={dates}
               range={range}

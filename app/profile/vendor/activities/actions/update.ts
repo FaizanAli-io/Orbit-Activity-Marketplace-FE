@@ -90,7 +90,7 @@ export async function updateActivity(data: Body, id: number) {
 
   if (res.success) {
     revalidatePath('/profile/vendor/activities');
-  }
+  } else console.log(res.error, 'error update from API.');
 
   return res;
 }

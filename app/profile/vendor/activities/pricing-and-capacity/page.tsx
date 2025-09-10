@@ -50,7 +50,7 @@ const Page = () => {
       price: '',
       discount: '',
       capacity: '',
-      quota: '0',
+      quota: '1',
     },
   });
 
@@ -61,12 +61,14 @@ const Page = () => {
       return router.replace('/profile/vendor/activities/basic-details');
 
     setStep(2);
+    const { price, discount, capacity, quota } =
+      useActivityFormStore.getState();
 
     form.reset({
-      price: useActivityFormStore.getState().price,
-      discount: useActivityFormStore.getState().discount,
-      capacity: useActivityFormStore.getState().capacity,
-      quota: useActivityFormStore.getState().quota,
+      price,
+      discount,
+      capacity,
+      quota: !quota || quota === 'null' ? '1' : quota,
     });
   }, [setStep, router, isPrevFormValid, form]);
 

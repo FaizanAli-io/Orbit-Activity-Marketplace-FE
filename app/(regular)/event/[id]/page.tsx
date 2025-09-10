@@ -43,17 +43,6 @@ const Page = async ({ params }: Props) => {
     vendor,
   } = activity.data;
 
-  // if (images?.video) {
-  //   galleryItems.push({
-  //     id: 'video',
-  //     type: 'video',
-  //     src: images.video,
-  //     alt: 'Activity video',
-  //     width: 100,
-  //     height: 100,
-  //   });
-  // }
-
   const cardRange = range
     ? {
         ...range,

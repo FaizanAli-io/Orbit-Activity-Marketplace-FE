@@ -12,11 +12,11 @@ interface Props {
 }
 
 const ranges = [
-  { id: '100', min: 0, max: 100, label: '$0 - $100' },
-  { id: '1000', min: 100, max: 1000, label: '$100 - $1000' },
-  { id: '2000', min: 1000, max: 2000, label: '$1000 - $2000' },
-  { id: '5000', min: 2000, max: 5000, label: '$2000 - $5000' },
-  { id: '10000', min: 5000, max: 10000, label: '$5000 - $10000' },
+  { id: '100', min: 0, max: 100, label: 'HKD 0 - HKD 100' },
+  { id: '1000', min: 100, max: 1000, label: 'HKD 100 - HKD 1000' },
+  { id: '2000', min: 1000, max: 2000, label: 'HKD 1000 - HKD 2000' },
+  { id: '5000', min: 2000, max: 5000, label: 'HKD 2000 - HKD 5000' },
+  { id: '10000', min: 5000, max: 10000, label: 'HKD 5000 - HKD 10000' },
 ];
 
 const PriceRange = ({ baseURL = '/explore' }: Props) => {

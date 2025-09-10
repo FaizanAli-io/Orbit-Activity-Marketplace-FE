@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BasicDetailsSchema } from '../schema';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -19,24 +19,16 @@ import { ArrowRight } from 'lucide-react';
 import { useActivityFormStore } from '../store';
 import z from 'zod';
 import FormSkeleton from './FormSkeleton';
-import { Combobox } from '@/components/ui/Combobox';
 import { useCategories } from '@/lib/data/categories/use-categories';
 import { Skeleton } from '@/components/ui/skeleton';
 import LoadingButton from '@/components/app/LoadingButton';
+import CategoriesCombobox from '@/app/profile/vendor/activities/basic-details/categoriesCombobox';
 
 type BasicDetails = z.infer<typeof BasicDetailsSchema>;
-
-type CategoryOption = { label: string; value: string };
 
 const Page = () => {
   const [loading, setLoading] = useState(false);
   const { data: categories, isFetched } = useCategories();
-
-  const [subCategories, setSubCategories] = useState<CategoryOption[]>([]);
-  const [supCategories, setSupCategories] = useState<CategoryOption[]>([]);
-
-  const supCategory = useActivityFormStore(s => s.supCategory);
-  const setSupCategory = useActivityFormStore(s => s.setSupCategory);
 
   const setStep = useActivityFormStore(s => s.setCurrentStep);
   const setForm = useActivityFormStore(s => s.setFormData);
@@ -44,14 +36,6 @@ const Page = () => {
   const [hydrated, setHydrated] = useState(false);
 
   const router = useRouter();
-
-  useEffect(() => {
-    if (!categories || !categories.length || supCategories.length) return;
-
-    const data = categories.map(c => ({ value: String(c.id), label: c.name }));
-
-    setSupCategories(data);
-  }, [categories, supCategories.length]);
 
   useEffect(() => {
     const unsub = useActivityFormStore.persist.onFinishHydration(() => {
@@ -78,10 +62,6 @@ const Page = () => {
     const { title, description, categoryId, supCategory } =
       useActivityFormStore.getState();
 
-    const sub = categories?.find(c => c.id === +supCategory)?.subcategories;
-    if (sub && sub.length)
-      setSubCategories(sub.map(c => ({ label: c.name, value: String(c.id) })));
-
     setStep(1);
 
     form.reset({
@@ -99,14 +79,6 @@ const Page = () => {
     router.push('/profile/vendor/activities/pricing-and-capacity');
   };
 
-  const handleSupCatChange = (val: string) => {
-    setSupCategory(val);
-    const sub = categories?.find(c => c.id === +val)?.subcategories;
-
-    if (sub && sub.length)
-      setSubCategories(sub.map(c => ({ label: c.name, value: String(c.id) })));
-  };
-
   if (!hydrated) return <FormSkeleton />;
 
   return (
@@ -120,28 +92,23 @@ const Page = () => {
                 control={form.control}
                 name='categoryId'
                 render={({ field }) => (
-                  <FormItem>
-                    <div className='space-y-1'>
-                      <FormLabel>Category</FormLabel>
-                      <FormControl>
-                        <Combobox
-                          width='300px'
-                          options={supCategories}
-                          value={supCategory}
-                          onChange={handleSupCatChange}
-                        />
-                      </FormControl>
-                    </div>
-                    <div className='space-y-1 ml-10'>
-                      <FormControl>
-                        <Combobox
-                          width='300px'
-                          options={subCategories}
+                  <FormItem className='max-w-[250px]'>
+                    <FormLabel>Category</FormLabel>
+                    <FormControl>
+                      {categories && (
+                        <CategoriesCombobox
                           value={field.value}
                           onChange={field.onChange}
+                          options={categories?.map(c => ({
+                            group: c.name || '',
+                            categories: c.subcategories.map(c => ({
+                              value: String(c.id),
+                              label: c.name,
+                            })),
+                          }))}
                         />
-                      </FormControl>
-                    </div>
+                      )}
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}

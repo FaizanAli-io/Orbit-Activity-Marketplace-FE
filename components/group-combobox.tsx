@@ -95,8 +95,9 @@ export default function GroupCombobox({
                   {group.options.map(option => (
                     <CommandItem
                       key={option.value}
-                      value={option.value}
-                      onSelect={handleSelect}
+                      value={option.label}
+                      keywords={[option.label, option.value]}
+                      onSelect={() => handleSelect(option.value)}
                     >
                       <span className='flex items-center gap-2'>
                         {option.icon && (

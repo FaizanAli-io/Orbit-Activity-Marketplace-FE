@@ -36,7 +36,7 @@ export const schema = z
   .object({
     // basic details
     title: z.string().min(4).max(255),
-    description: z.string().min(50).max(500),
+    description: z.string().min(1, 'Description is required').max(500),
     categoryId: z.string().refine(val => +val > 0, 'Category is required.'),
     // pricing & capacity
     price: z
@@ -56,7 +56,7 @@ export const schema = z
     quota: z
       .string()
       .min(1)
-      .refine(val => !isNaN(+val) && +val > 0, {
+      .refine(val => !isNaN(+val) && +val >= 0, {
         message: 'Quota must be a positive number',
       }),
 
