@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import Tagline from '@/components/ui/typography/Tagline';
 import { formatCurrency } from '@/lib/utils';
 import Carousel from '@/components/app/MasonaryGallery';
+import { MapPin } from 'lucide-react';
 
 interface Props {
   params: Promise<{ id: number }>;
@@ -83,7 +84,9 @@ const Page = async ({ params }: Props) => {
           <CardHeader>
             <ActivityBadge categoryId={categoryId} className='max-w-fit px-4' />
             <H1 className='font-semibold text-2xl md:text-4xl'>{title}</H1>
-            <p className='font-semibold'>{location}</p>
+            <p className='font-semibold flex items-center'>
+              <MapPin className='mr-1' size='20' /> {location}
+            </p>
           </CardHeader>
           <CardContent>
             {images?.images && (

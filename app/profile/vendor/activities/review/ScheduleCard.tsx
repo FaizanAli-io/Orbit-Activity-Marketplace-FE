@@ -1,7 +1,7 @@
 'use client';
 
 import { DayNumberSelector } from '../schedule/DayNumberSelector';
-import { Minus } from 'lucide-react';
+import { Calendar, Clock, Minus } from 'lucide-react';
 import { ScheduleSchema } from '../schema';
 import z from 'zod';
 import { format } from 'date-fns';
@@ -27,8 +27,12 @@ const ScheduleCard = ({ dates, range, weekly, monthly }: Props) => {
           {dates.map(({ date, time }, i) => (
             <div className='py-2' key={i}>
               <div className='flex items-center  space-x-5'>
-                <p> {format(date, 'MMM dd, yyyy')}</p>
                 <p>
+                  <Calendar className='mr-1' size='20' />{' '}
+                  {format(date, 'MMM dd, yyyy')}
+                </p>
+                <p className='flex items-center'>
+                  <Clock className='mr-1' size='20' />
                   {time?.start} - {time?.end}
                 </p>
               </div>
@@ -42,29 +46,18 @@ const ScheduleCard = ({ dates, range, weekly, monthly }: Props) => {
     return (
       <div>
         <h2 className='font-medium text-2xl'>Schedule</h2>
-        {!isMobile ? (
-          <div>
-            <div className='flex  space-x-5'>
-              <p> {formatDate(new Date(range.date.start))}</p>
-              <Minus />
-              <p> {formatDate(new Date(range.date.end))}</p>
-            </div>
-            <p>
-              {range.time?.start} - {range.time?.end}
-            </p>
-          </div>
-        ) : (
-          <div>
-            <div className='flex space-x-5'>
-              <p> {format(new Date(range.date.start), 'MMM dd, yyyy')}</p>
-              <Minus />
-              <p> {format(new Date(range.date.end), 'MMM dd, yyyy')}</p>
-            </div>
-            <p>
-              {range.time?.start} - {range.time?.end}
-            </p>
-          </div>
-        )}
+        <div>
+          <p className='flex items-center'>
+            <Calendar className='mr-1' size='20' />{' '}
+            {format(range.date.start, 'MMM dd, yyyy')}
+            <Minus />
+            {format(range.date.end, 'MMM dd, yyyy')}
+          </p>
+          <p className='flex items-center'>
+            <Clock className='mr-1' size='20' />
+            {range.time?.start} - {range.time?.end}
+          </p>
+        </div>
       </div>
     );
 
@@ -75,11 +68,15 @@ const ScheduleCard = ({ dates, range, weekly, monthly }: Props) => {
 
         <div className='my-2'>
           <div className='flex space-x-5'>
-            <p> {format(weekly.date.start, 'MMM dd, yyyy')}</p>
-            <Minus />
-            <p> {format(weekly.date.end, 'MMM dd, yyyy')}</p>
+            <p className='flex items-center'>
+              <Calendar className='mr-1' size='20' />{' '}
+              {format(weekly.date.start, 'MMM dd, yyyy')}
+              <Minus />
+              {format(weekly.date.end, 'MMM dd, yyyy')}
+            </p>
           </div>
-          <p>
+          <p className='flex items-center'>
+            <Clock className='mr-1' size='20' />
             {weekly.time?.start} - {weekly.time?.end}
           </p>
         </div>
@@ -95,16 +92,16 @@ const ScheduleCard = ({ dates, range, weekly, monthly }: Props) => {
       <div>
         <h2 className='font-medium text-2xl'>Scheduled every month</h2>
 
-        <div className='flex space-x-5'>
-          <p> {format(monthly.date.start, 'MMM dd, yyyy')}</p>
+        <p className='flex items-center'>
+          <Calendar className='mr-1' size='20' />{' '}
+          {format(monthly.date.start, 'MMM dd, yyyy')}
           <Minus />
-          <p> {format(monthly.date.end, 'MMM dd, yyyy')}</p>
-        </div>
-        <div className='flex space-x-5 mb-2'>
-          <p>{monthly.time?.start}</p>
-          <Minus />
-          <p>{monthly.time?.end}</p>
-        </div>
+          {format(monthly.date.end, 'MMM dd, yyyy')}
+        </p>
+        <p className='flex items-center'>
+          <Clock className='mr-1' size='20' />
+          {monthly.time?.start} - {monthly.time?.end}
+        </p>
         <div className='max-w-sm'>
           <DayNumberSelector readonly mode='month' selected={monthly.days} />
         </div>
