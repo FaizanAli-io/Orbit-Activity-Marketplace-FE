@@ -29,7 +29,7 @@ const BtnSendReq = ({ id }: Props) => {
   return (
     <LoadingButton
       loading={loading}
-      disabled={loading}
+      disabled={loading || success}
       variant={'secondary'}
       size='sm'
       onClick={handleClick}
