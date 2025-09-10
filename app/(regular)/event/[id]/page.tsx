@@ -87,7 +87,15 @@ const Page = async ({ params }: Props) => {
           </CardHeader>
           <CardContent>
             {images?.images && (
-              <Carousel images={images.images.map(url => ({ url }))} />
+              <Carousel
+                images={[
+                  ...images.images.map(url => ({
+                    url,
+                    type: 'image' as const,
+                  })),
+                  { url: images.video, type: 'video' },
+                ]}
+              />
             )}
 
             <p className='mt-10 mb-5'>{description}</p>

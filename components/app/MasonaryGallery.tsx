@@ -15,7 +15,7 @@ import ImageCarouselBasic, {
 // ];
 
 interface Props {
-  images: { url: string }[];
+  images: { url: string; type?: 'image' | 'video' }[];
 }
 
 export default function Carousel({ images }: Props) {
