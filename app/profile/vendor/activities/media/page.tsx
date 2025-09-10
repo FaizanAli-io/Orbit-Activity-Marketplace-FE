@@ -2,15 +2,14 @@
 
 import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
 import { MediaSchema } from '../schema';
 import { MoveLeft, MoveRight } from 'lucide-react';
 import { toast } from 'sonner';
 import { useActivityFormStore } from '../store';
 import { useRouter } from 'next/navigation';
 import FormSkeleton from './FormSkeleton';
-import Uploader from '@/components/app/Uploader';
 import LoadingButton from '@/components/app/LoadingButton';
+import UnifiedMediaUploader from '@/components/app/UnifiedMediaUploader';
 
 const Page = () => {
   const [loading, setLoading] = useState(false);
@@ -18,6 +17,7 @@ const Page = () => {
   const setForm = useActivityFormStore(s => s.setFormData);
 
   const images = useActivityFormStore(s => s.images.images);
+  const setImages = useActivityFormStore(s => s.setImages);
   const addImage = useActivityFormStore(s => s.addImage);
   const removeImage = useActivityFormStore(s => s.removeImage);
 
@@ -76,19 +76,37 @@ const Page = () => {
 
     setLoading(true);
 
+    // Ensure thumbnail is set if images exist
+    let finalThumbnail = thumbnail;
+    if (images.length > 0 && !thumbnail) {
+      finalThumbnail = images[0]; // Use first image as thumbnail if none selected
+      setThumbnail(finalThumbnail);
+    }
+
     const data = {
       images: {
         video: video || '',
         images,
-        thumbnail: thumbnail || '',
+        thumbnail: finalThumbnail || '',
       },
     };
 
     const { success, error } = MediaSchema.safeParse(data);
 
     if (!success) {
-      const messages = error.flatten().fieldErrors.images;
-      toast.error(messages ? messages[0] : 'Error', { richColors: true });
+      const errorMessages = error.flatten();
+      const imageErrors = errorMessages.fieldErrors.images;
+      const thumbnailErrors = errorMessages.formErrors;
+
+      let errorMessage = 'Validation error';
+      if (imageErrors && imageErrors.length > 0) {
+        errorMessage = imageErrors[0];
+      } else if (thumbnailErrors && thumbnailErrors.length > 0) {
+        errorMessage = thumbnailErrors[0];
+      }
+
+      toast.error(errorMessage, { richColors: true });
+      setLoading(false);
       return;
     }
 
@@ -110,36 +128,16 @@ const Page = () => {
     <div>
       <h1 className='font-bold text-3xl'>Media</h1>
       <div className='p-5 rounded-lg shadow-xs bg-white space-y-5'>
-        <div className='space-y-1.5'>
-          <Label>Thumbnail</Label>
-          <Uploader
-            maxFiles={1}
-            maxSizeInMbs={5}
-            setUrl={setThumbnail}
-            imageUrl={thumbnail}
-          />
-        </div>
-        <div className='space-y-1.5'>
-          <Label>Images</Label>
-          <Uploader
-            maxFiles={50}
-            maxSizeInMbs={20}
-            setUrl={addImage}
-            imageUrls={images}
-            removeUrl={removeImage}
-          />
-        </div>
-        <div className='space-y-1.5'>
-          <Label>Video</Label>
-          <Uploader
-            maxFiles={1}
-            maxSizeInMbs={50}
-            allowVideoUpload
-            allowImageUpload={false}
-            setUrl={setVideo}
-            videoUrl={video}
-          />
-        </div>
+        <UnifiedMediaUploader
+          images={images}
+          thumbnail={thumbnail}
+          video={video}
+          onImagesChange={setImages}
+          onThumbnailChange={setThumbnail}
+          onVideoChange={setVideo}
+          onImageAdd={addImage}
+          onImageRemove={removeImage}
+        />
       </div>
 
       <div className='flex justify-between my-10'>

@@ -89,11 +89,21 @@ export const schema = z
     monthly: monthlySchema.optional(),
     exclusions: z.array(z.date()).optional(),
 
-    images: z.object({
-      video: z.string().min(1, 'Video is required'),
-      thumbnail: z.string().min(1, 'Thumbnail is required'),
-      images: z.array(z.string()).nonempty('Images are required'),
-    }),
+    images: z
+      .object({
+        video: z.string().optional().default(''),
+        thumbnail: z.string().optional().default(''),
+        images: z.array(z.string()).nonempty('At least one image is required'),
+      })
+      .refine(
+        data =>
+          data.images.length > 0 &&
+          (data.thumbnail === '' || data.images.includes(data.thumbnail)),
+        {
+          message: 'Thumbnail must be one of the uploaded images',
+          path: ['thumbnail'],
+        }
+      ),
   })
   .superRefine((data, ctx) => {
     const { type } = data;

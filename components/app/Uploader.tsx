@@ -281,8 +281,7 @@ const Uploader = ({
           ) : (
             <div className='flex flex-col items-center justify-center h-full w-full gap-y-3'>
               <p className='text-center'>
-                Drag &apos;n&apos; Drop some files here, or click to select
-                files
+                Drag & Drop some files here, or click to select files
               </p>
               <Button className='cursor-pointer'>Select Files</Button>
             </div>
