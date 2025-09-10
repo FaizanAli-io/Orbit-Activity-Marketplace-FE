@@ -91,7 +91,7 @@ export const schema = z
 
     images: z
       .object({
-        video: z.string().optional().default(''),
+        video: z.string().min(1, 'Video is required'),
         thumbnail: z.string().optional().default(''),
         images: z.array(z.string()).nonempty('At least one image is required'),
       })

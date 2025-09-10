@@ -31,6 +31,7 @@ interface Store extends ActivityFormSchema {
   addImage: (image: string) => void;
   removeImage: (image: string) => void;
   setVideo: (video: string) => void;
+  removeVideo: () => void;
   setThumbnail: (thumbnail: string) => void;
   clear: () => void;
 }
@@ -120,6 +121,15 @@ export const useActivityFormStore = create<Store>()(
           },
         })),
 
+      removeVideo: () =>
+        set(store => ({
+          ...store,
+          images: {
+            ...store.images,
+            video: '',
+          },
+        })),
+
       setFormData: data => set(store => ({ ...store, ...data })),
 
       currentStep: 1,
@@ -131,6 +141,9 @@ export const useActivityFormStore = create<Store>()(
       isForm5Valid: () => isForm5Valid(get),
       clear: () => {
         set({
+          activityId: undefined,
+          currentStep: 1,
+          supCategory: '',
           categoryId: '',
           title: '',
           description: '',

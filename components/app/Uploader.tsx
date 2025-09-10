@@ -339,6 +339,9 @@ const Uploader = ({
               variant='destructive'
               size='icon'
               className='cursor-pointer absolute top-2 right-2'
+              onClick={() => {
+                if (setUrl) setUrl('');
+              }}
             >
               <Trash2 className='size-4' />
             </Button>

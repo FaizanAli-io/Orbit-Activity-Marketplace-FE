@@ -26,6 +26,7 @@ const Page = () => {
 
   const video = useActivityFormStore(s => s.images.video);
   const setVideo = useActivityFormStore(s => s.setVideo);
+  const removeVideo = useActivityFormStore(s => s.removeVideo);
 
   const isForm1Valid = useActivityFormStore(s => s.isForm1Valid);
   const isForm2Valid = useActivityFormStore(s => s.isForm2Valid);
@@ -94,12 +95,17 @@ const Page = () => {
     const { success, error } = MediaSchema.safeParse(data);
 
     if (!success) {
+      console.log('Validation error:', error.format());
       const errorMessages = error.flatten();
       const imageErrors = errorMessages.fieldErrors.images;
       const thumbnailErrors = errorMessages.formErrors;
 
       let errorMessage = 'Validation error';
-      if (imageErrors && imageErrors.length > 0) {
+      
+      // Check for video errors in the nested structure
+      if (error.issues.some(issue => issue.path.includes('video'))) {
+        errorMessage = 'Video is required';
+      } else if (imageErrors && imageErrors.length > 0) {
         errorMessage = imageErrors[0];
       } else if (thumbnailErrors && thumbnailErrors.length > 0) {
         errorMessage = thumbnailErrors[0];
@@ -137,6 +143,7 @@ const Page = () => {
           onVideoChange={setVideo}
           onImageAdd={addImage}
           onImageRemove={removeImage}
+          onVideoRemove={removeVideo}
         />
       </div>
 

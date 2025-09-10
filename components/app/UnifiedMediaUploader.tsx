@@ -17,17 +17,18 @@ interface UnifiedMediaUploaderProps {
   onVideoChange: (video: string) => void;
   onImageAdd: (image: string) => void;
   onImageRemove: (image: string) => void;
+  onVideoRemove?: () => void;
 }
 
 export default function UnifiedMediaUploader({
   images,
   thumbnail,
   video,
-  onImagesChange,
   onThumbnailChange,
   onVideoChange,
   onImageAdd,
   onImageRemove,
+  onVideoRemove,
 }: UnifiedMediaUploaderProps) {
   const handleImageAdd = (imageUrl: string) => {
     onImageAdd(imageUrl);
@@ -55,6 +56,13 @@ export default function UnifiedMediaUploader({
 
   const handleRemoveThumbnail = () => {
     onThumbnailChange('');
+  };
+
+  const handleVideoRemove = () => {
+    onVideoChange('');
+    if (onVideoRemove) {
+      onVideoRemove();
+    }
   };
 
   return (
@@ -150,7 +158,9 @@ export default function UnifiedMediaUploader({
 
       {/* Video Upload Section */}
       <div className='space-y-3'>
-        <Label className='text-base font-medium'>Video (Optional)</Label>
+        <Label className='text-base font-medium'>
+          Video <span className='text-destructive'>*</span>
+        </Label>
         <Uploader
           maxFiles={1}
           maxSizeInMbs={50}
@@ -158,9 +168,10 @@ export default function UnifiedMediaUploader({
           allowImageUpload={false}
           setUrl={onVideoChange}
           videoUrl={video}
+          removeUrl={handleVideoRemove}
         />
         <p className='text-sm text-muted-foreground'>
-          Upload an optional video to showcase your activity.
+          Upload a video to showcase your activity.
         </p>
       </div>
     </div>

@@ -117,7 +117,6 @@ const Page = () => {
               <div className='space-y-2'>
                 <Skeleton className='w-15 h-5' />
                 <Skeleton className='w-72 h-10' />
-                <Skeleton className='w-72 h-10 mt-1 ml-20' />
               </div>
             )}
 
