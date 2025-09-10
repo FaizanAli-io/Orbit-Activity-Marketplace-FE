@@ -4,12 +4,14 @@ import Image from 'next/image';
 const Marquee = () => {
   return (
     <div className='overflow-hidden space-y-2'>
-      <div className='flex md:grid md:grid-cols-6 gap-2 translate-x-2 md:-translate-x-5 md:px-8'>
+      {/* <div className='flex md:grid md:grid-cols-6 gap-2 translate-x-2 md:-translate-x-5 md:px-8'> */}
+      <div className='flex md:grid md:grid-cols-6 gap-2 translate-x-2 '>
         {new Array(6)
           .fill(null)
           .map((_, i) => getImage(`/images/home/header/${i}.png`))}
       </div>
-      <div className='flex md:grid md:grid-cols-6 gap-2 md:translate-x-5 md:px-8'>
+      {/* <div className='flex md:grid md:grid-cols-6 gap-2 md:translate-x-5 md:px-8'> */}
+      <div className='flex md:grid md:grid-cols-6 gap-2'>
         {new Array(6)
           .fill(null)
           .map((_, i) => getImage(`/images/home/header/${i + 6}.png`))}
