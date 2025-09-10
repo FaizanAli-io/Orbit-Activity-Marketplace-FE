@@ -21,6 +21,8 @@ import { MultiGroupCombobox } from '@/components/multi-combobox';
 import { useCategories } from '@/lib/data/categories/use-categories';
 import { Skeleton } from '@/components/ui/skeleton';
 import ProfileAvatar from './ProfileAvatar';
+import ConfirmationDialog from '@/components/app/confirmation-dialog';
+import BtnDeleteAcc from './BtnDeleteAcc';
 
 interface Props {
   data: {
@@ -156,7 +158,8 @@ const PreferenceForm = ({
           )}
         />
 
-        <div className='flex justify-end space-x-2 mt-10'>
+        <div className='flex justify-end mt-10 space-x-2'>
+          <BtnDeleteAcc />
           <LoadingButton
             variant={'secondary'}
             type='submit'

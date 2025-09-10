@@ -3,6 +3,7 @@ import { HTMLAttributes } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { getFriends } from '@/lib/data/profile/social/get-friends';
+import { getFriendRequests } from '@/lib/data/profile/social/get-friend-requests';
 
 const AllFriendsList = async ({ ...props }: HTMLAttributes<HTMLDivElement>) => {
   const { data: friends, success } = await getFriends();

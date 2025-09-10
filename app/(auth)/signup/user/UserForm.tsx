@@ -57,7 +57,7 @@ export function UserForm() {
 
       if (success) {
         toast.success('Login successful');
-        router.replace('/me/profile');
+        router.replace('/profile/dashboard');
       } else {
         toast.error(error || 'Something went wrong! Please try again', {
           richColors: true,

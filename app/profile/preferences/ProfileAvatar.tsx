@@ -136,14 +136,18 @@ const ProfileAvatar = ({ value, onChange }: Props) => {
 
     return (
       <>
-        <AvatarImage
-          src={dp || value}
-          alt='Profile picture.'
-          className='object-cover bg-secondary aspect-square ring-3'
-        />
-        <AvatarFallback className='bg-secondary'>
-          <UserRound size='36' />
-        </AvatarFallback>
+        {(dp || value) && (
+          <AvatarImage
+            src={dp || value}
+            alt='Profile picture.'
+            className='object-cover bg-secondary aspect-square ring-3'
+          />
+        )}
+        {!dp && !value && (
+          <AvatarFallback className='bg-secondary aspect-square ring-3'>
+            <UserRound size='36' />
+          </AvatarFallback>
+        )}
 
         <AvatarIndicator className='size-8 -end-2 -bottom-2 bg-black rounded-full p-2 hover:bg-gray-800 transition-colors'>
           <Camera className='text-white' />

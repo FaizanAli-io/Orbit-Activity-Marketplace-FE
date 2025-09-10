@@ -10,15 +10,20 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import { cn } from '@/lib/utils';
+import { Loader2 } from 'lucide-react';
 
 interface Props {
   children: ReactNode;
-  onAction?: () => void;
+  onAction?: (() => void) | ((e: React.MouseEvent<HTMLElement>) => void);
   onCancel?: () => void;
   title: string;
   description?: string;
   cancelText?: string;
   actionText?: string;
+  btnClassName?: string;
+  loadingAction?: boolean;
+  loadingActionText?: string;
 }
 
 const ConfirmationDialog = ({
@@ -29,6 +34,9 @@ const ConfirmationDialog = ({
   actionText,
   onAction,
   onCancel,
+  btnClassName,
+  loadingAction = false,
+  loadingActionText = '',
 }: Props) => {
   return (
     <AlertDialog>
@@ -41,11 +49,21 @@ const ConfirmationDialog = ({
           )}
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={onCancel}>
+          <AlertDialogCancel disabled={loadingAction} onClick={onCancel}>
             {cancelText || 'Cancel'}
           </AlertDialogCancel>
-          <AlertDialogAction onClick={onAction}>
-            {actionText || 'Confirm'}
+          <AlertDialogAction
+            disabled={loadingAction}
+            onClick={onAction}
+            className={cn(btnClassName)}
+          >
+            {loadingAction ? (
+              <>
+                <Loader2 className='animate-spin' /> {loadingActionText}
+              </>
+            ) : (
+              actionText || 'Confirm'
+            )}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

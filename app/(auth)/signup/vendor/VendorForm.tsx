@@ -68,7 +68,7 @@ export function VendorForm() {
 
       if (success) {
         toast.success('Login successful');
-        router.replace('/me/profile');
+        router.replace('/profile/dashboard');
       } else {
         toast.error(error || 'Something went wrong, please try again', {
           richColors: true,

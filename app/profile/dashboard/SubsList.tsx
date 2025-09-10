@@ -11,15 +11,15 @@ const SubsList = async () => {
 
   if (error || !activities)
     return (
-      <div className='h-50vh grid place-content-center'>
-        <p className='text-destructive text-center'>Something went wrong</p>;
+      <div className='h-[50vh] grid place-content-center'>
+        <p className='text-destructive text-center'>Something went wrong</p>
       </div>
     );
 
   if (!activities.length)
     return (
-      <div className='h-50vh grid place-content-center'>
-        <p className='text-center'>No activity found.</p>;
+      <div className='h-[50vh] grid place-content-center '>
+        <p className='text-center'>No activity found.</p>
       </div>
     );
 

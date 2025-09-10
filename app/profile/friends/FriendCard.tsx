@@ -14,15 +14,15 @@ const FriendCard = ({ name, avatar, email, btn }: Props) => {
   return (
     <div className='p-3 border flex justify-between items-center rounded-lg'>
       <div className='flex items-center space-x-2'>
-        <Avatar className='size-11'>
+        <Avatar className='size-11 object-cover'>
           <AvatarImage
+            src={avatar}
             width={'100'}
             height={'100'}
-            src={avatar}
-            className='object-cover'
+            className='object-cover aspect-square'
             alt={'Profile Picture'}
           />
-          <AvatarFallback>{initials}</AvatarFallback>
+          <AvatarFallback className='aspect-square'>{initials}</AvatarFallback>
         </Avatar>
         <div>
           <h2 className='font-medium hover:underline cursor-pointer'>
