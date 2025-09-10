@@ -15,9 +15,16 @@ import { formatCurrency } from '@/lib/utils';
 import { format } from 'date-fns';
 import { Eye, PenBox, Trash2 } from 'lucide-react';
 import Link from 'next/link';
-import React from 'react';
+import React, { Suspense } from 'react';
 import ActivityCardFooter from './ActivityCardFooter';
 import Button3D from '@/components/app/Button3D';
+import { ActivityRegistrationCount } from './ActivityRegistrationCount';
+import { ActivityRevenueDynamic } from './ActivityRevenueDynamic';
+import { ActivityDataErrorBoundary } from './ActivityDataErrorBoundary';
+import {
+  RegistrationCountSkeleton,
+  RevenueSkeleton,
+} from './ActivityCardSkeletons';
 
 interface ActivityCardProps extends Activity {
   onDeleted?: (activityId: number) => void;
@@ -25,15 +32,7 @@ interface ActivityCardProps extends Activity {
 }
 
 const ActivityCard = (props: ActivityCardProps) => {
-  const {
-    name: title,
-    categoryId,
-    location,
-    quota,
-    price,
-    availability,
-    id,
-  } = props;
+  const { name: title, categoryId, location, price, availability, id } = props;
   const getStartDate = () => {
     const { dates, range, weekly, monthly } = availability;
 
@@ -76,12 +75,34 @@ const ActivityCard = (props: ActivityCardProps) => {
           </p>
           <p>
             Registrations
-            <span className='block font-semibold'>{quota}</span>
+            <span className='block font-semibold'>
+              <Suspense fallback={<RegistrationCountSkeleton />}>
+                <ActivityDataErrorBoundary
+                  activityId={id}
+                  fallback={<span>0</span>}
+                >
+                  <ActivityRegistrationCount
+                    activityId={id}
+                    showRefreshButton={false}
+                  />
+                </ActivityDataErrorBoundary>
+              </Suspense>
+            </span>
           </p>
           <p>
             Revenue
             <span className='block font-semibold'>
-              {formatCurrency(quota * price)}
+              <Suspense fallback={<RevenueSkeleton />}>
+                <ActivityDataErrorBoundary
+                  activityId={id}
+                  fallback={<span>{formatCurrency(0)}</span>}
+                >
+                  <ActivityRevenueDynamic
+                    activityId={String(id)}
+                    price={price}
+                  />
+                </ActivityDataErrorBoundary>
+              </Suspense>
             </span>
           </p>
           <p>

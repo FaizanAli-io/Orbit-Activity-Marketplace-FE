@@ -27,11 +27,12 @@ export async function deleteActivity(id: number) {
       revalidatePath('/profile/events', 'page');
       revalidatePath('/explore', 'page');
 
-      // Revalidate cache tags for activities
+      // Revalidate cache tags for activities and subscriptions
       revalidateTag('activities');
       revalidateTag(`activity-${id}`);
+      revalidateTag('subscriptions');
+      revalidateTag(`activity-${id}-subscriptions`);
     }
-
     return result;
   });
 }
