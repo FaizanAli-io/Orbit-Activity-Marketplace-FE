@@ -3,7 +3,6 @@ import React from 'react';
 import Block from '@/app/layout/Block';
 import { getActivity } from '@/lib/data/activities/get-activities';
 import ActivityBadge from '@/components/app/ActivityCard/ActivityBadge';
-import { MasonryGallery, MediaItem } from '@/components/app/MasonaryGallery';
 import ScheduleCard from '../../../profile/vendor/activities/review/ScheduleCard';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import H1 from '@/components/ui/typography/H1';
@@ -11,6 +10,7 @@ import H2 from '@/components/ui/typography/H2';
 import { Button } from '@/components/ui/button';
 import Tagline from '@/components/ui/typography/Tagline';
 import { formatCurrency } from '@/lib/utils';
+import Carousel from '@/components/app/MasonaryGallery';
 
 interface Props {
   params: Promise<{ id: number }>;
@@ -43,27 +43,16 @@ const Page = async ({ params }: Props) => {
     vendor,
   } = activity.data;
 
-  const galleryItems: MediaItem[] | undefined = images?.images?.map(
-    (img, key) => ({
-      id: String(key),
-      type: 'image' as const,
-      src: img,
-      alt: 'Activity picture',
-      width: 100,
-      height: 100,
-    })
-  );
-
-  if (images?.video) {
-    galleryItems.push({
-      id: 'video',
-      type: 'video',
-      src: images.video,
-      alt: 'Activity video',
-      width: 100,
-      height: 100,
-    });
-  }
+  // if (images?.video) {
+  //   galleryItems.push({
+  //     id: 'video',
+  //     type: 'video',
+  //     src: images.video,
+  //     alt: 'Activity video',
+  //     width: 100,
+  //     height: 100,
+  //   });
+  // }
 
   const cardRange = range
     ? {
@@ -107,16 +96,14 @@ const Page = async ({ params }: Props) => {
             <H1 className='font-semibold text-2xl md:text-4xl'>{title}</H1>
             <p className='font-semibold'>{location}</p>
           </CardHeader>
-          <CardContent>{description}</CardContent>
-        </Card>
+          <CardContent>
+            {images?.images && (
+              <Carousel images={images.images.map(url => ({ url }))} />
+            )}
 
-        {images?.images && (
-          <Card>
-            <CardContent>
-              <MasonryGallery items={galleryItems} showMoreCount={3} />
-            </CardContent>
-          </Card>
-        )}
+            <p className='mt-10 mb-5'>{description}</p>
+          </CardContent>
+        </Card>
       </div>
       <div className='md:col-span-2 space-y-5'>
         <Card>

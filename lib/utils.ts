@@ -11,7 +11,7 @@ export function getFirstWords(text: string, count = 10) {
 
 export const formatCurrency = new Intl.NumberFormat('en-US', {
   style: 'currency',
-  currency: 'USD',
+  currency: 'HKD',
 }).format;
 
 export function mergeDateAndTime(dateObj: Date, timeObj: Date) {
