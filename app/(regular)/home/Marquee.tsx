@@ -4,15 +4,13 @@ import Image from 'next/image';
 const Marquee = () => {
   return (
     <div className='overflow-hidden space-y-2'>
-      {/* <div className='flex md:grid md:grid-cols-6 gap-2 translate-x-2 md:-translate-x-5 md:px-8'> */}
-      <div className='flex md:grid md:grid-cols-6 gap-2 translate-x-2 '>
-        {new Array(6)
+      <div className='flex gap-2'>
+        {new Array(5)
           .fill(null)
           .map((_, i) => getImage(`/images/home/header/${i}.png`))}
       </div>
-      {/* <div className='flex md:grid md:grid-cols-6 gap-2 md:translate-x-5 md:px-8'> */}
-      <div className='flex md:grid md:grid-cols-6 gap-2'>
-        {new Array(6)
+      <div className='flex gap-2'>
+        {new Array(5)
           .fill(null)
           .map((_, i) => getImage(`/images/home/header/${i + 6}.png`))}
       </div>
@@ -23,7 +21,7 @@ const Marquee = () => {
 function getImage(path: string) {
   return (
     <Image
-      className='rounded-lg w-full h-full object-cover'
+      className='rounded-lg object-cover flex-1 '
       key={path}
       src={path}
       alt='activity'
