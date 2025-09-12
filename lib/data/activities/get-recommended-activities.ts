@@ -33,6 +33,7 @@ export async function getRecommendedActivities(params: params = {}) {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      cache: 'force-cache',
     })
   );
 }

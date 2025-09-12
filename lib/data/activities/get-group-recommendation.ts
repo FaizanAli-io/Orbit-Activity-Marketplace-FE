@@ -46,6 +46,7 @@ export async function getGroupRecommendation(
       data: {
         userIds: [params.friendId, profile.user.id],
       },
+      cache: 'force-cache',
     })
   );
 }
