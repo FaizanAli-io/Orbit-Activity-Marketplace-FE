@@ -332,6 +332,7 @@ const Page = () => {
                       <CardContent className='px-5 min-w-max'>
                         <Calendar
                           mode='range'
+                          showOutsideDays={false}
                           required
                           selected={{
                             from: form.watch('range.date.start'),
@@ -403,6 +404,7 @@ const Page = () => {
                         <Calendar
                           mode='range'
                           required
+                          showOutsideDays={false}
                           selected={{
                             from: form.watch('weekly.date.start'),
                             to: form.watch('weekly.date.end'),
@@ -415,7 +417,7 @@ const Page = () => {
                             form.setValue('weekly.date.end', to || new Date());
                           }}
                           numberOfMonths={2}
-                          className='w-full'
+                          className='w-full shadow-none'
                         />
 
                         <FormField
@@ -498,7 +500,8 @@ const Page = () => {
                             form.setValue('monthly.date.end', to || new Date());
                           }}
                           numberOfMonths={2}
-                          className='w-full'
+                          showOutsideDays={false}
+                          className='w-full shadow-none'
                         />
 
                         <FormField

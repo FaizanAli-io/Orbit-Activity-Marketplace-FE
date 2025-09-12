@@ -77,6 +77,8 @@ export function RangeDatePicker({
             selected={range}
             onSelect={handleSelect}
             numberOfMonths={2}
+            animate
+            showOutsideDays={false}
             captionLayout='dropdown'
             defaultMonth={range?.from}
           />
