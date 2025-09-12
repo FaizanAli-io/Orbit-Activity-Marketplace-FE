@@ -20,6 +20,7 @@ const Navbar = async () => {
           height={'70'}
           alt='Orbit Logo.'
           className='-translate-x-4.5 translate-y-2'
+          priority
         />
       </Link>
 

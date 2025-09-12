@@ -9,7 +9,7 @@ interface Props {
 const ActivityCardSkeleton = ({ variant = 'list' }: Props) => {
   return (
     <div
-      className={cn('p-0 overflow-hidden md:gap-2', {
+      className={cn('p-0 overflow-hidden md:gap-2 border-1 p-5', {
         'md:grid md:grid-cols-3': variant === 'list',
       })}
     >

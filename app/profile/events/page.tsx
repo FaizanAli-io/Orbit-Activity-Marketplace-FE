@@ -8,6 +8,8 @@ import Sidebar from '@/app/(regular)/explore/Sidebar';
 import EventsList from '@/app/(regular)/explore/EventsList';
 import EventsListSkeleton from '@/app/(regular)/explore/EventsListSkeleton';
 import SearchForm from '@/app/(regular)/explore/SearchForm';
+import { Skeleton } from '@/components/ui/skeleton';
+import ActivityCardSkeleton from '@/components/app/ActivityCard/ActivityCardSkeleton';
 
 type Props = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -24,40 +26,42 @@ const Page = async ({ searchParams }: Props) => {
   const baseURL = '/profile/events';
 
   return (
-    <Sheet>
-      <Block space={false} className='my-5'>
-        <SheetContent side='left'>
-          <Sidebar baseURL={baseURL} />
-        </SheetContent>
-
-        <div className='my-5'>
-          <SearchForm baseURL={baseURL} search={name} />
-        </div>
-
-        <div className='md:grid md:grid-cols-8 md:gap-x-5'>
-          <div className='mt-12 max-h-min bg-white rounded-lg shadow-[0px_4px_4px_0px_#00000040] hidden md:block col-span-2 pb-5'>
+    <>
+      <Sheet>
+        <Block space={false} className='my-5'>
+          <SheetContent side='left'>
             <Sidebar baseURL={baseURL} />
+          </SheetContent>
+
+          <div className='my-5'>
+            <SearchForm baseURL={baseURL} search={name} />
           </div>
-          <div className='md:col-span-6'>
-            <SheetTrigger className='md:hidden flex justify-end w-full my-2'>
-              <Button variant={'secondary'} size='icon' className='md:hidden'>
-                <Filter />
-              </Button>
-            </SheetTrigger>
-            <Suspense fallback={<EventsListSkeleton />}>
-              <EventsList
-                baseURL={baseURL}
-                name={name}
-                categoryId={category}
-                minPrice={minPrice}
-                maxPrice={maxPrice}
-                page={page}
-              />
-            </Suspense>
+
+          <div className='md:grid md:grid-cols-8 md:gap-x-5'>
+            <div className='mt-12 max-h-min bg-white rounded-lg shadow-[0px_4px_4px_0px_#00000040] hidden md:block col-span-2 pb-5'>
+              <Sidebar baseURL={baseURL} />
+            </div>
+            <div className='md:col-span-6'>
+              <SheetTrigger className='md:hidden flex justify-end w-full my-2'>
+                <Button variant={'secondary'} size='icon' className='md:hidden'>
+                  <Filter />
+                </Button>
+              </SheetTrigger>
+              <Suspense fallback={<EventsListSkeleton />}>
+                <EventsList
+                  baseURL={baseURL}
+                  name={name}
+                  categoryId={category}
+                  minPrice={minPrice}
+                  maxPrice={maxPrice}
+                  page={page}
+                />
+              </Suspense>
+            </div>
           </div>
-        </div>
-      </Block>
-    </Sheet>
+        </Block>
+      </Sheet>
+    </>
   );
 };
 

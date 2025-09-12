@@ -4,6 +4,7 @@ import Block from '@/app/layout/Block';
 import EventList from './EventList';
 import HeaderCard from './header/HeaderCard';
 import EventListSkeleton from './EventListSkeleton';
+import { Skeleton } from '@/components/ui/skeleton';
 
 type Props = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
