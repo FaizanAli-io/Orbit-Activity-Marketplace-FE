@@ -11,14 +11,14 @@ const SubsList = async () => {
 
   if (error || !activities)
     return (
-      <div className='h-[50vh] grid place-content-center'>
+      <div className='h-[50vh] md:w-[70vw] grid place-content-center'>
         <p className='text-destructive text-center'>Something went wrong</p>
       </div>
     );
 
   if (!activities.length)
     return (
-      <div className='h-[50vh] grid place-content-center '>
+      <div className='h-[50vh] md:w-[70vw] grid place-content-center'>
         <p className='text-center'>No activity found.</p>
       </div>
     );
@@ -27,7 +27,11 @@ const SubsList = async () => {
     <div>
       <div className='space-y-5'>
         {activities?.map(item => (
-          <ActivityCard {...item} key={item.id} />
+          <ActivityCard
+            viewLink={`/event/${item.id}`}
+            {...item}
+            key={item.id}
+          />
         ))}
       </div>
 

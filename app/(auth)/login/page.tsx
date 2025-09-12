@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 export default function Page() {
   return (
-    <div className='min-h-screen w-full p-6 md:p-0 flex items-center justify-center md:grid grid-cols-2'>
+    <div className='min-h-screen w-full p-6 md:p-0 flex justify-center md:grid grid-cols-2'>
       <Image
         src='/images/auth/placeholder.png'
         alt='placeholder'
@@ -15,9 +15,9 @@ export default function Page() {
       />
 
       <div className='w-full max-w-sm md:max-w-md md:mx-auto'>
-        <div className='flex flex-col gap-6'>
-          <div className='flex flex-col items-center text-center'>
-            <H2 className='font-normal'>Welcome to Orbit</H2>
+        <div className='flex flex-col gap-6 mt-45'>
+          <div className='flex flex-col text-center'>
+            <H2 className='font-medium md:text-4xl'>Welcome to Orbit</H2>
             <p className='text-sm'>
               Don't have an account?{' '}
               <Link href='signup' className='font-semibold underline'>

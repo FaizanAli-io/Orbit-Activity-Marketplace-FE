@@ -34,7 +34,7 @@ const Page = async ({ params }: Props) => {
               width='100'
               height='100'
               src={user.avatar}
-              className='object-cover'
+              className='object-cover aspect-square'
               alt={'User Profile Picture'}
             />
             <AvatarFallback className='text-2xl bg-secondary'>

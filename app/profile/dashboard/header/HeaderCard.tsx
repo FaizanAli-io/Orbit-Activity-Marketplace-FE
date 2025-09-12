@@ -10,15 +10,13 @@ const HeaderCard = () => {
     <div className='p-5 bg-secondary rounded-lg shadow-theme'>
       <div className='flex items-center space-x-2'>
         <UserAvatar dropdown={false} />{' '}
-        <p className='text-lg font-medium truncate'>
-          <Suspense
-            fallback={
-              <Skeleton className='w-25 h-10 rounded-md bg-primary-100' />
-            }
-          >
+        <Suspense
+          fallback={<Skeleton className='w-15 h-7 rounded-md bg-primary-100' />}
+        >
+          <p className='text-lg font-medium truncate'>
             <Username />
-          </Suspense>
-        </p>
+          </p>
+        </Suspense>
       </div>
       <ul className='space-y-1 text-primary-600 text-[0.9rem] font-medium mt-2'>
         <li>

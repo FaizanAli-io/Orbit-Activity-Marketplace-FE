@@ -9,10 +9,15 @@ export function getFirstWords(text: string, count = 10) {
   return text.split(/\s+/).slice(0, count).join(' ');
 }
 
-export const formatCurrency = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'HKD',
-}).format;
+export const formatCurrency = (amount: number): string => {
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'HKD',
+  });
+
+  // Format the currency and replace HK$ with HKD
+  return formatter.format(amount).replace('HK$', 'HKD');
+};
 
 export function mergeDateAndTime(dateObj: Date, timeObj: Date) {
   const merged = new Date(dateObj); // copy the date

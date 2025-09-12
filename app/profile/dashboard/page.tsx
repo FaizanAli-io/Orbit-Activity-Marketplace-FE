@@ -20,13 +20,16 @@ const Page = async ({ searchParams }: Props) => {
           <div>
             <Header />
           </div>
+          <div className='md:col-span-2 md:hidden'>
+            <HeaderCard />
+          </div>
           <div>
             <Suspense fallback={<EventListSkeleton />}>
               <EventList page={page} />
             </Suspense>
           </div>
         </div>
-        <div className='md:col-span-2'>
+        <div className='md:col-span-2 md:block hidden'>
           <HeaderCard />
         </div>
       </Block>

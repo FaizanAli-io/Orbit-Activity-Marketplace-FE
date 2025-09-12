@@ -174,7 +174,7 @@ function InputWrapper({
       className={cn(
         inputVariants({ variant }),
         inputWrapperVariants({ variant }),
-        'bg-white shadow-none border-2 rounded-lg min-h-11',
+        'bg-white shadow-none border-2 py-4.5 rounded-lg',
         className
       )}
       {...props}

@@ -23,6 +23,8 @@ import { Skeleton } from '@/components/ui/skeleton';
 import ProfileAvatar from './ProfileAvatar';
 import ConfirmationDialog from '@/components/app/confirmation-dialog';
 import BtnDeleteAcc from './BtnDeleteAcc';
+import PhoneInputWithCountrySelect from 'react-phone-number-input';
+import PhoneField from '@/components/phone-input';
 
 interface Props {
   data: {
@@ -119,7 +121,9 @@ const PreferenceForm = ({
               <FormItem>
                 <FormLabel>Phone</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <PhoneField {...field} />
+
+                  {/* <Input {...field} /> */}
                 </FormControl>
                 <div className='min-h-[1.25rem] mt-2'>
                   <FormMessage />

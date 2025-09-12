@@ -145,12 +145,8 @@ export function LoginForm() {
         </div>
         <div className='mt-4 text-center text-xs text-neutral-light'>
           By Clicking continue you agree with our{' '}
-          <Link className='underline' href='#'>
-            Terms of Service
-          </Link>{' '}
-          and{' '}
-          <Link className='underline' href='#'>
-            Privacy Policy
+          <Link className='underline' href='/privacy-policy'>
+            Privacy & Policy
           </Link>
         </div>
       </form>
