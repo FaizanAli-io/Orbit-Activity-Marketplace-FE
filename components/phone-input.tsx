@@ -19,7 +19,16 @@ interface PhoneFieldProps {
 }
 
 const PhoneField = forwardRef<HTMLInputElement, PhoneFieldProps>(
-  ({ value, onChange, placeholder = 'Enter phone number', disabled, className }, ref) => {
+  (
+    {
+      value,
+      onChange,
+      placeholder = 'Enter phone number',
+      disabled,
+      className,
+    },
+    ref
+  ) => {
     const id = useId();
 
     return (
@@ -28,9 +37,11 @@ const PhoneField = forwardRef<HTMLInputElement, PhoneFieldProps>(
         international
         flagComponent={FlagComponent}
         countrySelectComponent={CountrySelect}
-        inputComponent={React.forwardRef<HTMLInputElement>((props, inputRef) => (
-          <PhoneInput {...props} ref={inputRef} />
-        ))}
+        inputComponent={React.forwardRef<HTMLInputElement>(
+          (props, inputRef) => (
+            <PhoneInput {...props} ref={inputRef} />
+          )
+        )}
         id={id}
         placeholder={placeholder}
         value={value as E164Number}

@@ -78,6 +78,34 @@ const ImageContainer: React.FC<{
 }) => {
   const isVideoFile = isVideo(image);
 
+  if (isVideoFile) {
+    // Video that plays inline when clicked (no fullscreen modal)
+    return (
+      <div
+        className={cn(
+          'relative w-full overflow-hidden rounded-lg bg-gray-100',
+          getAspectRatioClass(aspectRatio)
+        )}
+      >
+        <div className='relative h-full w-full'>
+          <video
+            src={image.url}
+            className={cn(
+              'h-full w-full',
+              fit === 'contain' && 'object-contain',
+              fit === 'cover' && 'object-cover',
+              fit === 'fill' && 'object-fill',
+              classNameThumbnail
+            )}
+            controls
+            preload='metadata'
+          />
+        </div>
+      </div>
+    );
+  }
+
+  // Image without any click action
   return (
     <div
       className={cn(
@@ -85,126 +113,21 @@ const ImageContainer: React.FC<{
         getAspectRatioClass(aspectRatio)
       )}
     >
-      <Dialog>
-        <DialogTrigger asChild>
-          <div className='cursor-pointer relative h-full w-full'>
-            {isVideoFile ? (
-              <>
-                <video
-                  src={image.url}
-                  className={cn(
-                    'h-full w-full',
-                    fit === 'contain' && 'object-contain',
-                    fit === 'cover' && 'object-cover',
-                    fit === 'fill' && 'object-fill',
-                    classNameThumbnail
-                  )}
-                  muted
-                  preload='metadata'
-                />
-                <div className='absolute inset-0 flex items-center justify-center bg-black/20'>
-                  <div className='rounded-full bg-white/90 p-3'>
-                    <svg
-                      className='h-8 w-8 text-black'
-                      fill='currentColor'
-                      viewBox='0 0 24 24'
-                    >
-                      <path d='M8 5v14l11-7z' />
-                    </svg>
-                  </div>
-                </div>
-              </>
-            ) : (
-              <img
-                src={image.url}
-                alt={image.title || alt}
-                width={400}
-                height={600}
-                className={cn(
-                  'h-full w-full',
-                  fit === 'contain' && 'object-contain',
-                  fit === 'cover' && 'object-cover',
-                  fit === 'fill' && 'object-fill',
-                  classNameThumbnail
-                )}
-              />
-            )}
-          </div>
-        </DialogTrigger>
-
-        <DialogPortal>
-          <DialogOverlay className='fixed inset-0 z-50 bg-black/80' />
-          <DialogContent className='bg-background fixed inset-0 z-50 flex flex-col items-center justify-center p-0'>
-            <DialogTitle className='sr-only'>
-              {image.title || (isVideoFile ? 'Video' : 'Image')}
-            </DialogTitle>
-            <DialogDescription className='sr-only'>
-              {image.title || (isVideoFile ? 'Video' : 'Image')}
-            </DialogDescription>
-
-            <div className='relative flex h-screen w-screen items-center justify-center'>
-              {isVideoFile ? (
-                <video
-                  src={image.url}
-                  controls
-                  autoPlay
-                  className={cn(
-                    'max-h-[90vh] max-w-[90vw] object-contain',
-                    classNameImage
-                  )}
-                />
-              ) : (
-                <TransformWrapper
-                  initialScale={1}
-                  initialPositionX={0}
-                  initialPositionY={0}
-                >
-                  {({ zoomIn, zoomOut }) => (
-                    <>
-                      <TransformComponent>
-                        <img
-                          src={image.url}
-                          alt={image.title || 'Full size'}
-                          className={cn(
-                            'max-h-[90vh] max-w-[90vw] object-contain',
-                            classNameImage
-                          )}
-                        />
-                      </TransformComponent>
-                      {showImageControls && (
-                        <div className='absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-2'>
-                          <button
-                            onClick={() => zoomOut()}
-                            className='cursor-pointer rounded-full bg-black/50 p-2 text-white transition-colors hover:bg-black/70'
-                            aria-label='Zoom out'
-                          >
-                            <MinusCircle className='size-6' />
-                          </button>
-                          <button
-                            onClick={() => zoomIn()}
-                            className='cursor-pointer rounded-full bg-black/50 p-2 text-white transition-colors hover:bg-black/70'
-                            aria-label='Zoom in'
-                          >
-                            <PlusCircle className='size-6' />
-                          </button>
-                        </div>
-                      )}
-                    </>
-                  )}
-                </TransformWrapper>
-              )}
-              <DialogClose asChild>
-                <button
-                  className='absolute top-4 right-4 z-10 cursor-pointer rounded-full border bg-black/50 p-2 text-white transition-colors hover:bg-black/70'
-                  aria-label='Close'
-                >
-                  <X className='size-6' />
-                </button>
-              </DialogClose>
-            </div>
-          </DialogContent>
-        </DialogPortal>
-      </Dialog>
+      <div className='relative h-full w-full'>
+        <img
+          src={image.url}
+          alt={image.title || alt}
+          width={400}
+          height={600}
+          className={cn(
+            'h-full w-full',
+            fit === 'contain' && 'object-contain',
+            fit === 'cover' && 'object-cover',
+            fit === 'fill' && 'object-fill',
+            classNameThumbnail
+          )}
+        />
+      </div>
     </div>
   );
 };
