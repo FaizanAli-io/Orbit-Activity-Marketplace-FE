@@ -2,7 +2,7 @@ import { Loader2 } from 'lucide-react';
 
 const Loading = () => {
   return (
-    <div className='h-[90vh] w-full grid place-content-center'>
+    <div className='h-screen w-full grid place-content-center'>
       <Loader2 className='mr-2 h-20 w-20 animate-spin text-primary' />
     </div>
   );

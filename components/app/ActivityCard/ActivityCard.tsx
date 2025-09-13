@@ -115,9 +115,11 @@ const ActivityCard = async ({
             'mt-5': variant === 'grid',
           })}
         >
-          <Button className='flex-1' variant={'secondary'}>
-            <Link href={viewLink}>View</Link>
-          </Button>
+          <Link href={viewLink} className='block flex-1'>
+            <Button className='w-full' variant={'secondary'}>
+              View
+            </Button>
+          </Link>
 
           <SubButton
             activityId={id}
