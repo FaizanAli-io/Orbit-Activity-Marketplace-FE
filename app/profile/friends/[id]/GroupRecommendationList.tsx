@@ -24,7 +24,11 @@ const GroupRecommendationList = async ({ page, friendId }: Props) => {
     <div>
       <div className='space-y-5'>
         {activities?.map(item => (
-          <ActivityCard {...item} key={item.id} />
+          <ActivityCard
+            {...item}
+            key={item.id}
+            viewLink={`/event/${item.id}`}
+          />
         ))}
       </div>
 
