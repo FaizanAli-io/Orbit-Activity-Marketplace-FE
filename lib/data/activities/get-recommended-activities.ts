@@ -29,7 +29,7 @@ export async function getRecommendedActivities(params: params = {}) {
 
   return withServerError(() =>
     apiFetch<unknown, Res>(endpoint, {
-      method: HTTP_VERB.POST,
+      method: HTTP_VERB.GET,
       headers: {
         Authorization: `Bearer ${token}`,
       },

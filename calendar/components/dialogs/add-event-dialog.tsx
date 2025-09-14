@@ -109,6 +109,8 @@ export function AddEventDialog({ children, startDate, startTime }: IProps) {
       const startTime = range.time.start;
       const endTime = range.time.end;
 
+      console.log(new Date(startTime), new Date(endTime), 'time');
+
       setValidDateRange({ start: new Date(startDate), end: new Date(endDate) });
       setValidTimeRange({
         start: timeToDate(startTime),

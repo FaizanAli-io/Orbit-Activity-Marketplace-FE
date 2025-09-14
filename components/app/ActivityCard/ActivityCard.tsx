@@ -12,9 +12,7 @@ import {
 } from '@/components/ui/card';
 import { format } from 'date-fns';
 import LikeButton from './LikeButton';
-import { getLikedActivities } from '@/lib/data/activities/get-liked-activities';
 import SubButton from './SubButton';
-import { getUserSubs } from '@/lib/data/activities/get-user-subs';
 import { Calendar, MapPin } from 'lucide-react';
 
 interface Props extends Activity {
@@ -33,18 +31,9 @@ const ActivityCard = async ({
   viewLink = '#',
   vendorId,
   price,
-  ...activityProps
+  liked,
+  subscribed,
 }: Props) => {
-  const { success, data } = await getLikedActivities();
-  const { data: subData } = await getUserSubs();
-
-  const subscribed = !!subData?.data?.find(e => e.id === id);
-
-  const likedActivities = data?.data;
-
-  const liked =
-    success && likedActivities && likedActivities.find(a => a.id === id);
-
   const getStartDate = () => {
     const { dates, range, weekly, monthly } = availability;
 

@@ -6,6 +6,7 @@ const LikedActivityList = async () => {
   const { data, error } = await getLikedActivities();
 
   const activities = data?.data;
+
   if (error || !activities)
     return (
       <div className='h-[50vh] md:w-[70vw] grid place-content-center'>
