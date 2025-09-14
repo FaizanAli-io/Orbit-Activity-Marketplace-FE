@@ -19,10 +19,13 @@ export const formatCurrency = (amount: number): string => {
   return formatter.format(amount).replace('HK$', 'HKD');
 };
 
-export function mergeDateAndTime(dateObj: Date, timeObj: Date) {
+export function mergeDateAndTime(dateObj: Date, timeString: string) {
   const merged = new Date(dateObj); // copy the date
 
-  merged.setHours(timeObj.getHours(), timeObj.getMinutes(), 0, 0);
+  // Parse the time string (HH:mm format)
+  const [hours, minutes] = timeString.split(':').map(Number);
+
+  merged.setHours(hours, minutes, 0, 0);
 
   return merged;
 }
@@ -97,3 +100,27 @@ export function formatQuantity(
 
   return formatted;
 }
+
+// Convert UTC time string (HH:mm) to local time string
+export const convertUTCTimeToLocal = (utcTimeString: string): string => {
+  const today = new Date();
+  const [hours, minutes] = utcTimeString.split(':').map(Number);
+
+  // Create a UTC date with today's date and the provided time
+  const utcDate = new Date(
+    Date.UTC(
+      today.getUTCFullYear(),
+      today.getUTCMonth(),
+      today.getUTCDate(),
+      hours,
+      minutes
+    )
+  );
+
+  // Convert to local time and format as HH:mm
+  return utcDate.toLocaleTimeString([], {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  });
+};

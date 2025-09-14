@@ -30,7 +30,13 @@ import { eventSchema } from '@/calendar/schemas';
 
 import type { TEventFormData } from '@/calendar/schemas';
 import { Calendar } from '@/components/ui/calendar';
-import { cn, getFormatedTime, mergeDateAndTime, timeToDate } from '@/lib/utils';
+import {
+  cn,
+  convertUTCTimeToLocal,
+  getFormatedTime,
+  mergeDateAndTime,
+  timeToDate,
+} from '@/lib/utils';
 import { Combobox } from '@/components/ui/Combobox';
 import { useActivities } from '@/lib/data/activities/use-activities';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -55,9 +61,9 @@ export function AddEventDialog({ children, startDate, startTime }: IProps) {
   }>({ start: new Date(), end: new Date() });
 
   const [validTimeRange, setValidTimeRange] = useState<{
-    start: Date;
-    end: Date;
-  }>({ start: new Date(), end: new Date() });
+    start: string;
+    end: string;
+  }>({ start: '', end: '' });
 
   const { data, isFetched } = useActivities();
   const activities = data?.data;
@@ -75,18 +81,14 @@ export function AddEventDialog({ children, startDate, startTime }: IProps) {
 
   const onSubmit = async (_values: TEventFormData) => {
     setLoading(true);
-
     const startDate = mergeDateAndTime(_values.startDate, _values.startTime);
     const endDate = mergeDateAndTime(_values.endDate, _values.endTime);
-
     const data = {
       activityId: _values.activityId,
-      startTime: `${format(startDate, "yyyy-MM-dd'T'HH:mm:00")}.000Z`,
-      endTime: `${format(endDate, "yyyy-MM-dd'T'HH:mm:00")}.000Z`,
+      startTime: startDate.toISOString(),
+      endTime: endDate.toISOString(),
     };
-
     const { success, error } = await postEvent({ ...data });
-
     if (!success) toast.error(error, { richColors: true });
     else {
       toast.success('Event added');
@@ -109,12 +111,11 @@ export function AddEventDialog({ children, startDate, startTime }: IProps) {
       const startTime = range.time.start;
       const endTime = range.time.end;
 
-      console.log(new Date(startTime), new Date(endTime), 'time');
-
       setValidDateRange({ start: new Date(startDate), end: new Date(endDate) });
+
       setValidTimeRange({
-        start: timeToDate(startTime),
-        end: timeToDate(endTime),
+        start: startTime,
+        end: endTime,
       });
     }
 
@@ -127,8 +128,8 @@ export function AddEventDialog({ children, startDate, startTime }: IProps) {
 
       setValidDateRange({ start: new Date(startDate), end: new Date(endDate) });
       setValidTimeRange({
-        start: timeToDate(startTime),
-        end: timeToDate(endTime),
+        start: startTime,
+        end: endTime,
       });
     }
 
@@ -141,20 +142,20 @@ export function AddEventDialog({ children, startDate, startTime }: IProps) {
 
       setValidDateRange({ start: new Date(startDate), end: new Date(endDate) });
       setValidTimeRange({
-        start: timeToDate(startTime),
-        end: timeToDate(endTime),
+        start: startTime,
+        end: endTime,
       });
     }
   };
 
   const handleStartTimeChange = (time: string) => {
-    const parsedTime = timeToDate(time);
-    form.setValue('startTime', parsedTime);
+    // const parsedTime = timeToDate(time);
+    form.setValue('startTime', time);
   };
 
   const handleEndTimeChange = (time: string) => {
-    const parsedTime = timeToDate(time);
-    form.setValue('endTime', parsedTime);
+    // const parsedTime = timeToDate(time);
+    form.setValue('endTime', time);
   };
 
   return (
@@ -254,8 +255,8 @@ export function AddEventDialog({ children, startDate, startTime }: IProps) {
             {validTimeRange && (
               <p className='text-primary text-sm font-semibold my-2 uppercase'>
                 The time must be between{' '}
-                {validTimeRange.start.toLocaleTimeString()} and{' '}
-                {validTimeRange.end.toLocaleTimeString()}
+                {convertUTCTimeToLocal(validTimeRange.start)} and{' '}
+                {convertUTCTimeToLocal(validTimeRange.end)}
               </p>
             )}
             <div className='flex space-x-5'>
@@ -267,7 +268,7 @@ export function AddEventDialog({ children, startDate, startTime }: IProps) {
                     <FormLabel>Start Time</FormLabel>
                     <FormControl>
                       <TimePicker
-                        value={getFormatedTime(value)}
+                        value={value}
                         onChange={handleStartTimeChange}
                       />
                     </FormControl>
@@ -284,7 +285,7 @@ export function AddEventDialog({ children, startDate, startTime }: IProps) {
                     <FormLabel>End Time</FormLabel>
                     <FormControl>
                       <TimePicker
-                        value={getFormatedTime(value)}
+                        value={String(value)}
                         onChange={handleEndTimeChange}
                       />
                     </FormControl>
