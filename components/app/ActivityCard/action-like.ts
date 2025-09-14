@@ -21,8 +21,6 @@ export async function likeActivity(id: number) {
     revalidatePath('/profile/dashboard');
     revalidatePath('/explore');
 
-    console.log(result, 'like result');
-
     return result;
   });
 }

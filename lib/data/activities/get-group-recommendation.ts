@@ -36,15 +36,20 @@ export async function getGroupRecommendation(
 
   let endpoint = '/recommendation/group';
   if (params.page) endpoint += `?page=${encodeURIComponent(params.page)}`;
+  if (params.friendId)
+    endpoint += params.page
+      ? `&userIds=${encodeURIComponent(params.friendId)},${encodeURIComponent(
+          profile.user.id
+        )}`
+      : `?userIds=${encodeURIComponent(params.friendId)},${encodeURIComponent(
+          profile.user.id
+        )}`;
 
   return withServerError(() =>
     apiFetch<unknown, Res>(endpoint, {
-      method: HTTP_VERB.POST,
+      method: HTTP_VERB.GET,
       headers: {
         Authorization: `Bearer ${token}`,
-      },
-      data: {
-        userIds: [params.friendId, profile.user.id],
       },
       cache: 'force-cache',
     })

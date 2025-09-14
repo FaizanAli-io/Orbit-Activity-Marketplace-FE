@@ -24,7 +24,12 @@ const LikedActivityList = async () => {
   return (
     <div className='space-y-5'>
       {activities?.map(item => (
-        <ActivityCard viewLink={`/event/${item.id}`} {...item} key={item.id} />
+        <ActivityCard
+          viewLink={`/event/${item.id}`}
+          {...item}
+          liked
+          key={item.id}
+        />
       ))}
     </div>
   );
