@@ -33,7 +33,7 @@ export async function getLikedActivities() {
     return { success: false, error: 'Unauthorized', data: undefined };
 
   return await withServerError(() =>
-    apiFetch<unknown, Res>(`/users/liked/`, {
+    apiFetch<unknown, Res>(`/users/liked`, {
       method: HTTP_VERB.GET,
       headers: {
         Authorization: `Bearer ${token}`,
