@@ -54,9 +54,9 @@ export function Combobox({ options, value, onChange, width = '200px' }: Props) {
               {options.map(option => (
                 <CommandItem
                   key={option.value}
-                  value={option.value}
-                  onSelect={currentValue => {
-                    onChange(currentValue === value ? '' : currentValue);
+                  value={option.label}
+                  onSelect={() => {
+                    onChange(option.value);
                     setOpen(false);
                   }}
                 >
