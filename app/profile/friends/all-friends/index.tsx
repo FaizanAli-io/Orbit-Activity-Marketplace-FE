@@ -4,7 +4,11 @@ import H4 from '@/components/ui/typography/H4';
 import AllFriendsList from './FriendsList';
 import SuggestedFriendsList from '../suggested-friends/FriendsList';
 
-const AllFriends = () => {
+interface Props {
+  searchQuery?: string;
+}
+
+const AllFriends = ({ searchQuery }: Props) => {
   return (
     <div className='bg-white p-5 rounded-lg shadow-theme'>
       <div className='mb-5'>
@@ -20,7 +24,7 @@ const AllFriends = () => {
           </div>
         }
       >
-        <AllFriendsList />
+        <AllFriendsList searchQuery={searchQuery} />
       </Suspense>
 
       <Suspense fallback={null}>
