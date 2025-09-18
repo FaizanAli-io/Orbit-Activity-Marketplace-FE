@@ -1,5 +1,5 @@
 import Button3D from '@/components/app/Button3D';
-import { data } from './data';
+import { privateLinks, publicLinks } from './data';
 import NavbarSheet from './NavbarSheet';
 import NavLink from './NavLink';
 import {
@@ -30,11 +30,17 @@ export default async function Navbar() {
       </Link>
       <NavigationMenu className='hidden md:block'>
         <NavigationMenuList>
-          {data.map((item, i) => (
-            <NavLink key={i} href={item.href}>
-              {item.text}
-            </NavLink>
-          ))}
+          {!token
+            ? publicLinks.map((item, i) => (
+                <NavLink key={i} href={item.href}>
+                  {item.text}
+                </NavLink>
+              ))
+            : privateLinks.map((item, i) => (
+                <NavLink key={i} href={item.href}>
+                  {item.text}
+                </NavLink>
+              ))}
 
           {!token ? (
             <>
