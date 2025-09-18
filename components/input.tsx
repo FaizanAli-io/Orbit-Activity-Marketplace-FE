@@ -40,7 +40,7 @@ export default function PriceRangeSlider({ baseURL = '/explore' }: Props) {
   } = useSliderInput({
     minValue,
     maxValue,
-    initialValue: [200, 800],
+    initialValue: [100, 1000],
   });
 
   // Function to update URL with debounce

@@ -19,7 +19,7 @@ export async function getDashboardStats(): Promise<DashboardStats> {
     ]);
 
     return {
-      totalUsers: usersResult.data?.length || 0,
+      totalUsers: usersResult.data?.data?.length || 0,
       totalVendors: vendorsResult.data?.length || 0,
       totalActivities:
         activitiesResult.data?.pagination?.total ||

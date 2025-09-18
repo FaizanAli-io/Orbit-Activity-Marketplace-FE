@@ -18,10 +18,12 @@ export async function likeActivity(id: number) {
       },
     });
 
+    // Revalidate the paths where liked activities are displayed
     revalidatePath('/profile/dashboard');
     revalidatePath('/explore');
+    revalidatePath('/profile/liked-activities');
 
-    return result;
+    return { success: true, data: result };
   });
 }
 
@@ -37,9 +39,11 @@ export async function unlikeActivity(id: number) {
       },
     });
 
+    // Revalidate the paths where liked activities are displayed
     revalidatePath('/profile/dashboard');
     revalidatePath('/explore');
+    revalidatePath('/profile/liked-activities');
 
-    return result;
+    return { success: true, data: result };
   });
 }

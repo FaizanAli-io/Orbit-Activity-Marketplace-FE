@@ -13,7 +13,8 @@ interface Props {
 const Page = async ({ params }: Props) => {
   const { id } = await params;
 
-  const { data: users, success } = await getUsers();
+  const { data: response, success } = await getUsers();
+  const users = response?.data;
   const user = users?.find(u => u.id === +id);
 
   if (!success || !users?.length || !user)
