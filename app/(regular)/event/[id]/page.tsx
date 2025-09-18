@@ -12,6 +12,7 @@ import Tagline from '@/components/ui/typography/Tagline';
 import { formatCurrency } from '@/lib/utils';
 import Carousel from '@/components/app/MasonaryGallery';
 import { MapPin } from 'lucide-react';
+import Link from 'next/link';
 
 interface Props {
   params: Promise<{ id: number }>;
@@ -118,7 +119,12 @@ const Page = async ({ params }: Props) => {
             </div>
 
             <Tagline>About the Vendor</Tagline>
-            <p>Hosted by: {vendor.name}</p>
+            <p>
+              Hosted by:{' '}
+              <Link className='underline' href={`/vendors/${vendor.id}`}>
+                {vendor.name}
+              </Link>
+            </p>
           </CardContent>
         </Card>
         <Card>
