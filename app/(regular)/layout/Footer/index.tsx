@@ -3,13 +3,11 @@ import Tagline from '@/components/ui/typography/Tagline';
 import Link from 'next/link';
 import Block from '@/app/layout/Block';
 import Image from 'next/image';
-import Newsletter from './Newsletter';
 
 const Footer = () => {
   return (
     <Block className='md:mb-10'>
       <footer className='divide-y space-y-10'>
-        <Newsletter className='pb-10' />
         <div className='space-y-5 md:space-y-0 grid grid-cols-2 md:grid-cols-6 md:gap-x-5 pb-10'>
           {data.map((item, i) => (
             <ul key={i} className='space-y-1'>

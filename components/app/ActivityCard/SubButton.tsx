@@ -42,7 +42,7 @@ const SubButton = ({ activityId: id, subscribed, activity }: Props) => {
         disabled={isSubscribed}
         className='w-full'
       >
-        {isSubscribed ? 'Subscribed' : 'Subscribe'}
+        {isSubscribed ? 'Booked' : 'Book'}
       </LoadingButton>
 
       {activity && (
