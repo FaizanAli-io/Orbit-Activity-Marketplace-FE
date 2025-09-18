@@ -7,6 +7,7 @@ import H6 from '@/components/ui/typography/H6';
 import PriceRange from './PriceRange';
 import React, { HTMLAttributes } from 'react';
 import Tagline from '@/components/ui/typography/Tagline';
+import PriceRangeSlider from '@/components/input';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   baseURL?: string;
@@ -31,7 +32,7 @@ const Sidebar = async ({
         <CategoriesDropdown baseURL={baseURL} />
       </div>
 
-      <PriceRange baseURL={baseURL} />
+      <PriceRangeSlider baseURL={baseURL} />
 
       {/* <div className='space-y-1'>
         <Tagline className='font-normal block md:text-sm'>Date Range</Tagline>
