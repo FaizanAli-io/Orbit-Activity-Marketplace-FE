@@ -13,6 +13,8 @@ type Props = {
 const Page = async ({ searchParams }: Props) => {
   const search = await searchParams;
   const page = search?.page as string;
+  const rangeStart = search?.rangeStart as string;
+  const rangeEnd = search?.rangeEnd as string;
 
   return (
     <div>
@@ -31,7 +33,11 @@ const Page = async ({ searchParams }: Props) => {
           </div>
           <div>
             <Suspense fallback={<EventListSkeleton />}>
-              <EventList page={page} />
+              <EventList
+                page={page}
+                rangeStart={rangeStart}
+                rangeEnd={rangeEnd}
+              />
             </Suspense>
           </div>
         </div>

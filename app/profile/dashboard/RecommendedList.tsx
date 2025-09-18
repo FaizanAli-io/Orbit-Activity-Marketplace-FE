@@ -4,10 +4,16 @@ import { getRecommendedActivities } from '@/lib/data/activities/get-recommended-
 
 interface Props {
   page?: string;
+  rangeStart?: string;
+  rangeEnd?: string;
 }
 
-const RecommendedList = async ({ page }: Props) => {
-  const { data, error } = await getRecommendedActivities({ page });
+const RecommendedList = async ({ page, rangeStart, rangeEnd }: Props) => {
+  const { data, error } = await getRecommendedActivities({
+    page,
+    rangeStart,
+    rangeEnd,
+  });
 
   const activities = data?.data;
 

@@ -6,12 +6,16 @@ import EventListSkeleton from './EventListSkeleton';
 import H5 from '@/components/ui/typography/H5';
 import LikedActivityList from './LikedActivityList';
 import SubsList from './SubsList';
+import { EventDateTimeFilter } from './EventDateTimeFilter';
+import { Filter } from 'lucide-react';
 
 interface Props {
   page?: string;
+  rangeStart?: string;
+  rangeEnd?: string;
 }
 
-const EventList = async ({ page }: Props) => {
+const EventList = async ({ page, rangeStart, rangeEnd }: Props) => {
   return (
     <Tabs defaultValue='best'>
       <div className='w-full md:flex md:justify-between md:items-baseline-last'>
@@ -23,10 +27,20 @@ const EventList = async ({ page }: Props) => {
             <TabsTrigger value='liked'>Liked Events</TabsTrigger>
           </TabsList>
         </div>
+        <div className='mt-4 md:mt-0 md:max-w-sm'>
+          <div className='w-full flex space-x-2 items-center'>
+            <Filter />
+            <EventDateTimeFilter className='w-full' />
+          </div>
+        </div>
       </div>
       <TabsContent value='best'>
         <Suspense fallback={<EventListSkeleton />}>
-          <RecommendedList page={page} />
+          <RecommendedList
+            page={page}
+            rangeStart={rangeStart}
+            rangeEnd={rangeEnd}
+          />
         </Suspense>
       </TabsContent>
 

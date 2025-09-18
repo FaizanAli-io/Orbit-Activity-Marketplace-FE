@@ -6,6 +6,8 @@ import { withServerError } from '@/lib/utils/with-server-error';
 
 interface params {
   page?: string;
+  rangeStart?: string;
+  rangeEnd?: string;
 }
 
 interface Res {
@@ -25,7 +27,23 @@ export async function getRecommendedActivities(params: params = {}) {
   if (!token) return { success: false, data: undefined, error: 'Unauthorized' };
 
   let endpoint = '/recommendation/single';
-  if (params.page) endpoint += `?page=${encodeURIComponent(params.page)}`;
+  const queryParams = [];
+
+  if (params.page) {
+    queryParams.push(`page=${encodeURIComponent(params.page)}`);
+  }
+
+  if (params.rangeStart) {
+    queryParams.push(`rangeStart=${encodeURIComponent(params.rangeStart)}`);
+  }
+
+  if (params.rangeEnd) {
+    queryParams.push(`rangeEnd=${encodeURIComponent(params.rangeEnd)}`);
+  }
+
+  if (queryParams.length > 0) {
+    endpoint += `?${queryParams.join('&')}`;
+  }
 
   return withServerError(() =>
     apiFetch<unknown, Res>(endpoint, {
