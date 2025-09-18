@@ -16,22 +16,24 @@ const Page = async ({ searchParams }: Props) => {
 
   return (
     <div>
-      <Block space={false} className='my-10 md:grid md:grid-cols-7 md:gap-x-5'>
-        <div className='md:col-span-5 space-y-10'>
-          <div>
-            <Header />
-          </div>
-          <div className='md:col-span-2 md:hidden'>
-            <HeaderCard />
+      <Block
+        space={false}
+        className='my-10 md:grid md:grid-cols-7 md:gap-x-5  '
+      >
+        <div className='md:col-span-7 space-y-10'>
+          <div className='md:grid md:grid-cols-7 gap-5 space-y-5 md:space-y-0'>
+            <div className='md:col-span-5'>
+              <Header />
+            </div>
+            <div className='md:col-span-2'>
+              <HeaderCard />
+            </div>
           </div>
           <div>
             <Suspense fallback={<EventListSkeleton />}>
               <EventList page={page} />
             </Suspense>
           </div>
-        </div>
-        <div className='md:col-span-2 md:block hidden'>
-          <HeaderCard />
         </div>
       </Block>
     </div>
