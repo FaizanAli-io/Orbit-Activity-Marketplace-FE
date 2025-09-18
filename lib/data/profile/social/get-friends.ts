@@ -18,7 +18,6 @@ export async function getFriends() {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      cache: 'no-cache',
     })
   );
 }

@@ -5,7 +5,18 @@ import { withServerError } from '@/lib/utils/with-server-error';
 import { getProfile } from '../get-profile';
 import { User } from '../users/get-users';
 
-export async function getFriendRequests() {
+interface SuggestedFriendsResponse {
+  data: User[];
+  pagination: {
+    page: number;
+    limit: number;
+    totalPages: number;
+    total: number;
+    hasNext: boolean;
+  };
+}
+
+export async function getSuggestedFriends() {
   const token = await getAccessToken();
   const { success: isValidUser } = await getProfile();
 
@@ -13,7 +24,7 @@ export async function getFriendRequests() {
     return { success: false, error: 'Unauthorized', data: undefined };
 
   return await withServerError(() =>
-    apiFetch<unknown, User[]>(`/social/friend-requests`, {
+    apiFetch<unknown, SuggestedFriendsResponse>(`/social/friend-suggestions`, {
       method: HTTP_VERB.GET,
       headers: {
         Authorization: `Bearer ${token}`,

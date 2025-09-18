@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import { Loader2 } from 'lucide-react';
 import H4 from '@/components/ui/typography/H4';
 import AllFriendsList from './FriendsList';
+import SuggestedFriendsList from '../suggested-friends/FriendsList';
 
 const AllFriends = () => {
   return (
@@ -20,6 +21,17 @@ const AllFriends = () => {
         }
       >
         <AllFriendsList />
+      </Suspense>
+
+      <Suspense fallback={null}>
+        <div className='my-5'>
+          <div className='mb-5'>
+            <H4 className='font-medium md:text-2xl'>Suggested Friends</H4>
+            <p className='md:text-sm'>People you may know.</p>
+          </div>
+
+          <SuggestedFriendsList />
+        </div>
       </Suspense>
     </div>
   );
