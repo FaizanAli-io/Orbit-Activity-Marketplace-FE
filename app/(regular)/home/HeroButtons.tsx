@@ -10,15 +10,15 @@ const HeroButtons = async () => {
 
   return (
     <div className='flex space-x-2'>
-      <Button3D>
+      <Button3D size='lg'>
         <Link href='/explore'>Explore</Link>
       </Button3D>
       {!token || !profile ? (
-        <Button3D variant={'outline'}>
+        <Button3D size='lg' variant={'outline'}>
           <Link href='/signup'>Sign Up</Link>
         </Button3D>
       ) : (
-        <Button3D variant={'outline'}>
+        <Button3D size='lg' variant={'outline'}>
           <Link
             href={
               profile.vendor

@@ -10,7 +10,7 @@ import NavSkeleton from './(regular)/layout/Navbar/NavSkeleton';
 
 export default function Home() {
   return (
-    <div className='h-screen'>
+    <div className='h-screen w-full'>
       <Suspense fallback={<NavSkeleton />}>
         <Navbar />
       </Suspense>

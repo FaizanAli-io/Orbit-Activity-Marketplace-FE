@@ -18,7 +18,7 @@ export default async function Navbar() {
   const token = await getAccessToken();
 
   return (
-    <div className='flex justify-between items-center w-full px-10'>
+    <div className='flex justify-between items-center w-full px-10 '>
       <Link href='/'>
         <Image
           src='/images/logo.png'
