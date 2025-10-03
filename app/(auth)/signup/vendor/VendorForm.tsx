@@ -63,7 +63,7 @@ export function VendorForm() {
         email: user.email!,
         name: user.displayName!,
         firebaseId: user.uid,
-        type: 'USER',
+        type: 'VENDOR',
       });
 
       if (success) {
